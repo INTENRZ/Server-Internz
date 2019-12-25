@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-//router-> [GET]/letter/others
+//router-> [GET]/timeline/{timelineIdx}/story/{storyIdx}/scrap
 router.get('/', async(req, res)=>{
     try{
 
@@ -10,17 +10,8 @@ router.get('/', async(req, res)=>{
     }
 });
 
-//router-> [GET]/letter/others
-router.get('/:othersIdx', async(req, res)=>{
-    try{
-
-    }catch(err){
-        console.log(err);
-    }
-});
-
-//router-> [DELETE]/letter/others
-router.delete('/:othersIdx', async(req, res)=>{
+//router-> [DELETE]/timeline/{timelineIdx}/story/{storyIdx}/scrap/{scrapIdx}
+router.delete('/:scrapIdx', async(req, res)=>{
     try{
 
     }catch(err){

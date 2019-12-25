@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-//router-> [PUT]/profile/ability
-router.put('/', async(req, res)=>{
+//router-> [GET]/job
+router.get('/', async(req, res)=>{
     try{
 
     }catch(err){
@@ -10,8 +10,8 @@ router.put('/', async(req, res)=>{
     }
 });
 
-//router-> [DELETE]/profile/ability
-router.delete('/', async(req, res)=>{
+//router-> [GET]/job/past
+router.get('/past', async(req, res)=>{
     try{
 
     }catch(err){

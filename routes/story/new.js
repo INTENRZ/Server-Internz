@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-//router-> [PUT]/user/task
-router.put('/', async(req, res)=>{
+//router-> [GET]/story/new
+router.get('/', async(req, res)=>{
     try{
 
     }catch(err){
