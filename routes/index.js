@@ -9,5 +9,6 @@ router.use('/home', require('./home'));
 router.use('/job', require('./job'));
 router.use('/story', require('./story'));
 router.use('/timeline', require('./timeline'));
+router.use('/scheduler', require('./scheduler'));
 
 module.exports = router;
