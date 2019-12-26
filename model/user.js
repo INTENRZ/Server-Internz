@@ -56,8 +56,28 @@ module.exports = {
         
         
    },
-    task_update:() => {
-        
+    task_update:({task_one, task_two, task_three}) => {
+         return new Promise(async(resolve, reject) => {
+            const field = `task_one, task_two, task_three`;
+            const question = `?,?,?`;
+            const values = [task_one, task_two, task_three];
+            const query = `INSERT INTO ${table} (${field}) VALUES (${question})`;
+
+            const result = await db.queryParam_Parse(query, values);
+
+            if(!result || result.length ==0){
+                resolve({
+                    code: statusCode.NOT_FOUND,
+                    json: util.successFalse(resMessage.SIGNUP_FAIL)
+                });
+                return ;
+            }
+
+            resolve({
+                code: statusCode.OK,
+                json: util.successTrue(resMessage.SIGNUP_SUCCESS)
+            })
+        });
     },
     ability_update:() => {
 
