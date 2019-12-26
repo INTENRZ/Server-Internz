@@ -6,7 +6,7 @@ const resMessage = require('../../module/responseMessage');
 const Timeline = require('../../model/timeline');
 const au = require('../../module/authUtils');
 
-router.use('/', au.isLoggedin);
+// router.use('/', au.isLoggedin);
 
 //router-> [GET]/timeline
 router.get('/', async(req, res)=>{
@@ -33,7 +33,7 @@ router.post('/', async(req, res)=>{
         // const userIdx = req.decoded.idx;
         const {userIdx, title, start_date, end_date, category} = req.body;
         console.log(req.body)
-        if(!title || !start_date || !end_date || !category){
+        if(!title || !start_date || !category){
             res.status(statusCode.BAD_REQUEST)
             .send(util.successFalse(resMessage.NULL_VALUE));
         }

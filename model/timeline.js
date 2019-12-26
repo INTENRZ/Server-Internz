@@ -16,7 +16,7 @@ const SNAME = '스토리';
 
 module.exports = {
     read: (userIdx) => {
-        const q = `SELECT * FROM ${TABLE} WHERE userIdx = ${userIdx}`;
+        const q = `SELECT * FROM ${TABLE} WHERE userIdx = ${userIdx} ORDER BY start_date DESC`;
         const sendData = db.queryParam_None(q)
         .then(result => {
             if(result.length === 0){
