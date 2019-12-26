@@ -65,10 +65,9 @@ module.exports = {
                     json: util.successFalse(resMessage.NOT_MATCH, statusCode.BAD_REQUEST)
                 }
             }
-            const field = `'title', 'start_date', 'end_date', 'category'`;
             const v = [title, start_date, end_date, category];
             const updateq = `UPDATE ${TABLE} SET title=?, start_date=?, end_date=?, category=? WHERE timelineIdx=${timelineIdx}`;
-            const updateData = db.queryParam_None(updatedq, v)
+            const updateData = db.queryParam_Parse(updateq, v)
             .then(result => {
                 if(result.length === 0){
                     return {
@@ -100,18 +99,17 @@ module.exports = {
                     json: util.successFalse(resMessage.NOT_MATCH, statusCode.BAD_REQUEST)
                 }
             }
-            const field = `'title', 'start_date', 'end_date', 'category'`;
-            const v = [title, start_date, end_date, category];
-            const updateq = `UPDATE ${TABLE} SET title=?, start_date=?, end_date=?, category=? WHERE timelineIdx=${timelineIdx}`;
-            const updateData = db.queryParam_None(updateq, v)
+            const deleteq = `DELETE FROM ${TAVBLE} WHERE timelineIdx=${timelineIdx}`;
+            const deleteData = db.queryParam_None(deleteq)
             .then(result => {
                 if(result.length === 0){
                     return {
                         code: statusCode.OK,
-                        json: util.successTrue(resMessage.X_UPDATE_SUCCESS(NAME), statusCode.OK, result)
+                        json: util.successTrue(resMessage.X_DELETE_SUCCESS(NAME), statusCode.OK, result)
                     }
-            });
-            return updateData;
+                }
+            })
+            return deleteData;
         })
         .catch(err => {
             throw err;
