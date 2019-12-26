@@ -1,6 +1,9 @@
 # config
 config/
 
+#package
+*.json
+
 ### macOS ###
 # General
 .DS_Store
