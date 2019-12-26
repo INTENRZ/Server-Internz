@@ -13,10 +13,9 @@ router.get('/', async(req, res)=>{
 	 const userIdx = req.decoded.idx;
         Profile.readAll({userIdx})
         .then(({code,json})=> res.status(code).send(json))
-        .catch(err=>{
-            console.log(err);
-            res.status(statusCode.INTERNAL_SERVER_ERROR,
-                util.successFalse(resM
+        .catch(err => {
+            res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+        })
     }catch(err){
         console.log(err);
     }
