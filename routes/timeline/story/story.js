@@ -40,6 +40,7 @@ router.post('/', async(req, res)=>{
             res.status(code).send(json);
         })
         .catch(err =>{
+            console.log(err);
             res.status(statusCode.INTERNAL_SERVER_ERROR)
             .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
         });
@@ -51,17 +52,18 @@ router.post('/', async(req, res)=>{
 //router-> [PUT]/timeline/{timelineIdx}/story/{storyIdx}
 router.put('/:storyIdx', async(req, res)=>{
     try{
-        const {timelineIdx} = req.params;
+        const {storyIdx} = req.params;
         const {userIdx, title, content} = req.body;
         if(!title||!content){
             res.status(statusCode.BAD_REQUEST)
             .send(util.successFalse(resMessage.NULL_VALUE));
         }
-        Timeline.story_update({userIdx, timelineIdx, title, content})
+        Timeline.story_update({userIdx, storyIdx, title, content})
         .then(({code, json})=>{
             res.status(code).send(json);
         })
         .catch(err =>{
+            console.log(err);
             res.status(statusCode.INTERNAL_SERVER_ERROR)
             .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
         });
@@ -73,7 +75,17 @@ router.put('/:storyIdx', async(req, res)=>{
 //router-> [DELETE]/timeline/{timelineIdx}/story/{storyIdx}
 router.delete('/:storyIdx', async(req, res)=>{
     try{
-
+        const {storyIdx} = req.params;
+        const {userIdx} = req.body;
+        Timeline.story_delete({userIdx, storyIdx})
+        .then(({code, json})=>{
+            res.status(code).send(json);
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(statusCode.INTERNAL_SERVER_ERROR)
+            .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+        })
     }catch(err){
         console.log(err);
     }

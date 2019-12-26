@@ -155,7 +155,7 @@ module.exports = {
             });
             return sendData;
     },
-    story_update: ({userIdx, timelineIdx, title, content}) => {
+    story_update: ({userIdx, storyIdx, title, content}) => {
         const checkq = `SELECT * from ${STABLE} WHERE storyIdx = ${storyIdx}`;
         const sendData = db.queryParam_None(checkq)
         .then(result => {
@@ -172,7 +172,7 @@ module.exports = {
                 }
             }
             const updated_date = moment().format('YYYY-MM-DD HH:mm:ss');
-            const updateq = `UPDATE SET title=?, content=?, updated_date=? WHERE storyIdx=${storyIdx}`;
+            const updateq = `UPDATE ${STABLE} SET title=?, content=?, updated_date=? WHERE storyIdx=${storyIdx}`;
             const v = [title, content, updated_date]
             const updateData = db.queryParam_Parse(updateq, v)
             .then(result=> {
@@ -189,7 +189,7 @@ module.exports = {
         return sendData;
     },
     story_delete: ({userIdx, storyIdx}) => {
-        const checkq = `SELECT * from ${STABLE} WHERE storyIdx=${storyIdx}}`;
+        const checkq = `SELECT * from ${STABLE} WHERE storyIdx=${storyIdx}`;
         const sendData = db.queryParam_None(checkq)
         .then(result => {
             if(result.length === 0){
@@ -204,7 +204,7 @@ module.exports = {
                     json: util.successFalse(resMessage.NOT_MATCH)
                 }
             }
-            const deleteq = `DELETE FROM ${STABLE} WHERE storydx=${storyIdx}`;
+            const deleteq = `DELETE FROM ${STABLE} WHERE storyIdx=${storyIdx}`;
             const deleteData = db.queryParam_None(deleteq)
             .then(result=> {
                 return {
