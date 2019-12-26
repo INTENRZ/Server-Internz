@@ -29,7 +29,7 @@ module.exports = {
     },
     readAll:(userIdx, time) => {
         return new Promise(async(resolve, reject) => {
-            const getHomeQuery = 'SELECT a.calenderIdx, b.company, b.task, b.d_day FROM calender a JOIN job b ON a.jobIdx = b.jobIdx WHERE b.end_date LIKE ? AND a.userIdx = ?';
+            const getHomeQuery = 'SELECT a.calenderIdx, b.company, b.team, b.d_day FROM calender a JOIN job b ON a.jobIdx = b.jobIdx WHERE b.end_date LIKE ? AND a.userIdx = ?';
             const getHomeResult = await db.queryParam_Parse(getHomeQuery, [time+'%', userIdx]);
             if(getHomeResult.length == 0){
                 resolve({
@@ -47,7 +47,7 @@ module.exports = {
     },
     read:(userIdx, time) => {
         return new Promise(async(resolve, reject) => {
-            const getCalDayQuery = 'SELECT a.calenderIdx, b.company, b.task, b.d_day FROM calender a JOIN job b ON a.jobIdx = b.jobIdx WHERE b.end_date = ? AND a.userIdx = ?';
+            const getCalDayQuery = 'SELECT a.calenderIdx, b.company, b., b.d_day FROM calender a JOIN job b ON a.jobIdx = b.jobIdx WHERE b.end_date = ? AND a.userIdx = ?';
             const getCalDayResult = await db.queryParam_Parse(getCalDayQuery, [time, userIdx]);
             if(getCalDayResult.length == 0){
                 resolve({
