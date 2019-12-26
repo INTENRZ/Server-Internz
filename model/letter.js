@@ -39,8 +39,26 @@ module.exports = {
         });
         return sendData;
     },
-    read: () => {
-
+    read: ({receiver, sender}) => {
+        const q = `SELECT * FROM ${TABLE} WHERE sender IN (?,?) ORDER BY created_date ASC`;
+        const v = [receiver, sender];
+        const sendData = db.queryParam_Parse(q, v)
+        .then(result => {
+            if(result.length === 0){
+                return {
+                    code: statusCode.BAD_REQUEST,
+                    json: util.successFalse(resMessage.NO_X(NAME))
+                }
+            }
+            return {
+                code: statusCode.OK,
+                json: util.successTrue(resMessage.X_READ_SUCCESS(NAME), result)
+            }
+        })
+        .catch(err=>{
+            throw err;
+        });
+        return sendData;
     },
     delete: async ({receiver, sender}) => {
         const q = `DELETE FROM ${TABLE} WHERE sender IN (?,?)`;
