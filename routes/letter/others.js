@@ -1,7 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const Letter = require('../../model/letter');
+const util = require('../../module/utils');
+const statusCode = require('../../module/statusCode');
+const resMessage = require('../../module/responseMessage');
+const au = require('../../module/authUtils');
 
+// router.use('/', au.isLoggedin);
 
 //router-> [GET]/letter/others
 router.get('/', async(req, res)=>{
@@ -22,6 +27,32 @@ router.get('/', async(req, res)=>{
     }
 });
 
+//router-> [POST]/letter/others
+router.post('/:othersIdx', async(req, res)=>{
+    try{
+        // const receiver = req.decoded.idx;
+        const receiver = req.params.othersIdx;
+        const {sender, content} = req.body;
+        console.log(req.body)
+        if(!content){
+            res.status(statusCode.BAD_REQUEST)
+            .send(util.successFalse(resMessage.NULL_VALUE));
+        }
+        Letter.create({receiver, sender, content})
+        .then(({code, json})=>{
+            res.status(code).send(json);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(statusCode.INTERNAL_SERVER_ERROR)
+            .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+        });
+    }catch(err){
+        console.log(err);
+    }
+});
+
+
 //router-> [GET]/letter/others
 router.get('/:othersIdx', async(req, res)=>{
     try{
@@ -34,7 +65,16 @@ router.get('/:othersIdx', async(req, res)=>{
 //router-> [DELETE]/letter/others
 router.delete('/:othersIdx', async(req, res)=>{
     try{
-
+        // const userIdx = req.decoded.idx;
+        const receiver = req.params.othersIdx;
+        const {sender} = req.body;
+        Letter.delete({receiver, sender})
+        .then(({code, json})=>{
+            res.status(code).send(json)
+        })
+        .catch(err=>{
+            throw err;
+        });
     }catch(err){
         console.log(err);
     }
