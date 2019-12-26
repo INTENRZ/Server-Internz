@@ -6,10 +6,11 @@ const moment = require('moment');
 
 //calender->readAll(홈 전체 불러오기), read(특정 일 공고 불러오기), delete(특정 일 공고 삭제), create(특정 일 공고 추가)
 
+const calender = "캘린더";
+
 module.exports = {
     create:(userIdx, jobIdx) => {
         return new Promise(async(resolve, reject) => {
-            const calender = "캘린더";
             const insertCalQuery = 'INSERT INTO calender (userIdx, jobIdx) VALUES (?, ?)';
             const insertCalResult = await db.queryParam_Parse(insertCalQuery , [userIdx, jobIdx]);
             if(insertCalResult.length == 0){
@@ -28,8 +29,7 @@ module.exports = {
     },
     readAll:(userIdx, time) => {
         return new Promise(async(resolve, reject) => {
-            const calender = "캘린더";
-            const getHomeQuery = 'SELECT b.company, b.task, b.d_day FROM calender a JOIN job b ON a.jobIdx = b.jobIdx WHERE b.end_date LIKE ? AND a.userIdx = ?';
+            const getHomeQuery = 'SELECT a.calenderIdx, b.company, b.task, b.d_day FROM calender a JOIN job b ON a.jobIdx = b.jobIdx WHERE b.end_date LIKE ? AND a.userIdx = ?';
             const getHomeResult = await db.queryParam_Parse(getHomeQuery, [time+'%', userIdx]);
             if(getHomeResult.length == 0){
                 resolve({
@@ -47,8 +47,7 @@ module.exports = {
     },
     read:(userIdx, time) => {
         return new Promise(async(resolve, reject) => {
-            const calender = "캘린더";
-            const getCalDayQuery = 'SELECT b.company, b.task, b.d_day FROM calender a JOIN job b ON a.jobIdx = b.jobIdx WHERE b.end_date = ? AND a.userIdx = ?';
+            const getCalDayQuery = 'SELECT a.calenderIdx, b.company, b.task, b.d_day FROM calender a JOIN job b ON a.jobIdx = b.jobIdx WHERE b.end_date = ? AND a.userIdx = ?';
             const getCalDayResult = await db.queryParam_Parse(getCalDayQuery, [time, userIdx]);
             if(getCalDayResult.length == 0){
                 resolve({
@@ -64,7 +63,22 @@ module.exports = {
             return;            
         });
     },
-    delete:() => {
-
+    delete:(calenderIdx, userIdx) => {
+        return new Promise(async(resolve, reject) => {
+            const deleteCalDayQuery = 'DELETE FROM calender WHERE calenderIdx = ? AND userIdx = ?';
+            const deleteCalDayResult = await db.queryParam_Parse(deleteCalDayQuery, [calenderIdx, userIdx]);
+            if(deleteCalDayResult.affectedRows == 0){
+                resolve({
+                    code : statusCode.BAD_REQUEST,
+                    json: util.successFalse(resMessage.X_DELETE_FAIL(calender))
+                });
+                return;                  
+            }
+            resolve({
+                code : statusCode.OK,
+                json : util.successTrue(resMessage.X_DELETE_SUCCESS(calender))
+            });
+            return;                
+        });
     }
 };
