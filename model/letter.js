@@ -3,6 +3,7 @@ const statusCode = require('../module/statusCode');
 const resMessage = require('../module/responseMessage');
 const db = require('../module/poolAsync');
 const dbsync = require('../module/pool');
+const moment = require('moment');
 
 //letter->readAll(쪽지를 나눈 사람들 조회), read(특정 사람과의 쪽지 목록 조회), delete(쪽지 삭제), create(쪽지 보내기)
 
@@ -41,10 +42,35 @@ module.exports = {
     read: () => {
 
     },
-    delete: () => {
-
+    delete: async ({receiver, sender}) => {
+        const q = `DELETE FROM ${TABLE} WHERE sender IN (?,?)`;
+        const v = [receiver, sender];
+        const sendData = db.queryParam_Parse(q, v)
+        .then(result =>{
+            return {
+                code: statusCode.OK,
+                json: util.successTrue(resMessage.X_DELETE_SUCCESS(NAME), result)
+            }
+        })
+        .catch(err=> {
+            throw err;
+        });
+        return sendData;
     },
-    create: () => {
-
+    create: ({receiver, sender,content}) => {
+        const created_date = moment().format('YYYY-MM-DD HH:mm:ss');
+        const q = `INSERT INTO ${TABLE}(\`receiver\`, \`sender\`, \`content\`, \`created_date\`) VALUES(?,?,?,?)`;
+        const v = [receiver, sender, content, created_date];
+        const sendData = db.queryParam_Parse(q, v)
+        .then(result => {
+            return {
+                code: statusCode.CREATED,
+                json: util.successTrue(resMessage.X_CREATE_SUCCESS(NAME), result)
+            }
+        })
+        .catch(err=>{
+            throw err;
+        });
+        return sendData;
     }
 }
