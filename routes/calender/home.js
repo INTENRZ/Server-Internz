@@ -5,6 +5,8 @@ const statusCode = require('../../module/statusCode');
 const resMessage = require('../../module/responseMessage');
 const authUtil = require("../../module/authUtils");
 const calender = require("../../model/calender");
+const db = require('../../module/pool');
+
 
 //router-> [GET]/calender/home/{month}
 //여기서는 서버상에서 시간을 받아서 calender테이블에서 userIdx 일치하는 것들 중에
@@ -13,9 +15,9 @@ const calender = require("../../model/calender");
 router.get('/:month', async(req, res)=>{
     try{
         // const userIdx = req.decoded.idx;
-        const userIdx = req.body.userIdx;
+        const user = req.body.userIdx;
         const time = req.params.month;//년, 월을 받아야한다.
-        calender.readAll(userIdx, time)
+        calender.readAll(user, time)
         .then(({code, json}) => {
             res.status(code).send(json);
         })
