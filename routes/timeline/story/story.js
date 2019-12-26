@@ -6,12 +6,12 @@ const resMessage = require('../../../module/responseMessage');
 const Timeline = require('../../../model/timeline');
 const au = require('../../../module/authUtils');
 
-router.use('/', au.isLoggedin);
+// router.use('/', au.isLoggedin);
 
 //router-> [GET]/timeline/{timelineIdx}/story
 router.get('/', async(req, res)=>{
     try{
-        const timelineIdx = req.params.timelineIdx;
+        const {timelineIdx} = req.params;
         Timeline.story_read(timelineIdx)
         .then(({code, json})=>{
             res.status(code).send(json);
@@ -19,7 +19,7 @@ router.get('/', async(req, res)=>{
         .catch(err => {
             console.log(err);
             res.status(statusCode.INTERNAL_SERVER_ERROR)
-            .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR, statusCode.INTERNAL_SERVER_ERROR));
+            .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
         });
     }catch(err){
         console.log(err);
@@ -29,7 +29,20 @@ router.get('/', async(req, res)=>{
 //router-> [POST]/timeline/{timelineIdx}/story
 router.post('/', async(req, res)=>{
     try{
-
+        const {timelineIdx} = req.params;
+        const {userIdx, title, content} = req.body;
+        if(!title||!content){
+            res.status(statusCode.BAD_REQUEST)
+            .send(util.successFalse(resMessage.NULL_VALUE));
+        }
+        Timeline.story_create({userIdx, timelineIdx,title, content})
+        .then(({code, json})=>{
+            res.status(code).send(json);
+        })
+        .catch(err =>{
+            res.status(statusCode.INTERNAL_SERVER_ERROR)
+            .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+        })
     }catch(err){
         console.log(err);
     }

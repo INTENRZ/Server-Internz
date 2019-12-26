@@ -11,7 +11,7 @@ const au = require('../../module/authUtils');
 //router-> [GET]/timeline
 router.get('/', async(req, res)=>{
     try{
-        const userIdx = req.body.userIdx;
+        const {userIdx} = req.body;
         // const userIdx = req.decoded.idx;
         Timeline.read(userIdx)
         .then(({code, json}) => {
