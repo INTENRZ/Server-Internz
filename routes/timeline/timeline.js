@@ -6,7 +6,7 @@ const resMessage = require('../../module/responseMessage');
 const Timeline = require('../../model/timeline');
 const au = require('../../module/authUtils');
 
-// router.use('/', au.isLoggedin);
+router.use('/', au.isLoggedin);
 
 //router-> [GET]/timeline
 router.get('/', async(req, res)=>{
