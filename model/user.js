@@ -140,10 +140,10 @@ module.exports = {
                 });
                 return ;
             }
-        
+         const result = checkResult[0].nickname;
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_READ_SUCCESS("닉네임"))
+                json: util.successTrue(resMessage.X_READ_SUCCESS("닉네임"),result)
             })
         });
     },
