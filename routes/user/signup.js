@@ -17,6 +17,10 @@ router.post('/', async(req, res)=>{
             return ;
         }
 
+      if(password2 != password){
+            res.status(statusCode.BAD_REQUEST)
+            .send(util.successFalse(resMessage.MISS_MATCH_PW))
+        }
         encrypt.encrypt(password)
         .then(({hashed, salt})=> User.create({name, password:hashed, salt, nickname, email, age, sex, phone}))
         .then(({code, json})=> res.status(code).send(json))
