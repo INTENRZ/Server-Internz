@@ -29,8 +29,8 @@ module.exports = {
     readAll:(userIdx, time) => {
         return new Promise(async(resolve, reject) => {
             const calender = "캘린더";
-            const getHomeQuery = 'SELECT b.company, b.task, b.d_day FROM calender a JOIN job b ON a.jobIdx = b.jobIdx WHERE b.end_date = ? AND a.userIdx = ?';
-            const getHomeResult = await db.queryParam_Parse(getHomeQuery, [time, userIdx]);
+            const getHomeQuery = 'SELECT b.company, b.task, b.d_day FROM calender a JOIN job b ON a.jobIdx = b.jobIdx WHERE b.end_date LIKE ? AND a.userIdx = ?';
+            const getHomeResult = await db.queryParam_Parse(getHomeQuery, [time+'%', userIdx]);
             if(getHomeResult.length == 0){
                 resolve({
                     code : statusCode.BAD_REQUEST,
@@ -45,8 +45,24 @@ module.exports = {
             return;
         });
     },
-    read:() => {
-
+    read:(userIdx, time) => {
+        return new Promise(async(resolve, reject) => {
+            const calender = "캘린더";
+            const getCalDayQuery = 'SELECT b.company, b.task, b.d_day FROM calender a JOIN job b ON a.jobIdx = b.jobIdx WHERE b.end_date = ? AND a.userIdx = ?';
+            const getCalDayResult = await db.queryParam_Parse(getCalDayQuery, [time, userIdx]);
+            if(getCalDayResult.length == 0){
+                resolve({
+                    code : statusCode.BAD_REQUEST,
+                    json: util.successFalse(resMessage.X_READ_FAIL(calender))
+                });
+                return;                
+            }
+            resolve({
+                code : statusCode.OK,
+                json : util.successTrue(resMessage.X_READ_SUCCESS(calender), getCalDayResult)
+            });
+            return;            
+        });
     },
     delete:() => {
 
