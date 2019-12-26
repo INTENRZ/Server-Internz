@@ -5,6 +5,10 @@ const db = require('../module/pool');
 
 //create(회원가입,로그인->닉네임, id 둘다 중복 확인), signin(로그인), task_update(관심직군 수정), ability_update(보유역량 수정)
 const USER = "회원가입";
+const nick = "닉네임";
+const email_c = "email";
+const task = "관심직군";
+const ability = "보유역량";
 const table = 'user';
 module.exports = {
     create:({name, password, salt, nickname, email, age, sex, phone}) =>{
@@ -16,7 +20,7 @@ module.exports = {
             if(checkEmailResult.length != 0){
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.NO_X)
+                    json: util.successFalse(resMessage.NO_X(email_c))
                 });
                 return ;
             }
@@ -27,7 +31,7 @@ module.exports = {
             if(checkNickResult.length != 0){
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.NO_X)
+                    json: util.successFalse(resMessage.NO_X(nick))
                 });
                 return ;
             }
@@ -68,14 +72,13 @@ module.exports = {
             if(!result || result.length ==0){
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.SIGNUP_FAIL)
-                });
+                    json: util.successFalse(resMessage.X_DELETE_FAIL(task))                });
                 return ;
             }
 
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.SIGNUP_SUCCESS)
+                json: util.successTrue(resMessage.X_CREATE_SUCCESS(task))
             })
         });
     },
