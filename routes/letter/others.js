@@ -56,7 +56,17 @@ router.post('/:othersIdx', async(req, res)=>{
 //router-> [GET]/letter/others
 router.get('/:othersIdx', async(req, res)=>{
     try{
-
+        const receiver = req.params.othersIdx;
+        const {sender} = req.body;
+        Letter.read({receiver, sender})
+        .then(({code, json})=>{
+            res.status(code).send(json);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(statusCode.INTERNAL_SERVER_ERROR)
+            .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+        });
     }catch(err){
         console.log(err);
     }
