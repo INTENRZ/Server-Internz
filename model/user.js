@@ -62,19 +62,32 @@ module.exports = {
         
         
     },
-    task_update:({task_one, task_two, task_three}) => {
+    task_update:({userIdx, task_one, task_two, task_three}) => {
         return new Promise(async(resolve, reject) => {
-            const field = `task_one, task_two, task_three`;
-            const question = `?,?,?`;
-            const values = [task_one, task_two, task_three];
-            const query = `INSERT INTO ${table} (${field}) VALUES (${question})`;
-
-            const result = await db.queryParam_Parse(query, values);
+           
+            const checkQuery = `SELECT userIdx FROM user WHERE userIdx = ?`;
+            const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
+            
+            
+            if(checkResult.length == 0){
+                resolve({
+                    code: statusCode.NOT_FOUND,
+                    json: util.successFalse(resMessage.NO_USER)
+                });
+                return ;
+            }
+            
+            const field = `userIdx, task_one, task_two, task_three`;
+            const question = `?,?,?,?`;
+            const values = [userIdx,  task_one, task_two, task_three];
+            const query = `UPDATE ${table} SET task_one='${task_one}',task_two='${task_two}',task_three='${task_three}' WHERE userIdx = '${userIdx}' `;
+            const result = await db.queryParam_None(query);
+            console.log(result);
 
             if(result.length ==0){
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.X_DELETE_FAIL(task))
+                    json: util.successFalse(resMessage.X_CREATE_FAIL(task))
                 });
                 return ;
             }
