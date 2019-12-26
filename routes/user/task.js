@@ -4,11 +4,16 @@ const util = require('../../module/utils');
 const statusCode = require('../../module/statusCode');
 const resMessage = require('../../module/responseMessage');
 const User = require('../../model/user');
+const jwt = require('../../module/jwt');
+const crypto  = require('crypto');
+const encrypt = require('../../module/encryption');
+const authUtils = require('../../module/authUtils');
+
+router.use('/',authUtils.isLoggedin);
 //router-> [PUT]/user/task
 router.put('/', async(req, res)=>{
     try{
-        const decoded = req.decoded;
-        const userIdx = req.params.userIdx;
+         const userIdx = req.decoded.idx;     //토큰에서 idx가져오기
 
 		const {task_one, task_two, task_three} = req.body;
 
@@ -18,7 +23,7 @@ router.put('/', async(req, res)=>{
 
             return ;
         }
-        User.task_update({userIdx:decoded, userIdx:userIdx, task_one, task_two, task_three})
+        User.task_update({userIdx, task_one, task_two, task_three})
         .then(({code, json})=> res.status(code).send(json))
         .catch(err=>{
             console.log(err);
