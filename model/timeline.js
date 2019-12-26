@@ -2,6 +2,7 @@ const util = require('../module/utils');
 const statusCode = require('../module/statusCode');
 const resMessage = require('../module/responseMessage');
 const db = require('../module/poolAsync');
+const moment = require('moment');
 
 // timeline
 // read(타임라인 조회), create(타임라인 생성), update(타임라인 수정), delete(타임라인 삭제)
@@ -21,12 +22,12 @@ module.exports = {
             if(result.length === 0){
                 return {
                     code: statusCode.BAD_REQUEST,
-                    json: util.successFalse(resMessage.X_EMPTY(NAME), statusCode.BAD_REQUEST)
+                    json: util.successFalse(resMessage.X_EMPTY(NAME))
                 }
             }
             return {
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_READ_SUCCESS(NAME), statusCode.OK, result)
+                json: util.successTrue(resMessage.X_READ_SUCCESS(NAME), result)
             }
         })
         .catch(err => {
@@ -60,13 +61,13 @@ module.exports = {
             if(result.length === 0){
                 return {
                     code: statusCode.BAD_REQUEST,
-                    json: util.successFalse(resMessage.X_EMPTY(NAME), statusCode.BAD_REQUEST)
+                    json: util.successFalse(resMessage.X_EMPTY(NAME))
                 }
             }
             if(result[0].userIdx !== userIdx){
                 return {
                     code: statusCode.BAD_REQUEST,
-                    json: util.successFalse(resMessage.NOT_MATCH, statusCode.BAD_REQUEST)
+                    json: util.successFalse(resMessage.NOT_MATCH)
                 }
             }
             const v = [title, start_date, end_date, category];
@@ -92,13 +93,13 @@ module.exports = {
             if(result.length === 0){
                 return {
                     code: statusCode.BAD_REQUEST,
-                    json: util.successFalse(resMessage.X_EMPTY(NAME), statusCode.BAD_REQUEST)
+                    json: util.successFalse(resMessage.X_EMPTY(NAME))
                 }
             }
             if(result[0].userIdx !== userIdx){
                 return {
                     code: statusCode.BAD_REQUEST,
-                    json: util.successFalse(resMessage.NOT_MATCH, statusCode.BAD_REQUEST)
+                    json: util.successFalse(resMessage.NOT_MATCH)
                 }
             }
             const deleteq = `DELETE FROM ${TABLE} WHERE timelineIdx=${timelineIdx}`;
@@ -136,8 +137,23 @@ module.exports = {
         });
         return sendData;
     },
-    story_create: () => {
-
+    story_create: ({userIdx, timelineIdx, title, content}) => {
+        const created_date = moment().format('YYYY-MM-DD HH:mm:ss');
+        const updated_date = moment().format('YYYY-MM-DD HH:mm:ss');
+        const field = '`userIdx`, `timelineIdx`, `title`,`content`, `created_date`, `updated_date`';
+        const v = [userIdx, timelineIdx, title, content, created_date, updated_date];
+        const q = `INSERT INTO ${STABLE}(${field}) VALUES(?,?,?,?,?,?)`;
+        const sendData = db.queryParam_Parse(q, v)
+            .then(result=> {
+                return {
+                    code: statusCode.CREATED,
+                    json: util.successTrue(resMessage.X_CREATE_SUCCESS(SNAME), result)
+                }
+            })
+            .catch(err=>{
+                throw err;
+            });
+            return sendData;
     },
     story_update: () => {
 
