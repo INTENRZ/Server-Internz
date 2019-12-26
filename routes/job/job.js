@@ -19,4 +19,13 @@ router.get('/past', async(req, res)=>{
     }
 });
 
+//router-> [GET]/job/{task}
+router.get('/:task', async(req, res)=>{
+    try{
+        
+    }catch(err){
+        console.log(err);
+    }
+});
+
 module.exports = router;
