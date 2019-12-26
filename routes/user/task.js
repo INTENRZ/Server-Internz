@@ -7,6 +7,9 @@ const User = require('../../model/user');
 //router-> [PUT]/user/task
 router.put('/', async(req, res)=>{
     try{
+        const decoded = req.decoded;
+        const userIdx = req.params.userIdx;
+
 		const {task_one, task_two, task_three} = req.body;
 
         if(!task_one || !task_two || !task_three){
@@ -15,7 +18,7 @@ router.put('/', async(req, res)=>{
 
             return ;
         }
-        User.task_update({task_one, task_two, task_three})
+        User.task_update({userIdx:decoded, userIdx:userIdx, task_one, task_two, task_three})
         .then(({code, json})=> res.status(code).send(json))
         .catch(err=>{
             console.log(err);
