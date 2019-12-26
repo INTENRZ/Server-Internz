@@ -30,7 +30,7 @@ router.get('/', async(req, res)=>{
 router.post('/', async(req, res)=>{
     try{
         const userIdx = req.decoded.idx;
-        const {userIdx, title, start_date, end_date, category} = req.body;
+        const {title, start_date, end_date, category} = req.body;
         if(!title || !start_date || !end_date || !category){
             res.statusCode(statusCode.BAD_REQUEST)
             .send(util.successFalse(resMessage.NULL_VALUE, statusCode.BAD_REQUEST));
@@ -53,7 +53,8 @@ router.post('/', async(req, res)=>{
 router.put('/:timelineIdx', async(req, res)=>{
     try{
         const userIdx = req.decoded.idx;
-        const {userIdx, timelineIdx, title, start_date, end_date, category} = req.body;
+        const timelineIdx = req.params.timelineIdx;
+        const {title, start_date, end_date, category} = req.body;
         if(!title || !start_date || !end_date || !category){
             res.statusCode(statusCode.BAD_REQUEST)
             .send(util.successFalse(resMessage.NULL_VALUE, statusCode.BAD_REQUEST));
@@ -76,6 +77,7 @@ router.put('/:timelineIdx', async(req, res)=>{
 router.delete('/:timelineIdx', async(req, res)=>{
     try{
         const userIdx = req.decoded.idx;
+        const timelineIdx = req.params.timelineIdx;
         Timeline.delete({userIdx, timelineIdx})
         .then(({code, json})=>{
             res.status(code).send(json)
