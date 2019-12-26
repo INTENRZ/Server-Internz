@@ -42,8 +42,15 @@ module.exports = {
             const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
             const timeQuery = `SELECT * FROM timeline WHERE userIdx=?`;
             const timeResult = await db.queryParam_Parse(timeQuery, [userIdx]);
-
-            const result = checkResult.concat(timeResult);
+            
+            // ---- 현이 코드 ----
+            const followerq = `SELECT COUNT(*) AS followernumber FROM follow WHERE follower=${userIdx}`;
+            const followingq = `SELECT COUNT(*) AS followingnumber FROM follow WHERE following=${userIdx}`;
+            const followerResult = await db.queryParam_None(followerq);
+            const followingResult = await db.queryParam_None(followingq);
+            const result = checkResult.concat(timeResult, followerResult, followingResult);
+            // --------------------
+            
             if(checkResult.length == 0){
                 resolve({
                     code: statusCode.NOT_FOUND,
