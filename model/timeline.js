@@ -155,11 +155,69 @@ module.exports = {
             });
             return sendData;
     },
-    story_update: () => {
-
+    story_update: ({userIdx, timelineIdx, title, content}) => {
+        const checkq = `SELECT * from ${STABLE} WHERE storyIdx = ${storyIdx}`;
+        const sendData = db.queryParam_None(checkq)
+        .then(result => {
+            if(result.length === 0){
+                return {
+                    code: statusCode.BAD_REQUEST,
+                    json: util.successFalse(resMessage.NO_X(SNAME))
+                }
+            }
+            if(result[0].userIdx !== userIdx){
+                return {
+                    code: statusCode.BAD_REQUEST,
+                    json: util.successFalse(resMessage.NOT_MATCH)
+                }
+            }
+            const updated_date = moment().format('YYYY-MM-DD HH:mm:ss');
+            const updateq = `UPDATE SET title=?, content=?, updated_date=? WHERE storyIdx=${storyIdx}`;
+            const v = [title, content, updated_date]
+            const updateData = db.queryParam_Parse(updateq, v)
+            .then(result=> {
+                return {
+                    code: statusCode.OK,
+                    json: util.successTrue(resMessage.X_UPDATE_SUCCESS(SNAME), result)
+                }
+            });
+            return updateData;
+        })
+        .catch(err=>{
+            throw err;
+        });
+        return sendData;
     },
-    story_delete: () => {
-
+    story_delete: ({userIdx, storyIdx}) => {
+        const checkq = `SELECT * from ${STABLE} WHERE storyIdx=${storyIdx}}`;
+        const sendData = db.queryParam_None(checkq)
+        .then(result => {
+            if(result.length === 0){
+                return {
+                    code: statusCode.BAD_REQUEST,
+                    json: util.successFalse(resMessage.NO_X(SNAME))
+                }
+            }
+            if(result[0].userIdx !== userIdx){
+                return {
+                    code: statusCode.BAD_REQUEST,
+                    json: util.successFalse(resMessage.NOT_MATCH)
+                }
+            }
+            const deleteq = `DELETE FROM ${STABLE} WHERE storydx=${storyIdx}`;
+            const deleteData = db.queryParam_None(deleteq)
+            .then(result=> {
+                return {
+                    code: statusCode.OK,
+                    json: util.successTrue(resMessage.X_DELETE_SUCCESS(SNAME), result)
+                }
+            });
+            return deleteData;
+        })
+        .catch(err=>{
+            throw err;
+        });
+        return sendData;
     }
 
 }
