@@ -5,6 +5,8 @@ const db = require('../module/pool');
 const crypto = require('crypto');
 const encrypt = require('../module/encryption');
 const Auth = require('../module/jwt');
+const multer = require('multer');
+const upload = multer({dest:'uploads/'});
 //create(회원가입,로그인->닉네임, id 둘다 중복 확인), signin(로그인), task_update(관심직군 수정), ability_update(보유역량 수정)
 const USER = "회원가입";
 const nick = "닉네임";
@@ -98,29 +100,54 @@ module.exports = {
             })
         });
     },
-    intro_update:(introduce) => {
+    intro_update:({userIdx, introduce, front_image}) => {
         return new Promise(async(resolve, reject) => {
-            const field = `ability_one, ability_two, ability_three`;
-            const question = `?,?,?`;
-            const values = [ability_one, ability_two, ability_three];
-            const query = `INSERT INTO ${table} (${field}) VALUES (${question})`;
-
-            const result = await db.queryParam_Parse(query, values);
-
-            if(!result || result.length ==0){
+           
+            const checkQuery = `SELECT userIdx FROM user WHERE userIdx = ?`;
+            const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
+            
+            console.log(front_image)
+            if(checkResult.length == 0){
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.X_DELETE_FAIL(ability))
+                    json: util.successFalse(resMessage.NO_USER)
                 });
                 return ;
             }
-
+            
+            const field = `userIdx, introduce, front_image`;
+            const question = `?,?,?`;
+            const values = [userIdx,  introduce, front_image];
+            const query = `UPDATE ${table} SET introduce='${introduce}', front_image='${front_image}' WHERE userIdx = '${userIdx}' `;
+            const result = await db.queryParam_None(query);
+            console.log(result);
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_CREATE_SUCCESS(ability))
+                json: util.successTrue(resMessage.X_CREATE_SUCCESS("한 줄 소개"))
             })
         });
     },
+     nickname:({userIdx})=>{
+        return new Promise(async(resolve,reject)=>{
+            const checkQuery = `SELECT userIdx FROM user WHERE userIdx = ?`;
+            const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
+            
+
+            if(checkResult.length == 0){
+                resolve({
+                    code: statusCode.NOT_FOUND,
+                    json: util.successFalse(resMessage.NO_USER)
+                });
+                return ;
+            }
+        
+            resolve({
+                code: statusCode.OK,
+                json: util.successTrue(resMessage.X_READ_SUCCESS("닉네임"))
+            })
+        });
+    },
+
     login:({email, password})=>{
         return new Promise(async(resolve, reject)=>{
         
