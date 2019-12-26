@@ -7,8 +7,24 @@ const moment = require('moment');
 //calender->readAll(홈 전체 불러오기), read(특정 일 공고 불러오기), delete(특정 일 공고 삭제), create(특정 일 공고 추가)
 
 module.exports = {
-    create:() => {
-        
+    create:(userIdx, jobIdx) => {
+        return new Promise(async(resolve, reject) => {
+            const calender = "캘린더";
+            const insertCalQuery = 'INSERT INTO calender (userIdx, jobIdx) VALUES (?, ?)';
+            const insertCalResult = await db.queryParam_Parse(insertCalQuery , [userIdx, jobIdx]);
+            if(insertCalResult.length == 0){
+                resolve({
+                    code : statusCode.BAD_REQUEST,
+                    json : util.successFalse(resMessage.X_CREATE_FAIL(calender))
+                });
+                return;
+            }
+            resolve({
+                code : statusCode.OK,
+                json : util.successTrue(resMessage.X_CREATE_SUCCESS(calender))
+            })
+            return;
+        });
     },
     readAll:(userIdx, time) => {
         return new Promise(async(resolve, reject) => {

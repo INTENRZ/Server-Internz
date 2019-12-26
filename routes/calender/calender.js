@@ -19,7 +19,15 @@ router.get('/:day', async(req, res)=>{
 //router-> [POST]/calender/{jobIdx}
 router.post('/:jobIdx', async(req, res)=>{
     try{
-
+        const user = req.body.userIdx;
+        const job = req.params.jobIdx;
+        calender.create(user, job)
+        .then(({code, json}) => {
+            res.status(code).send(json);
+        })
+        .catch(err => {
+            res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+        })
     }catch(err){
         console.log(err);
     }
