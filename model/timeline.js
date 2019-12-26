@@ -1,7 +1,7 @@
 const util = require('../module/utils');
 const statusCode = require('../module/statusCode');
 const resMessage = require('../module/responseMessage');
-const db = require('../module/pool');
+const db = require('../module/poolAsync');
 
 // timeline
 // read(타임라인 조회), create(타임라인 생성), update(타임라인 수정), delete(타임라인 삭제)
@@ -9,6 +9,9 @@ const db = require('../module/pool');
 
 const TABLE = 'timeline';
 const NAME = '타임라인';
+
+const STABLE = 'story';
+const SNAME = '스토리';
 
 module.exports = {
     read: (userIdx) => {
@@ -33,20 +36,21 @@ module.exports = {
     },
 
     create: ({userIdx, title, start_date, end_date, category}) => {
-        const field = `'userIdx', 'title', 'start_date', 'end_date', 'category'`;
+        console.log(title)
+        const field = '`userIdx`, `title`, `start_date`, `end_date`, `category`';
         const questions = '?,?,?,?,?';
         const v = [userIdx, title, start_date, end_date, category];
-        const q = `INSERT INTO ${TABLE}(${field}) VALUSE (${questions})`;
+        const q = `INSERT INTO ${TABLE} (${field}) VALUES (${questions})`;
         const sendData = db.queryParam_Parse(q, v)
         .then(result => {
             return {
                 code: statusCode.CREATED,
-                json: util.successTrue(resMessage.X_CREATE_SUCCESS(NAME), sc.CREATED)
+                json: util.successTrue(resMessage.X_CREATE_SUCCESS(NAME), result)
             }
         })
-        .catch(err => {
+        .catch(err=>{
             throw err;
-        });
+        })
         return sendData;
     },
     update: ({userIdx, timelineIdx, title, start_date, end_date, category}) => {
@@ -69,11 +73,9 @@ module.exports = {
             const updateq = `UPDATE ${TABLE} SET title=?, start_date=?, end_date=?, category=? WHERE timelineIdx=${timelineIdx}`;
             const updateData = db.queryParam_Parse(updateq, v)
             .then(result => {
-                if(result.length === 0){
-                    return {
-                        code: statusCode.BAD_REQUEST,
-                        json: util.successFalse(resMessage.X_EMPTY(NAME), statusCode.BAD_REQUEST)
-                    }
+                return {
+                    code: statusCode.OK,
+                    json: util.successTrue(resMessage.X_UPDATE_SUCCESS(NAME), result)
                 }
             });
             return updateData;
@@ -99,14 +101,12 @@ module.exports = {
                     json: util.successFalse(resMessage.NOT_MATCH, statusCode.BAD_REQUEST)
                 }
             }
-            const deleteq = `DELETE FROM ${TAVBLE} WHERE timelineIdx=${timelineIdx}`;
+            const deleteq = `DELETE FROM ${TABLE} WHERE timelineIdx=${timelineIdx}`;
             const deleteData = db.queryParam_None(deleteq)
             .then(result => {
-                if(result.length === 0){
-                    return {
-                        code: statusCode.OK,
-                        json: util.successTrue(resMessage.X_DELETE_SUCCESS(NAME), statusCode.OK, result)
-                    }
+                return {
+                    code: statusCode.OK,
+                    json: util.successTrue(resMessage.X_DELETE_SUCCESS(NAME), result)
                 }
             })
             return deleteData;
@@ -116,8 +116,25 @@ module.exports = {
         });
         return sendData;
     },
-    story_read: () => {
-
+    story_read: (timelineIdx) => {
+        const q = `SELECT * FROM ${STABLE} WHERE timelineIdx = ${timelineIdx}`;
+        const sendData = db.queryParam_None(q)
+        .then(result => {
+            if(result.length === 0){
+                return {
+                    code: statusCode.BAD_REQUEST,
+                    json: util.successFalse(resMessage.X_EMPTY(SNAME))
+                }
+            }
+            return {
+                code: statusCode.OK,
+                json: util.successTrue(resMessage.X_READ_SUCCESS(SNAME), result)
+            }
+        })
+        .catch(err => {
+            throw err;
+        });
+        return sendData;
     },
     story_create: () => {
 
