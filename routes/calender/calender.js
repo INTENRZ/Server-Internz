@@ -42,13 +42,22 @@ router.post('/:jobIdx', async(req, res)=>{
 });
 
 //router-> [DELETE]/calender/{calenderIdx}
-router.delete('/:calenderIdx', async(req, res)=>{
+router.delete('/:calenderIdx/:month', async(req, res)=>{
     try{
         const user = req.body.userIdx;
         const cal = req.params.calenderIdx;
+        const time = req.params.month;
         calender.delete(cal, user)
         .then(({code, json}) => {
-            res.status(code).send(json);
+            // res.status(code).send(json);
+            // res.redirect('/calender/home/'+time);
+            calender.readAll(user, time)
+            .then(({code, json}) => {
+                res.status(code).send(json);
+            })
+            .catch(err => {
+                res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+            })
         })
         .catch(err => {
             res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
