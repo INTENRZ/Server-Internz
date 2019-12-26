@@ -8,10 +8,10 @@ const moment = require('moment');
 
 module.exports = {
     create:() => {
-
+        
     },
     readAll:(userIdx, time) => {
-        return new Promise(async(resolve, reject) => { 
+        return new Promise(async(resolve, reject) => {
             const calender = "캘린더";
             const getHomeQuery = 'SELECT b.company, b.task, b.d_day FROM calender a JOIN job b ON a.jobIdx = b.jobIdx WHERE b.end_date = ? AND a.userIdx = ?';
             const getHomeResult = await db.queryParam_Parse(getHomeQuery, [time, userIdx]);
