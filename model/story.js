@@ -137,9 +137,24 @@ module.exports = {
             return;
         });
     },
-    story_category:()=>{
-        //스토리의 카테고리는 속한 타임라인의 카테고리와 같다.
-
+    story_category:(category)=>{
+        return new Promise(async(resolve, reject) => {
+            //스토리의 카테고리는 속한 타임라인의 카테고리와 같다.
+            const getStoryAllQuery = 'SELECT b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx JOIN timeline c ON c.timelineIdx = b.timelineIdx WHERE c.category = ? ORDER BY b.created_date DESC';
+            const getStoryAllResult = await db.queryParam_Parse(getStoryAllQuery,[category]);
+            if(getStoryAllResult.length == 0){
+                resolve({
+                    code : statusCode.OK,
+                    json: util.successFalse(resMessage.STORY_CATEGORY_READ_FAIL)
+                });
+                return;  
+            }            
+            resolve({
+                code : statusCode.OK,
+                json: util.successTrue(resMessage.STORY_CATEGORY_READ_SUCCESS, getStoryAllResult)
+            });
+            return;
+        });
     },
     comment_update:()=>{
 

@@ -22,10 +22,19 @@ router.get('/:storyIdx', async(req, res)=>{
     }
 });
 
-//router-> [GET]/story/{category}
-router.get('/:category', async(req, res)=>{
+//router-> [POST]/story/category
+router.post('/category', async(req, res)=>{
     try{
-
+        console.log("in");
+        const Category = req.body.category;
+        console.log(Category);
+        story.story_category(Category)
+        .then(({code, json}) => {
+            res.status(code).send(json);
+        })
+        .catch(err => {
+            res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+        })
     }catch(err){
         console.log(err);
     }
