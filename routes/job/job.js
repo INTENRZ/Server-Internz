@@ -1,29 +1,44 @@
 var express = require('express');
 var router = express.Router();
-
+const util = require('../../module/utils');
+const statusCode = require('../../module/statusCode');
+const resMessage = require('../../module/responseMessage');
+const Job = require('../../model/job');
+const authUtils = require('../../module/authUtils');
+router.use('/', authUtils.isLoggedin);
 //router-> [GET]/job
-router.get('/', async(req, res)=>{
-    try{
-
-    }catch(err){
+router.get('/', async (req, res) => {
+    try {
+        console.log("ㅇ");
+        Job.readAll()
+            .then(({
+                code,
+                json
+            }) => {res.status(code).send(json)
+            })
+            .catch(err => {
+                res.status(statusCode.INTERNAL_SERVER_ERROR
+                    .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR)))
+            })
+    } catch (err) {
         console.log(err);
     }
 });
 
 //router-> [GET]/job/past
-router.get('/past', async(req, res)=>{
-    try{
+router.get('/past', async (req, res) => {
+    try {
 
-    }catch(err){
+    } catch (err) {
         console.log(err);
     }
 });
 
 //router-> [GET]/job/{task}
-router.get('/:task', async(req, res)=>{
-    try{
-        
-    }catch(err){
+router.get('/:task', async (req, res) => {
+    try {
+
+    } catch (err) {
         console.log(err);
     }
 });
