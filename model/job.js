@@ -13,7 +13,6 @@ module.exports = {
             const jobAllquery = `SELECT * FROM job `;
             const jobAllResult = await db.queryParam_None(jobAllquery);
 
-            console.log(jobAllResult);
             resolve({
                 code: statusCode.OK,
                 json: util.successTrue(resMessage.X_READ_ALL_SUCCESS("공고"), jobAllResult)
@@ -22,7 +21,16 @@ module.exports = {
     },
 
     read: () => {
+        return new Promise(async(resolve, reject) =>{
+            const jobqeury = `SELECT * FROM job WHERE ispast = '1'`;
+            const jobresult = await db.queryParam_None(jobqeury);
 
+            resolve({
+                code: statusCode.OK,
+                json: util.successTrue(resMessage.X_READ_ALL_SUCCESS("지난 공고"),jobresult)
+            })
+
+        })
     },
     filter: ({task}) => {
         const pickTaskQuery = `SELECT * FROM job WHERE task1 = task OR task2 = task OR task3 = task`;

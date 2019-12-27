@@ -5,16 +5,17 @@ const statusCode = require('../../module/statusCode');
 const resMessage = require('../../module/responseMessage');
 const Job = require('../../model/job');
 const authUtils = require('../../module/authUtils');
-router.use('/', authUtils.isLoggedin);
+
+
 //router-> [GET]/job
 router.get('/', async (req, res) => {
     try {
-        console.log("ㅇ");
         Job.readAll()
             .then(({
                 code,
                 json
-            }) => {res.status(code).send(json)
+            }) => {
+                res.status(code).send(json)
             })
             .catch(err => {
                 res.status(statusCode.INTERNAL_SERVER_ERROR
@@ -28,7 +29,17 @@ router.get('/', async (req, res) => {
 //router-> [GET]/job/past
 router.get('/past', async (req, res) => {
     try {
-
+        Job.read()
+            .then(({
+                code,
+                json
+            }) => {
+                res.status(code).send(json)
+            })
+            .catch(err =>{
+                res.status(statusCode.INTERNAL_SERVER_ERROR
+                    .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR)))
+            })
     } catch (err) {
         console.log(err);
     }

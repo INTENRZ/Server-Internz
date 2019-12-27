@@ -23,6 +23,22 @@ router.post('/', async(req, res)=>{
     }
 });
 
+//router-> [GET]/story/{storyIdx}/comment
+router.get('/', async(req, res)=>{
+    try{
+        const storyIdx = req.params.storyIdx;
+        story.comment_read(storyIdx)
+        .then(({code, json}) => {
+            res.status(code).send(json);
+        })
+        .catch(err => {
+            res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+        })
+    }catch(err){
+        console.log(err);
+    }
+});
+
 //router-> [PUT]/story/{storyIdx}/comment/{commentIdx}
 router.put('/:commentIdx', async(req, res)=>{
     try{
