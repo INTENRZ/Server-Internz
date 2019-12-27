@@ -13,18 +13,7 @@ const story = "스토리";
 module.exports = {
     comment_create:(userIdx, storyIdx, content) =>{
         return new Promise(async(resolve, reject) => {
-            // const final = [];
-            // const getUserQuery = 'SELECT nickname, front_image FROM user WHERE userIdx = ?';
-            // const getUserResult = await db.queryParam_Parse(getUserQuery, [userIdx]);
-            // if(getUserResult.length == 0){
-            //     resolve({
-            //         code : statusCode.OK,
-            //         json: util.successFalse(resMessage.COMMENT_CREATE_FAIL(story))
-            //     });
-            //     return;
-            // }
             const time = moment().format("YYYY-MM-DD HH:mm");
-            // getUserResult[0]['time'] = time;
             const saveCommentQuery = 'INSERT INTO comment (userIdx, storyIdx, created_date, content) VALUES (?, ?, ?, ?)';
             const saveCommentResult = await db.queryParam_Parse(saveCommentQuery, [userIdx, storyIdx, time, content]);
             if(saveCommentResult.length == 0){
