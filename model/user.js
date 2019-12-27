@@ -233,17 +233,25 @@ module.exports = {
                 return;
             }
 
-            const token = Auth.sign(user);
+            let token = Auth.sign(user);
             if(user.check == 0){
                 const field = `check`;
                 const check_f ='1';
-                const check = `UPDATE ${table} SET check = '1' WHERE email = '${email}' `;
+                const check = `UPDATE ${table} SET \`check\` = '1' WHERE email = '${email}' `;
                 const checkresult = await db.queryParam_None(check);
-                console.log(checkresult);
+                token = Object.assign(token, {"isFirst": '0'});
+                
                 resolve({
                     code: statusCode.OK,
                     json: util.successTrue(resMessage.LOGIN_SUCCESS, token)
                 });
+        }
+        else{
+            token = Object.assign(token, {"isnotFirst": '1'});
+            resolve({
+                code: statusCode.OK,
+                json: util.successTrue(resMessage.LOGIN_SUCCESS, token)
+            });
         }
 
         });
