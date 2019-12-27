@@ -15,7 +15,7 @@ const task = "관심직군";
 const ability = "보유역량";
 const table = 'user';
 module.exports = {
-    create:({name, password, salt, nickname, email, age, sex, phone}) =>{
+     create1:({email,password, salt, phone}) =>{
         return new Promise(async (resolve, reject)=>{
             const checkEmailQuery = `SELECT email FROM user WHERE email = ?`;
             const checkEmailResult = await db.queryParam_Parse(checkEmailQuery, [email]);
@@ -28,7 +28,38 @@ module.exports = {
                 });
                 return ;
             }
+               
+            const field =  `email, password, salt, phone`;
+            //${name}','${password}','${salt}','${nickname}','${email}','${age}','${sex},'${phone}'
+            const question = `?,?,?,?`;
+            const values = [email, password, salt, phone];
+            const query = `INSERT INTO ${table} (${field}) VALUES(${question}) `;
+    
+            const result = await db.queryParam_Parse(query,values);
+            console.log(email);
+            const findidx = `SELECT userIdx FROM ${table} WHERE email=?`;
+            const find = await db.queryParam_Parse(findidx, [email]);
             
+            console.log(find);
+            if(!result || result.length == 0){
+                resolve({
+                    code: statusCode.NOT_FOUND,
+                    json: util.successFalse(resMessage.SIGNUP_FAIL)
+                });
+                return ;
+            }
+            
+            resolve({
+                code: statusCode.OK,
+                json: util.successTrue(resMessage.SIGNUP_SUCCESS,find)
+            })
+        });
+        
+        
+    },
+    create2:({userIdx, name, nickname, age, sex}) =>{
+        return new Promise(async (resolve, reject)=>{
+          
             const checkNickQuery = `SELECT nickname FROM user WHERE nickname = ?`;
             const checkNickResult = await db.queryParam_Parse(checkNickQuery, [nickname]);
 
@@ -40,11 +71,10 @@ module.exports = {
                 return ;
             }
             
-            const field =  `name, password, salt, nickname, email, age, sex, phone`;
-            //${name}','${password}','${salt}','${nickname}','${email}','${age}','${sex},'${phone}'
-            const question = `?,?,?,?,?,?,?,?`;
-            const values = [name, password, salt, nickname, email, age, sex, phone];
-            const query = `INSERT INTO ${table} (${field}) VALUES(${question}) `;
+            const field =  `name, nickname, age, sex`;
+            const question = `?,?,?,?`;
+            const values = [name, nickname, age, sex];
+            const query = `UPDATE ${table} SET name = '${name}', nickname ='${nickname}', age='${age}', sex = '${sex}' WHERE userIdx= '${userIdx}'`;
     
             const result = await db.queryParam_Parse(query,values);
     
