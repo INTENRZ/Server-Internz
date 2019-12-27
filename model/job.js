@@ -11,7 +11,7 @@ module.exports = {
     readAll: () => {
         return new Promise(async (resolve, reject) => {
             const jobAllquery = `SELECT * FROM job `;
-            const jobAllResult = await db.queryParam_None(jobAllquery);
+            const jobAllResult = await dbsync.queryParam_None(jobAllquery);
 
             resolve({
                 code: statusCode.OK,
@@ -23,7 +23,7 @@ module.exports = {
     read: () => {
         return new Promise(async(resolve, reject) =>{
             const jobqeury = `SELECT * FROM job WHERE ispast = '1'`;
-            const jobresult = await db.queryParam_None(jobqeury);
+            const jobresult = await dbsync.queryParam_None(jobqeury);
 
             resolve({
                 code: statusCode.OK,
