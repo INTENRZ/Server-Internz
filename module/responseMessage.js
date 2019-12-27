@@ -49,6 +49,8 @@ module.exports = {//서버들끼리의 원활한 소통을 위해서 응답메�
     COMMENT_READ_SUCCESS : "댓글 조회 성공",
     STORY_READ_FAIL : "스토리 조회 실패",
     STORY_READ_SUCCESS : "스토리 조회 성공",
+    STORY_CATEGORY_READ_FAIL : "스토리 카테고리별 조회 실패",
+    STORY_CATEGORY_READ_SUCCESS : "스토리 카테고리별 조회 성공",
 
 
 
