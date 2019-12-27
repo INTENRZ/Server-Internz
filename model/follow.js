@@ -12,8 +12,8 @@ module.exports = {
     delete: () => {
 
     },
-    followingReadAll: () => {
-
+    followingReadAll: (userIdx) => {
+        const q = `SELECT `
     },
     followerReadAll: () => {
 

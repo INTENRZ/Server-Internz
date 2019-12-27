@@ -59,7 +59,7 @@ module.exports = {
             if(result.length === 0){
                 return {
                     code: statusCode.BAD_REQUEST,
-                    json: util.successFalse(resMessage.NO_X(NAME))
+                    json: util.successFalse(resMessage.X_EMPTY(NAME))
                 }
             }
             return {

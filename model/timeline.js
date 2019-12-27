@@ -21,7 +21,7 @@ module.exports = {
         .then(result => {
             if(result.length === 0){
                 return {
-                    code: statusCode.BAD_REQUEST,
+                    code: statusCode.OK,
                     json: util.successFalse(resMessage.X_EMPTY(NAME))
                 }
             }
@@ -60,13 +60,13 @@ module.exports = {
         .then(result => {
             if(result.length === 0){
                 return {
-                    code: statusCode.BAD_REQUEST,
+                    code: statusCode.OK,
                     json: util.successFalse(resMessage.X_EMPTY(NAME))
                 }
             }
             if(result[0].userIdx !== userIdx){
                 return {
-                    code: statusCode.BAD_REQUEST,
+                    code: statusCode.OK,
                     json: util.successFalse(resMessage.NOT_MATCH)
                 }
             }
@@ -92,13 +92,13 @@ module.exports = {
         .then(result => {
             if(result.length === 0){
                 return {
-                    code: statusCode.BAD_REQUEST,
+                    code: statusCode.OK,
                     json: util.successFalse(resMessage.X_EMPTY(NAME))
                 }
             }
             if(result[0].userIdx !== userIdx){
                 return {
-                    code: statusCode.BAD_REQUEST,
+                    code: statusCode.OK,
                     json: util.successFalse(resMessage.NOT_MATCH)
                 }
             }
@@ -123,7 +123,7 @@ module.exports = {
         .then(result => {
             if(result.length === 0){
                 return {
-                    code: statusCode.BAD_REQUEST,
+                    code: statusCode.OK,
                     json: util.successFalse(resMessage.X_EMPTY(SNAME))
                 }
             }
@@ -161,13 +161,13 @@ module.exports = {
         .then(result => {
             if(result.length === 0){
                 return {
-                    code: statusCode.BAD_REQUEST,
+                    code: statusCode.OK,
                     json: util.successFalse(resMessage.NO_X(SNAME))
                 }
             }
             if(result[0].userIdx !== userIdx){
                 return {
-                    code: statusCode.BAD_REQUEST,
+                    code: statusCode.OK,
                     json: util.successFalse(resMessage.NOT_MATCH)
                 }
             }
@@ -194,13 +194,13 @@ module.exports = {
         .then(result => {
             if(result.length === 0){
                 return {
-                    code: statusCode.BAD_REQUEST,
+                    code: statusCode.OK,
                     json: util.successFalse(resMessage.NO_X(SNAME))
                 }
             }
             if(result[0].userIdx !== userIdx){
                 return {
-                    code: statusCode.BAD_REQUEST,
+                    code: statusCode.OK,
                     json: util.successFalse(resMessage.NOT_MATCH)
                 }
             }
