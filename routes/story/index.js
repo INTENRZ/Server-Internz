@@ -1,5 +1,5 @@
 var express = require('express');
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 
 router.use('/:storyIdx/comment', require('./comment'));
 router.use('/new', require('./new'));
