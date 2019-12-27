@@ -117,7 +117,7 @@ module.exports = {
         });
         return sendData;
     },
-    story_read: (timelineIdx) => {
+    story_read: async ({userIdx, timelineIdx}) => {
         const q = `SELECT * FROM ${STABLE} WHERE timelineIdx = ${timelineIdx}`;
         const sendData = db.queryParam_None(q)
         .then(result => {
@@ -127,6 +127,14 @@ module.exports = {
                     json: util.successFalse(resMessage.X_EMPTY(SNAME))
                 }
             }
+            if(result[0].userIdx !== userIdx){
+                result = result.concat([{"isme": "0"}]);
+                return {
+                    code: statusCode.OK,
+                    json: util.successTrue(resMessage.X_READ_SUCCESS(SNAME), result)
+                }
+            }
+            result = result.concat([{"isme": "1"}]);
             return {
                 code: statusCode.OK,
                 json: util.successTrue(resMessage.X_READ_SUCCESS(SNAME), result)
@@ -162,7 +170,7 @@ module.exports = {
             if(result.length === 0){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.NO_X(SNAME))
+                    json: util.successFalse(resMessage.X_EMPTY(SNAME))
                 }
             }
             if(result[0].userIdx !== userIdx){

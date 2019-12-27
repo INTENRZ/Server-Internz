@@ -6,13 +6,13 @@ const resMessage = require('../../module/responseMessage');
 const Timeline = require('../../model/timeline');
 const au = require('../../module/authUtils');
 
-// router.use('/', au.isLoggedin);
+router.use('/', au.isLoggedin);
 
 //router-> [GET]/timeline
 router.get('/', async(req, res)=>{
     try{
-        const {userIdx} = req.body;
-        // const userIdx = req.decoded.idx;
+        // const {userIdx} = req.body;
+        const userIdx = req.decoded.idx;
         Timeline.read(userIdx)
         .then(({code, json}) => {
             res.status(code).send(json);
@@ -30,8 +30,8 @@ router.get('/', async(req, res)=>{
 //router-> [POST]/timeline
 router.post('/', async(req, res)=>{
     try{
-        // const userIdx = req.decoded.idx;
-        const {userIdx, title, start_date, end_date, category} = req.body;
+        const userIdx = req.decoded.idx;
+        const {title, start_date, end_date, category} = req.body;
         console.log(req.body)
         if(!title || !start_date || !category){
             res.status(statusCode.OK)
@@ -54,9 +54,9 @@ router.post('/', async(req, res)=>{
 //router-> [PUT]/timeline/{timelineIdx}
 router.put('/:timelineIdx', async(req, res)=>{
     try{
-        // const userIdx = req.decoded.idx;
+        const userIdx = req.decoded.idx;
         const timelineIdx = req.params.timelineIdx;
-        const {userIdx, title, start_date, end_date, category} = req.body;
+        const {title, start_date, end_date, category} = req.body;
         if(!title || !start_date || !end_date || !category){
             res.statusCode(statusCode.OK)
             .send(util.successFalse(resMessage.NULL_VALUE, statusCode.OK));
@@ -78,9 +78,9 @@ router.put('/:timelineIdx', async(req, res)=>{
 //router-> [DELETE]/timeline/{timelineIdx}
 router.delete('/:timelineIdx', async(req, res)=>{
     try{
-        // const userIdx = req.decoded.idx;
+        const userIdx = req.decoded.idx;
         const timelineIdx = req.params.timelineIdx;
-        const {userIdx} = req.body;
+        // const {userIdx} = req.body;
         Timeline.delete({userIdx, timelineIdx})
         .then(({code, json})=>{
             res.status(code).send(json)

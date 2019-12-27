@@ -70,7 +70,22 @@ module.exports = {
         });
     },
     count:() => {
-
+        return new Promise(async(resolve, reject) => {
+            const getCountSortQuery = 'SELECT b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx ORDER BY count DESC';
+            const getCountSortResult = await db.queryParam_Parse(getCountSortQuery);
+            if(getCountSortResult.length == 0){
+                resolve({
+                    code : statusCode.OK,
+                    json: util.successFalse(resMessage.STORY_COUNT_READ_FAIL)
+                });
+                return;
+            }
+            resolve({
+                code : statusCode.OK,
+                json : util.successTrue(resMessage.STORY_COUNT_READ_SUCCESS, getCountSortResult)
+            });
+            return;
+        });
     },
     story_content_read:(userIdx, storyIdx)=>{
         return new Promise(async(resolve, reject) => {

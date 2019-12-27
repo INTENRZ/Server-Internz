@@ -6,13 +6,15 @@ const resMessage = require('../../../module/responseMessage');
 const Timeline = require('../../../model/timeline');
 const au = require('../../../module/authUtils');
 
-// router.use('/', au.isLoggedin);
+router.use('/', au.isLoggedin);
 
 //router-> [GET]/timeline/{timelineIdx}/story
 router.get('/', async(req, res)=>{
     try{
+        const userIdx = req.decoded.idx;
+        // const userIdx = req.body.userIdx;
         const {timelineIdx} = req.params;
-        Timeline.story_read(timelineIdx)
+        Timeline.story_read({userIdx, timelineIdx})
         .then(({code, json})=>{
             res.status(code).send(json);
         })
@@ -29,8 +31,9 @@ router.get('/', async(req, res)=>{
 //router-> [POST]/timeline/{timelineIdx}/story
 router.post('/', async(req, res)=>{
     try{
+        const userIdx = req.decoded.idx;
         const {timelineIdx} = req.params;
-        const {userIdx, title, content} = req.body;
+        const {title, content} = req.body;
         if(!title||!content){
             res.status(statusCode.OK)
             .send(util.successFalse(resMessage.NULL_VALUE));
@@ -52,8 +55,9 @@ router.post('/', async(req, res)=>{
 //router-> [PUT]/timeline/{timelineIdx}/story/{storyIdx}
 router.put('/:storyIdx', async(req, res)=>{
     try{
+        const userIdx = req.decoded.idx;
         const {storyIdx} = req.params;
-        const {userIdx, title, content} = req.body;
+        const {title, content} = req.body;
         if(!title||!content){
             res.status(statusCode.OK)
             .send(util.successFalse(resMessage.NULL_VALUE));
@@ -75,8 +79,9 @@ router.put('/:storyIdx', async(req, res)=>{
 //router-> [DELETE]/timeline/{timelineIdx}/story/{storyIdx}
 router.delete('/:storyIdx', async(req, res)=>{
     try{
+        const userIdx = req.decoded.idx;
         const {storyIdx} = req.params;
-        const {userIdx} = req.body;
+        // const {userIdx} = req.body;
         Timeline.story_delete({userIdx, storyIdx})
         .then(({code, json})=>{
             res.status(code).send(json);

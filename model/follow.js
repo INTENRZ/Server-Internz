@@ -4,8 +4,7 @@ const resMessage = require('../module/responseMessage');
 const db = require('../module/poolAsync');
 const dbsync = require('../module/pool');
 
-
-//scrap-> create(스크랩), delete(스크랩취소)
+//scrap-> create(팔로우), delete(팔로우 취소)
 
 const TABLE = 'follow';
 const FOLLOWER = "팔로워";
@@ -13,7 +12,6 @@ const FOLLOWING = "팔로잉";
 
 module.exports = {
     create: ({userIdx, othersIdx}) => {
-        console.log("DADAD")
         const field = '`following`,`follower`';
         const v = [othersIdx, userIdx];
         const q = `INSERT INTO ${TABLE} (${field}) VALUES (?,?)`;

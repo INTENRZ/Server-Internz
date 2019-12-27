@@ -7,12 +7,12 @@ const db = require('../../module/pool');
 const authUtils = require('../../module/authUtils');
 const Follow = require('../../model/follow');
 
-// router.use('/', authUtils.isLoggedin);
+router.use('/', authUtils.isLoggedin);
 
 //following -> [GET]/flollowing
 router.get('/', (req, res)=> {
-    // const userIdx = req.decoded.idx;
-    const {userIdx} = req.body;
+    const userIdx = req.decoded.idx;
+    // const {userIdx} = req.body;
     Follow.followingReadAll(userIdx)
     .then(({code, json})=>{
         res.status(code).send(json);
@@ -26,8 +26,8 @@ router.get('/', (req, res)=> {
 
 //following -> [POST]/flollowing
 router.post('/:othersIdx', (req, res)=> {
-    // const userIdx = req.decoded.idx;
-    const {userIdx} = req.body;
+    const userIdx = req.decoded.idx;
+    // const {userIdx} = req.body;
     const othersIdx = req.params.othersIdx;
     Follow.create({userIdx, othersIdx})
     .then(({code, json})=>{
@@ -42,8 +42,8 @@ router.post('/:othersIdx', (req, res)=> {
 
 //following -> [DELTE]/flollowing
 router.delete('/:othersIdx', (req, res)=> {
-    // const userIdx = req.decoded.idx;
-    const {userIdx} = req.body;
+    const userIdx = req.decoded.idx;
+    // const {userIdx} = req.body;
     const othersIdx = req.params.othersIdx;
     Follow.delete({userIdx, othersIdx})
     .then(({code, json})=>{

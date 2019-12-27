@@ -6,13 +6,13 @@ const statusCode = require('../../module/statusCode');
 const resMessage = require('../../module/responseMessage');
 const au = require('../../module/authUtils');
 
-// router.use('/', au.isLoggedin);
+router.use('/', au.isLoggedin);
 
 //router-> [GET]/letter/others
 router.get('/', async(req, res)=>{
     try{
-        console.log("시작")
-        const {userIdx} = req.body;
+        const userIdx = req.decoded.idx;
+        // const {userIdx} = req.body;
         Letter.readAll(userIdx)
         .then(({code, json})=>{
             res.status(code).send(json);
@@ -30,9 +30,9 @@ router.get('/', async(req, res)=>{
 //router-> [POST]/letter/others
 router.post('/:othersIdx', async(req, res)=>{
     try{
-        // const receiver = req.decoded.idx;
+        const sender = req.decoded.idx;
         const receiver = req.params.othersIdx;
-        const {sender, content} = req.body;
+        const {content} = req.body;
         console.log(req.body)
         if(!content){
             res.status(statusCode.OK)
@@ -56,8 +56,9 @@ router.post('/:othersIdx', async(req, res)=>{
 //router-> [GET]/letter/others
 router.get('/:othersIdx', async(req, res)=>{
     try{
+        const sender = req.decoded.idx;
         const receiver = req.params.othersIdx;
-        const {sender} = req.body;
+        // const {sender} = req.body;
         Letter.read({receiver, sender})
         .then(({code, json})=>{
             res.status(code).send(json);
@@ -75,9 +76,9 @@ router.get('/:othersIdx', async(req, res)=>{
 //router-> [DELETE]/letter/others
 router.delete('/:othersIdx', async(req, res)=>{
     try{
-        // const userIdx = req.decoded.idx;
+        const sender = req.decoded.idx;
         const receiver = req.params.othersIdx;
-        const {sender} = req.body;
+        // const {sender} = req.body;
         Letter.delete({receiver, sender})
         .then(({code, json})=>{
             res.status(code).send(json)
