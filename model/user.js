@@ -85,6 +85,7 @@ module.exports = {
 
             const field = `name, nickname, age, sex`;
             const question = `?,?,?,?`;
+            
             const values = [name, nickname, age, sex];
             const query = `UPDATE ${table} SET name = '${name}', nickname ='${nickname}', age='${age}', sex = '${sex}' WHERE userIdx= '${userIdx}'`;
 
