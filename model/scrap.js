@@ -7,7 +7,7 @@ const db = require('../module/pool');
 
 module.exports = {
     create: () => {
-
+        
     },
     delete: () => {
 
