@@ -6,7 +6,9 @@ const crypto = require('crypto');
 const encrypt = require('../module/encryption');
 const Auth = require('../module/jwt');
 const multer = require('multer');
-const upload = multer({dest:'uploads/'});
+const upload = multer({
+    dest: 'uploads/'
+});
 //create(회원가입,로그인->닉네임, id 둘다 중복 확인), signin(로그인), task_update(관심직군 수정), ability_update(보유역량 수정)
 const USER = "회원가입";
 const nick = "닉네임";
@@ -15,113 +17,128 @@ const task = "관심직군";
 const ability = "보유역량";
 const table = 'user';
 module.exports = {
-     create1:({email,password, salt, phone}) =>{
-        return new Promise(async (resolve, reject)=>{
+    create1: ({
+        email,
+        password,
+        salt,
+        phone
+    }) => {
+        return new Promise(async (resolve, reject) => {
             const checkEmailQuery = `SELECT email FROM user WHERE email = ?`;
             const checkEmailResult = await db.queryParam_Parse(checkEmailQuery, [email]);
-            
+
             console.log(checkEmailResult)
-            if(checkEmailResult.length != 0){
+            if (checkEmailResult.length != 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
                     json: util.successFalse(resMessage.NO_X(email_c))
                 });
-                return ;
+                return;
             }
-               
-            const field =  `email, password, salt, phone`;
-            //${name}','${password}','${salt}','${nickname}','${email}','${age}','${sex},'${phone}'
+
+            const field = `email, password, salt, phone`;
             const question = `?,?,?,?`;
             const values = [email, password, salt, phone];
             const query = `INSERT INTO ${table} (${field}) VALUES(${question}) `;
-    
-            const result = await db.queryParam_Parse(query,values);
+
+            const result = await db.queryParam_Parse(query, values);
             console.log(email);
             const findidx = `SELECT userIdx FROM ${table} WHERE email=?`;
             const find = await db.queryParam_Parse(findidx, [email]);
-            
+
             console.log(find);
-            if(!result || result.length == 0){
+            if (!result || result.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
                     json: util.successFalse(resMessage.SIGNUP_FAIL)
                 });
-                return ;
+                return;
             }
-            
+
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.SIGNUP_SUCCESS,find)
+                json: util.successTrue(resMessage.SIGNUP_SUCCESS, find)
             })
         });
-        
-        
+
+
     },
-    create2:({userIdx, name, nickname, age, sex}) =>{
-        return new Promise(async (resolve, reject)=>{
-          
+    create2: ({
+        userIdx,
+        name,
+        nickname,
+        age,
+        sex
+    }) => {
+        return new Promise(async (resolve, reject) => {
+
             const checkNickQuery = `SELECT nickname FROM user WHERE nickname = ?`;
             const checkNickResult = await db.queryParam_Parse(checkNickQuery, [nickname]);
 
-            if(checkNickResult.length != 0){
+            if (checkNickResult.length != 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
                     json: util.successFalse(resMessage.NO_X(nick))
                 });
-                return ;
+                return;
             }
-            
-            const field =  `name, nickname, age, sex`;
+
+            const field = `name, nickname, age, sex`;
             const question = `?,?,?,?`;
             const values = [name, nickname, age, sex];
             const query = `UPDATE ${table} SET name = '${name}', nickname ='${nickname}', age='${age}', sex = '${sex}' WHERE userIdx= '${userIdx}'`;
-    
-            const result = await db.queryParam_Parse(query,values);
-    
-            if(!result || result.length == 0){
+
+            const result = await db.queryParam_Parse(query, values);
+
+            if (!result || result.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
                     json: util.successFalse(resMessage.SIGNUP_FAIL)
                 });
-                return ;
+                return;
             }
-            
+
             resolve({
                 code: statusCode.OK,
                 json: util.successTrue(resMessage.SIGNUP_SUCCESS)
             })
         });
-        
-        
+
+
     },
-    task_update:({userIdx, task_one, task_two, task_three}) => {
-        return new Promise(async(resolve, reject) => {
-           
+    task_update: ({
+        userIdx,
+        task_one,
+        task_two,
+        task_three
+    }) => {
+        return new Promise(async (resolve, reject) => {
+
             const checkQuery = `SELECT userIdx FROM user WHERE userIdx = ?`;
             const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
-            
-            
-            if(checkResult.length == 0){
+
+
+            if (checkResult.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
                     json: util.successFalse(resMessage.NO_USER)
                 });
-                return ;
+                return;
             }
-            
+
             const field = `userIdx, task_one, task_two, task_three`;
             const question = `?,?,?,?`;
-            const values = [userIdx,  task_one, task_two, task_three];
+            const values = [userIdx, task_one, task_two, task_three];
             const query = `UPDATE ${table} SET task_one='${task_one}',task_two='${task_two}',task_three='${task_three}' WHERE userIdx = '${userIdx}' `;
             const result = await db.queryParam_None(query);
             console.log(result);
 
-            if(result.length ==0){
+            if (result.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
                     json: util.successFalse(resMessage.X_CREATE_FAIL(task))
                 });
-                return ;
+                return;
             }
 
             resolve({
@@ -130,24 +147,28 @@ module.exports = {
             })
         });
     },
-    intro_update:({userIdx, introduce, front_image}) => {
-        return new Promise(async(resolve, reject) => {
-           
+    intro_update: ({
+        userIdx,
+        introduce,
+        front_image
+    }) => {
+        return new Promise(async (resolve, reject) => {
+
             const checkQuery = `SELECT userIdx FROM user WHERE userIdx = ?`;
             const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
-            
+
             console.log(front_image)
-            if(checkResult.length == 0){
+            if (checkResult.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
                     json: util.successFalse(resMessage.NO_USER)
                 });
-                return ;
+                return;
             }
-            
+
             const field = `userIdx, introduce, front_image`;
             const question = `?,?,?`;
-            const values = [userIdx,  introduce, front_image];
+            const values = [userIdx, introduce, front_image];
             const query = `UPDATE ${table} SET introduce='${introduce}', front_image='${front_image}' WHERE userIdx = '${userIdx}' `;
             const result = await db.queryParam_None(query);
             console.log(result);
@@ -157,61 +178,68 @@ module.exports = {
             })
         });
     },
-     nickname:({userIdx})=>{
-        return new Promise(async(resolve,reject)=>{
+    nickname: ({
+        userIdx
+    }) => {
+        return new Promise(async (resolve, reject) => {
             const checkQuery = `SELECT userIdx FROM user WHERE userIdx = ?`;
             const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
-            
 
-            if(checkResult.length == 0){
+
+            if (checkResult.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
                     json: util.successFalse(resMessage.NO_USER)
                 });
-                return ;
+                return;
             }
-         const result = checkResult[0].nickname;
+            const result = checkResult[0].nickname;
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_READ_SUCCESS("닉네임"),result)
+                json: util.successTrue(resMessage.X_READ_SUCCESS("닉네임"), result)
             })
         });
     },
 
-    login:({email, password})=>{
-        return new Promise(async(resolve, reject)=>{
-        
-        const query = `SELECT * FROM ${table} WHERE email = '${email}'`;
-        const result = await db.queryParam_None(query);
-        
-        if(result.length == 0){
+    login: ({
+        email,
+        password
+    }) => {
+        return new Promise(async (resolve, reject) => {
+
+            const query = `SELECT * FROM ${table} WHERE email = '${email}'`;
+            const result = await db.queryParam_None(query);
+
+            if (result.length == 0) {
+                resolve({
+                    code: statusCode.BAD_REQUEST,
+                    json: util.successFalse(resMessage.NO_USER)
+                });
+                return;
+            }
+
+            console.log(result);
+            const user = result[0];
+            const {
+                hashed
+            } = await encrypt.encryptWithSalt(password, user.salt);
+            console.log(hashed);
+            if (user.password != hashed) {
+                resolve({
+                    code: statusCode.BAD_REQUEST,
+                    json: util.successTrue(resMessage.MISS_MATCH_PW)
+                });
+                return;
+            }
+
+            const token = Auth.sign(user);
             resolve({
-                code: statusCode.BAD_REQUEST,
-                json: util.successFalse(resMessage.NO_USER)
+                code: statusCode.OK,
+                json: util.successTrue(resMessage.LOGIN_SUCCESS, token)
             });
-            return ;
-        }
-        
-        console.log(result);
-        const user = result[0];
-        const {hashed} = await encrypt.encryptWithSalt(password, user.salt);
-        console.log(hashed);
-        if(user.password != hashed){
-            resolve({
-                code: statusCode.BAD_REQUEST,
-                json: util.successTrue(resMessage.MISS_MATCH_PW)
-            });
-            return ;
-        }
-        
-        const token = Auth.sign(user);
-        resolve({
-            code: statusCode.OK,
-            json: util.successTrue(resMessage.LOGIN_SUCCESS, token)
+
         });
 
-    });
-
-}
+    }
 
 };
