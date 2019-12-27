@@ -74,6 +74,16 @@ module.exports = {
     },
     story_content_read:(userIdx, storyIdx)=>{
         return new Promise(async(resolve, reject) => {
+            //일단 조회수 ++
+            const updateCountQuery = 'UPDATE story SET count = count + 1 WHERE storyIdx = ?';
+            const updateCountResult = await db.queryParam_Parse(updateCountQuery ,[storyIdx]);
+            if(updateCountResult.length == 0){
+                resolve({
+                    code : statusCode.OK,
+                    json: util.successFalse(resMessage.STORY_READ_FAIL)
+                });
+                return; 
+            }
             const getstoryQuery = 'SELECT b.title, b.content, b.created_date, a.nickname, a.front_image, a.introduce FROM story b JOIN user a ON a.userIdx = b.userIdx WHERE storyIdx = ?';
             const getstoryResult = await db.queryParam_Parse(getstoryQuery,[storyIdx]);
             if(getstoryResult.length == 0){
@@ -128,7 +138,8 @@ module.exports = {
         });
     },
     story_category:()=>{
-        
+        //스토리의 카테고리는 속한 타임라인의 카테고리와 같다.
+
     },
     comment_update:()=>{
 
