@@ -35,22 +35,14 @@ module.exports = {
             })
         });
     },
-
-    readAll:({userIdx}) => {
+    // ----------------------------- 현이 코드 -----------------------------
+    mypage:({userIdx, loginIdx}) => {
         return new Promise(async(resolve, reject)=>{
+
+            // 유저에 해당하는 열 추출, 해당 유저의 타임라인 추출
             const checkQuery = `SELECT userIdx,nickname, task_one, task_two, task_three,front_image, back_image,introduce FROM user WHERE userIdx =?`;
-            const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
             const timeQuery = `SELECT * FROM timeline WHERE userIdx=?`;
-            const timeResult = await db.queryParam_Parse(timeQuery, [userIdx]);
-            
-            // ---- 현이 코드 ----
-            const followerq = `SELECT COUNT(*) AS followernumber FROM follow WHERE follower=${userIdx}`;
-            const followingq = `SELECT COUNT(*) AS followingnumber FROM follow WHERE following=${userIdx}`;
-            const followerResult = await db.queryParam_None(followerq);
-            const followingResult = await db.queryParam_None(followingq);
-            const result = checkResult.concat(timeResult, followerResult, followingResult);
-            // --------------------
-            
+            const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
             if(checkResult.length == 0){
                 resolve({
                     code: statusCode.NOT_FOUND,
@@ -58,13 +50,33 @@ module.exports = {
                 });
                 return ;
             }
+            const timeResult = await db.queryParam_Parse(timeQuery, [userIdx]);
+
+            // 팔로워 팔로잉 수 추출
+            const followerNumberQuery = `SELECT COUNT(*) AS followernumber FROM follow WHERE follower=${userIdx}`;
+            const followingNumberQuery = `SELECT COUNT(*) AS followingnumber FROM follow WHERE following=${userIdx}`;
+            const followerResult = await db.queryParam_None(followerNumberQuery);
+            const followingResult = await db.queryParam_None(followingNumberQuery);
+            // 마이 페이지인지 타인의 페이지인지 구별
+            if(userIdx === loginIdx) {
+                const result = checkResult.concat(timeResult, followerResult, followingResult, {"isme":'1'});
+            } else {
+                const isFollowQuery = `SELECT FROM follow WHERE following = ?, follower = ?`
+                const isFollowResult = await db.queryParam_Parse(isFollowq, [userIdx, loginIdx]);
+                if (isFollowResult.length === 0){
+                    const isFollow = {"isfollow": '0'}
+                } else {
+                    const isFollow = {"isfollow": '1'}
+                }
+                const result = checkResult.concat(timeResult, followerResult, followingResult, {"isme": '0'}, isFollow);
+            }
             resolve({
                 code: statusCode.OK,
                 json: util.successTrue(resMessage.X_READ_ALL_SUCCESS("프로필"),result)
             })
         });
-
     },
+    // ----------------------------------------------------------------------
      task_update:({userIdx, task_one, task_two, task_three}) => {
         return new Promise(async(resolve, reject) => {
            
