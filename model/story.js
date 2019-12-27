@@ -65,6 +65,24 @@ module.exports = {
     story_content_read:()=>{
 
     },
+    comment_read:(storyIdx)=>{
+        return new Promise(async(resolve, reject) => {
+            const getCommentQuery = 'SELECT a.nickname, a.front_image, b.content, b.created_date FROM comment b JOIN user a ON a.userIdx = b.userIdx WHERE storyIdx = ? ORDER BY b.created_date';
+            const getCommentResult = await db.queryParam_Parse(getCommentQuery,[storyIdx]);
+            if(getCommentResult.length == 0){
+                resolve({
+                    code : statusCode.OK,
+                    json: util.successFalse(resMessage.COMMENT_READ_FAIL)
+                });
+                return;                
+            }
+            resolve({
+                code : statusCode.OK,
+                json : util.successTrue(resMessage.COMMENT_READ_SUCCESS, getCommentResult)
+            });
+            return;
+        });
+    },
     comment_update:()=>{
 
     },
