@@ -85,7 +85,7 @@ module.exports = {
 
             const field = `name, nickname, age, sex`;
             const question = `?,?,?,?`;
-            
+
             const values = [name, nickname, age, sex];
             const query = `UPDATE ${table} SET name = '${name}', nickname ='${nickname}', age='${age}', sex = '${sex}' WHERE userIdx= '${userIdx}'`;
 
@@ -158,7 +158,7 @@ module.exports = {
             const checkQuery = `SELECT userIdx FROM user WHERE userIdx = ?`;
             const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
 
-            console.log(front_image)
+            
             if (checkResult.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
@@ -218,13 +218,13 @@ module.exports = {
                 });
                 return;
             }
-
-            console.log(result);
+            
+            
             const user = result[0];
+            
             const {
                 hashed
             } = await encrypt.encryptWithSalt(password, user.salt);
-            console.log(hashed);
             if (user.password != hashed) {
                 resolve({
                     code: statusCode.OK,
@@ -234,10 +234,17 @@ module.exports = {
             }
 
             const token = Auth.sign(user);
-            resolve({
-                code: statusCode.OK,
-                json: util.successTrue(resMessage.LOGIN_SUCCESS, token)
-            });
+            if(user.check == 0){
+                const field = `check`;
+                const check_f ='1';
+                const check = `UPDATE ${table} SET check = '1' WHERE email = '${email}' `;
+                const checkresult = await db.queryParam_None(check);
+                console.log(checkresult);
+                resolve({
+                    code: statusCode.OK,
+                    json: util.successTrue(resMessage.LOGIN_SUCCESS, token)
+                });
+        }
 
         });
 
