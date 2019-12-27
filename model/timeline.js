@@ -21,7 +21,7 @@ module.exports = {
         .then(result => {
             if(result.length === 0){
                 return {
-                    code: statusCode.OK
+                    code: statusCode.OK,
                     json: util.successFalse(resMessage.X_EMPTY(NAME))
                 }
             }
