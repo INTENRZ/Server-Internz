@@ -15,7 +15,7 @@ router.put('/', async(req, res)=>{
         const {introduce} = req.body;
 
         if(!introduce){
-            res.status(statusCode.BAD_REQUEST)
+            res.status(statusCode.OK)
             .send(util.successFalse(resMessage.NULL_VALUE));
 
             return ;

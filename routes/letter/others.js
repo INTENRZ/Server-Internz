@@ -35,7 +35,7 @@ router.post('/:othersIdx', async(req, res)=>{
         const {sender, content} = req.body;
         console.log(req.body)
         if(!content){
-            res.status(statusCode.BAD_REQUEST)
+            res.status(statusCode.OK)
             .send(util.successFalse(resMessage.NULL_VALUE));
         }
         Letter.create({receiver, sender, content})

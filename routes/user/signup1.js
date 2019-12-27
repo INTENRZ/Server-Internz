@@ -11,13 +11,13 @@ router.post('/', async(req, res)=>{
     try{
         const {email, password, password2, phone} = req.body;      
         if(!email || !password || !password2||  !phone){
-            res.status(statusCode.BAD_REQUEST)
+            res.status(statusCode.OK)
             .send(util.successFalse(resMessage.NULL_VALUE));
 
             return ;
         }
         if(password2 != password){
-            res.status(statusCode.BAD_REQUEST)
+            res.status(statusCode.OK)
             .send(util.successFalse(resMessage.MISS_MATCH_PW))
         }
         encrypt.encrypt(password)

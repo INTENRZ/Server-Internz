@@ -212,7 +212,7 @@ module.exports = {
 
             if (result.length == 0) {
                 resolve({
-                    code: statusCode.BAD_REQUEST,
+                    code: statusCode.OK,
                     json: util.successFalse(resMessage.NO_USER)
                 });
                 return;
@@ -226,7 +226,7 @@ module.exports = {
             console.log(hashed);
             if (user.password != hashed) {
                 resolve({
-                    code: statusCode.BAD_REQUEST,
+                    code: statusCode.OK,
                     json: util.successTrue(resMessage.MISS_MATCH_PW)
                 });
                 return;
