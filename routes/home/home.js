@@ -3,12 +3,13 @@ var router = express.Router();
 const util = require('../../module/utils');
 const statusCode = require('../../module/statusCode');
 const resMessage = require('../../module/responseMessage');
+const authUtil = require("../../module/authUtils");
 const home = require('../../model/home');
 
 //router-> [GET]/home(추천공고-3개, 프로필-4개, 스토리-4개)
-router.get('/', async(req, res)=>{
+router.get('/', authUtil.isLoggedin, async(req, res)=>{
     try{
-        const user = req.body.userIdx;
+        const user = req.decoded.idx;
         home.home(user)
         .then(({code, json}) => {
             res.status(code).send(json);
