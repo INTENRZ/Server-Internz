@@ -58,7 +58,7 @@ module.exports = {
         .then(result => {
             if(result.length === 0){
                 return {
-                    code: statusCode.BAD_REQUEST,
+                    code: statusCode.OK,
                     json: util.successFalse(resMessage.X_EMPTY(NAME))
                 }
             }

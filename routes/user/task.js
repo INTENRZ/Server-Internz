@@ -18,7 +18,7 @@ router.put('/', async(req, res)=>{
 		const {task_one, task_two, task_three} = req.body;
 
         if(!task_one || !task_two || !task_three){
-            res.status(statusCode.BAD_REQUEST)
+            res.status(statusCode.OK)
             .send(util.successFalse(resMessage.NULL_VALUE));
 
             return ;

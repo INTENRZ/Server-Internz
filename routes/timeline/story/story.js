@@ -32,7 +32,7 @@ router.post('/', async(req, res)=>{
         const {timelineIdx} = req.params;
         const {userIdx, title, content} = req.body;
         if(!title||!content){
-            res.status(statusCode.BAD_REQUEST)
+            res.status(statusCode.OK)
             .send(util.successFalse(resMessage.NULL_VALUE));
         }
         Timeline.story_create({userIdx, timelineIdx,title, content})
@@ -55,7 +55,7 @@ router.put('/:storyIdx', async(req, res)=>{
         const {storyIdx} = req.params;
         const {userIdx, title, content} = req.body;
         if(!title||!content){
-            res.status(statusCode.BAD_REQUEST)
+            res.status(statusCode.OK)
             .send(util.successFalse(resMessage.NULL_VALUE));
         }
         Timeline.story_update({userIdx, storyIdx, title, content})

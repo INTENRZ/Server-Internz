@@ -15,7 +15,7 @@ module.exports = {
             const insertCalResult = await db.queryParam_Parse(insertCalQuery , [userIdx, jobIdx]);
             if(insertCalResult.length == 0){
                 resolve({
-                    code : statusCode.BAD_REQUEST,
+                    code : statusCode.OK,
                     json : util.successFalse(resMessage.X_CREATE_FAIL(calender))
                 });
                 return;
@@ -33,7 +33,7 @@ module.exports = {
             const getHomeResult = await db.queryParam_Parse(getHomeQuery, [time+'%', userIdx]);
             if(getHomeResult.length == 0){
                 resolve({
-                    code : statusCode.BAD_REQUEST,
+                    code : statusCode.OK,
                     json: util.successFalse(resMessage.X_READ_ALL_FAIL(calender))
                 });
                 return;
@@ -51,7 +51,7 @@ module.exports = {
             const getCalDayResult = await db.queryParam_Parse(getCalDayQuery, [time, userIdx]);
             if(getCalDayResult.length == 0){
                 resolve({
-                    code : statusCode.BAD_REQUEST,
+                    code : statusCode.OK,
                     json: util.successFalse(resMessage.X_READ_FAIL(calender))
                 });
                 return;                
@@ -69,7 +69,7 @@ module.exports = {
             const deleteCalDayResult = await db.queryParam_Parse(deleteCalDayQuery, [calenderIdx, userIdx]);
             if(deleteCalDayResult.affectedRows == 0){
                 resolve({
-                    code : statusCode.BAD_REQUEST,
+                    code : statusCode.OK,
                     json: util.successFalse(resMessage.X_DELETE_FAIL(calender))
                 });
                 return;                  

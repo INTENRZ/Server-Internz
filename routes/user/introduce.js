@@ -19,7 +19,7 @@ router.put('/',upload.single('front_image'),async(req, res)=>{
         const front_image = req.file.location;
         console.log(front_image)
         if(!introduce){
-            res.status(statusCode.BAD_REQUEST)
+            res.status(statusCode.OK)
             .send(util.successFalse(resMessage.NULL_VALUE));
 
             return ;
