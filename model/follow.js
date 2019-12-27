@@ -8,14 +8,15 @@ const dbsync = require('../module/pool');
 //scrap-> create(스크랩), delete(스크랩취소)
 
 const TABLE = 'follow';
-const FOLLOWER = "follower";
-const FOLLOWING = "following";
+const FOLLOWER = "팔로워";
+const FOLLOWING = "팔로잉";
 
 module.exports = {
     create: ({userIdx, othersIdx}) => {
+        console.log("DADAD")
         const field = '`following`,`follower`';
         const v = [othersIdx, userIdx];
-        const q = `INSERT INTO ${TABLE}(${field}) VALEUS(?,?)`;
+        const q = `INSERT INTO ${TABLE} (${field}) VALUES (?,?)`;
         const sendData = db.queryParam_Parse(q, v)
         .then(result => {
             return {
@@ -36,7 +37,7 @@ module.exports = {
             .then(result => {
                 return {
                     code: statusCode.CREATED,
-                    json: util.successTrue(resMessage.X_CREATE_SUCCESS(FOLLOWING), result)
+                    json: util.successTrue(resMessage.X_DELETE_SUCCESS(FOLLOWING), result)
                 }
             })
             .catch(err=>{
@@ -45,8 +46,8 @@ module.exports = {
             return sendData;
     },
     followingReadAll: (userIdx) => {
-        const followingIdxQuery = `SELECT following FROM ${TABLE} WHERE userIdx = ${userIdx}`;
-        const followingUserQuery = `SELECT front_image, nickname, introduce FROM user WHERE userIdx IN ${followingIdxQuery}`
+        const followingIdxQuery = `SELECT following FROM ${TABLE} WHERE follower = ${userIdx}`;
+        const followingUserQuery = `SELECT front_image, nickname, introduce FROM user WHERE userIdx IN (${followingIdxQuery})`
         const sendData = db.queryParam_None(followingUserQuery)
         .then(followingList => {
             if(followingList.length === 0){
@@ -66,10 +67,10 @@ module.exports = {
         return sendData;
     },
     followerReadAll: (userIdx) => {
-        const followerIdxQuery = `SELECT follower FROM ${TABLE} WHERE userIdx = ${userIdx}`;
-        const followerUserQuery = `SELECT front_image, nickname, introduce FROM user WHERE userIdx IN ${followerIdxQuery}`
+        const followerIdxQuery = `SELECT follower FROM ${TABLE} WHERE following = ${userIdx}`;
+        const followerUserQuery = `SELECT front_image, nickname, introduce FROM user WHERE userIdx IN (${followerIdxQuery})`
         const sendData = db.queryParam_None(followerUserQuery)
-        .then(followingList => {
+        .then(followerList => {
             if(followerList.length === 0){
                 return {
                     code: statusCode.OK,
