@@ -7,11 +7,13 @@ const Profile = require('../../model/profile');
 const authUtils = require('../../module/authUtils');
 router.use('/',authUtils.isLoggedin);
 
-//router-> [GET]/profile
-router.get('/', async(req, res)=>{
+// 현이 코드
+// router-> [GET]/profile
+router.get('/:userIdx', async(req, res)=>{
     try{
-	 const userIdx = req.decoded.idx;
-        Profile.readAll({userIdx})
+     const loginIdx = req.decoded.idx;
+     const userIdx = req.params.userIdx;
+        Profile.mypage({userIdx, loginIdx})
         .then(({code,json})=> res.status(code).send(json))
         .catch(err => {
             res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
@@ -20,5 +22,6 @@ router.get('/', async(req, res)=>{
         console.log(err);
     }
 });
+
 
 module.exports = router;
