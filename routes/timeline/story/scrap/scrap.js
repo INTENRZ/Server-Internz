@@ -11,7 +11,7 @@ router.use('/', au.isLoggedin);
 //router-> [GET]/timeline/{timelineIdx}/story/{storyIdx}/scrap
 router.get('/', async(req, res)=>{
     try{
-        const usreIdx = req.decoded.idx;
+        const userIdx = req.decoded.idx;
         const {storyIdx} = req.params;
         Scrap.readAll({userIdx, storyIdx})
         .then(({code, json})=>{
@@ -29,7 +29,7 @@ router.get('/', async(req, res)=>{
 
 router.post('/', (req, res)=> {
     try{
-        const usreIdx = req.decoded.idx;
+        const userIdx = req.decoded.idx;
         const {storyIdx} = req.params;
         Scrap.create({userIdx, storyIdx})
         .then(({code, json})=>{
@@ -48,7 +48,7 @@ router.post('/', (req, res)=> {
 //router-> [DELETE]/timeline/{timelineIdx}/story/{storyIdx}/scrap/{scrapIdx}
 router.delete('/:scrapIdx', async(req, res)=>{
     try{
-        const usreIdx = req.decoded.idx;
+        const userIdx = req.decoded.idx;
         const {storyIdx} = req.params;
         Scrap.delete({userIdx, storyIdx})
         .then(({code, json})=>{

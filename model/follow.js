@@ -12,7 +12,6 @@ const FOLLOWING = "팔로잉";
 
 module.exports = {
     create: ({userIdx, othersIdx}) => {
-        console.log("DADAD")
         const field = '`following`,`follower`';
         const v = [othersIdx, userIdx];
         const q = `INSERT INTO ${TABLE} (${field}) VALUES (?,?)`;
