@@ -26,12 +26,34 @@ router.get('/', (req, res)=> {
 
 //following -> [POST]/flollowing
 router.post('/:othersIdx', (req, res)=> {
-
+    // const userIdx = req.decoded.idx;
+    const {userIdx} = req.body;
+    const othersIdx = req.params.othersIdx;
+    Follow.create({userIdx, othersIdx})
+    .then(({code, json})=>{
+        res.status(code).send(json);
+    })
+    .catch(err=>{
+        console.log(err);
+        res.status(statusCode.INTERNAL_SERVER_ERROR)
+        .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+    });
 });
 
 //following -> [DELTE]/flollowing
 router.delete('/:othersIdx', (req, res)=> {
-
-});
+    // const userIdx = req.decoded.idx;
+    const {userIdx} = req.body;
+    const othersIdx = req.params.othersIdx;
+    Follow.delete({userIdx, othersIdx})
+    .then(({code, json})=>{
+        res.status(code).send(json);
+    })
+    .catch(err=>{
+        console.log(err);
+        res.status(statusCode.INTERNAL_SERVER_ERROR)
+        .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+    });
+}); 
 
 module.exports = router;

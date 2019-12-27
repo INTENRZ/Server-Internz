@@ -12,11 +12,37 @@ const FOLLOWER = "follower";
 const FOLLOWING = "following";
 
 module.exports = {
-    create: () => {
-
+    create: ({userIdx, othersIdx}) => {
+        const field = '`following`,`follower`';
+        const v = [othersIdx, userIdx];
+        const q = `INSERT INTO ${TABLE}(${field}) VALEUS(?,?)`;
+        const sendData = db.queryParam_Parse(q, v)
+        .then(result => {
+            return {
+                code: statusCode.CREATED,
+                json: util.successTrue(resMessage.X_CREATE_SUCCESS(FOLLOWING), result)
+            }
+        })
+        .catch(err=>{
+            throw err;
+        })
+        return sendData;
     },
-    delete: () => {
-
+    delete: ({userIdx, othersIdx}) => {
+            const field = '`following`,`follower`';
+            const v = [othersIdx, userIdx];
+            const q = `DELETE FROM ${TABLE} WHERE following=? AND follower=?`;
+            const sendData = db.queryParam_Parse(q, v)
+            .then(result => {
+                return {
+                    code: statusCode.CREATED,
+                    json: util.successTrue(resMessage.X_CREATE_SUCCESS(FOLLOWING), result)
+                }
+            })
+            .catch(err=>{
+                throw err;
+            })
+            return sendData;
     },
     followingReadAll: (userIdx) => {
         const followingIdxQuery = `SELECT following FROM ${TABLE} WHERE userIdx = ${userIdx}`;
