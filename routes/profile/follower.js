@@ -7,12 +7,12 @@ const db = require('../../module/pool');
 const authUtils = require('../../module/authUtils');
 const Follow = require('../../model/follow');
 
-// router.use('/', authUtils.isLoggedin);
+router.use('/', authUtils.isLoggedin);
 
 //following -> [GET]/flollower
 router.get('/', (req, res)=> {
-    // const userIdx = req.decoded.idx;
-    const {userIdx} = req.body;
+    const userIdx = req.decoded.idx;
+    // const {userIdx} = req.body;
     Follow.followerReadAll(userIdx)
     .then(({code, json})=>{
         res.status(code).send(json);

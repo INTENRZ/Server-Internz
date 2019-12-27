@@ -48,7 +48,15 @@ router.get('/past', async (req, res) => {
 //router-> [GET]/job/{task}
 router.get('/:task', async (req, res) => {
     try {
-
+        const {task} = req.params;
+        Job.filter({task})
+        .then(({code, json})=>{
+            res.status(code).send(json)
+        })
+        .catch(err =>{
+            res.status(statusCode.INTERNAL_SERVER_ERROR
+                .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR)))
+        })
     } catch (err) {
         console.log(err);
     }
