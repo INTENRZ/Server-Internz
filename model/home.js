@@ -56,18 +56,8 @@ module.exports = {
                 for(j=0; j<getJobLateResult.length; j++){
                     task.push(getJobLateResult[j]);
                 }
-                // resolve({
-                //     code : statusCode.OK,
-                //     json : util.successTrue(resMessage.X_READ_SUCCESS(home))
-                // });
-                // return;
             }
             final.task = task;
-            // resolve({
-            //     code : statusCode.OK,
-            //     json : util.successTrue(resMessage.X_READ_SUCCESS(home))
-            // });
-            // return;
 
             //추천 프로필 -> 유저와 관심직무가 비슷한 프로필을 추천해준다.
             const profile = [];
