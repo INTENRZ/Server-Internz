@@ -19,7 +19,7 @@ module.exports = {
             if(saveCommentResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json: util.successFalse(resMessage.COMMENT_CREATE_FAIL)
+                    json: util.successFalse(statusCode.STORY_COMMENT_CREATE_FAIL, resMessage.COMMENT_CREATE_FAIL)
                 });
                 return;
             }
@@ -29,13 +29,13 @@ module.exports = {
             if(getCommentResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json: util.successFalse(resMessage.COMMENT_READ_FAIL)
+                    json: util.successFalse(statusCode.STORY_COMMENT_CREATE_FAIL, resMessage.COMMENT_READ_FAIL)
                 });
                 return;                
             }
             resolve({
                 code : statusCode.OK,
-                json : util.successTrue(resMessage.COMMENT_READ_SUCCESS, getCommentResult)
+                json : util.successTrue(statusCode.OK, resMessage.COMMENT_READ_SUCCESS, getCommentResult)
             });
             return;
         });
@@ -47,13 +47,13 @@ module.exports = {
             if(getStoryResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json: util.successFalse(resMessage.X_READ_ALL_FAIL(story))
+                    json: util.successFalse(statusCode.STORY_LATEST_SHOW_FAIL, resMessage.X_READ_ALL_FAIL(story))
                 });
                 return;  
             }
             resolve({
                 code : statusCode.OK,
-                json : util.successTrue(resMessage.X_READ_ALL_SUCCESS(story), getStoryResult)
+                json : util.successTrue(statusCode.OK, resMessage.X_READ_ALL_SUCCESS(story), getStoryResult)
             });
             return;
         });
@@ -65,13 +65,13 @@ module.exports = {
             if(getCountSortResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json: util.successFalse(resMessage.STORY_COUNT_READ_FAIL)
+                    json: util.successFalse(statusCode.STORY_COUNT_SHOW_FAIL, resMessage.STORY_COUNT_READ_FAIL)
                 });
                 return;
             }
             resolve({
                 code : statusCode.OK,
-                json : util.successTrue(resMessage.STORY_COUNT_READ_SUCCESS, getCountSortResult)
+                json : util.successTrue(statusCode.OK, resMessage.STORY_COUNT_READ_SUCCESS, getCountSortResult)
             });
             return;
         });
@@ -84,7 +84,7 @@ module.exports = {
             if(updateCountResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json: util.successFalse(resMessage.STORY_READ_FAIL)
+                    json: util.successFalse(statusCode.STORY_CONTENT_SHOW_FAIL, resMessage.STORY_READ_FAIL)
                 });
                 return; 
             }
@@ -93,7 +93,7 @@ module.exports = {
             if(getstoryResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json: util.successFalse(resMessage.STORY_READ_FAIL)
+                    json: util.successFalse(statusCode.STORY_CONTENT_SHOW_FAIL, resMessage.STORY_READ_FAIL)
                 });
                 return; 
             }
@@ -102,7 +102,7 @@ module.exports = {
             if(getUserIdxResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json: util.successFalse(resMessage.STORY_READ_FAIL)
+                    json: util.successFalse(statusCode.STORY_CONTENT_SHOW_FAIL, resMessage.STORY_READ_FAIL)
                 });
                 return;
             }
@@ -111,7 +111,7 @@ module.exports = {
             if(getCommentNumResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json: util.successFalse(resMessage.STORY_COMMENT_COUNT_FAIL)
+                    json: util.successFalse(statusCode.STORY_CONTENT_SHOW_FAIL, resMessage.STORY_COMMENT_COUNT_FAIL)
                 });
                 return;
             }
@@ -120,14 +120,14 @@ module.exports = {
                 getstoryResult[0]['isme'] = 1;
                 resolve({
                     code : statusCode.OK,
-                    json : util.successTrue(resMessage.STORY_READ_SUCCESS, getstoryResult)
+                    json : util.successTrue(statusCode.OK, resMessage.STORY_READ_SUCCESS, getstoryResult)
                 });
                 return;
             }else{
                 getstoryResult[0]['isme'] = 0;
                 resolve({
                     code : statusCode.OK,
-                    json : util.successTrue(resMessage.STORY_READ_SUCCESS, getstoryResult)
+                    json : util.successTrue(statusCode.OK, resMessage.STORY_READ_SUCCESS, getstoryResult)
                 });
                 return;
             }
@@ -141,13 +141,13 @@ module.exports = {
                 console.log("in");
                 resolve({
                     code : statusCode.OK,
-                    json: util.successFalse(resMessage.COMMENT_READ_FAIL)
+                    json: util.successFalse(statusCode.STORY_COMMENT_SHOW_FAIL, resMessage.COMMENT_READ_FAIL)
                 });
                 return;                
             }
             resolve({
                 code : statusCode.OK,
-                json : util.successTrue(resMessage.COMMENT_READ_SUCCESS, getCommentResult)
+                json : util.successTrue(statusCode.OK, resMessage.COMMENT_READ_SUCCESS, getCommentResult)
             });
             return;
         });
@@ -160,13 +160,13 @@ module.exports = {
             if(getStoryAllResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json: util.successFalse(resMessage.STORY_CATEGORY_READ_FAIL)
+                    json: util.successFalse(statusCode.STORY_CATEGORY_SHOW_FAIL, resMessage.STORY_CATEGORY_READ_FAIL)
                 });
                 return;  
             }            
             resolve({
                 code : statusCode.OK,
-                json: util.successTrue(resMessage.STORY_CATEGORY_READ_SUCCESS, getStoryAllResult)
+                json: util.successTrue(statusCode.OK, resMessage.STORY_CATEGORY_READ_SUCCESS, getStoryAllResult)
             });
             return;
         });

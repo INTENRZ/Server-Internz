@@ -16,13 +16,13 @@ module.exports = {
             if(insertCalResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json : util.successFalse(resMessage.X_CREATE_FAIL(calender))
+                    json : util.successFalse(statusCode.CALENDER_ADD_FAIL, resMessage.X_CREATE_FAIL(calender))
                 });
                 return;
             }
             resolve({
                 code : statusCode.OK,
-                json : util.successTrue(resMessage.X_CREATE_SUCCESS(calender))
+                json : util.successTrue(statusCode.OK, resMessage.X_CREATE_SUCCESS(calender))
             })
             return;
         });
@@ -34,13 +34,13 @@ module.exports = {
             if(getHomeResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json: util.successFalse(resMessage.X_READ_ALL_FAIL(calender))
+                    json: util.successFalse(statusCode.CALENDER_SHOW_MONTH_FAIL, resMessage.X_READ_ALL_FAIL(calender))
                 });
                 return;
             }
             resolve({
                 code : statusCode.OK,
-                json : util.successTrue(resMessage.X_READ_ALL_SUCCESS(calender), getHomeResult)
+                json : util.successTrue(statusCode.OK, resMessage.X_READ_ALL_SUCCESS(calender), getHomeResult)
             });
             return;
         });
@@ -52,13 +52,13 @@ module.exports = {
             if(getCalDayResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json: util.successFalse(resMessage.X_READ_FAIL(calender))
+                    json: util.successFalse(statusCode.CALENDER_SHOW_DATE_FAIL, resMessage.X_READ_FAIL(calender))
                 });
                 return;                
             }
             resolve({
                 code : statusCode.OK,
-                json : util.successTrue(resMessage.X_READ_SUCCESS(calender), getCalDayResult)
+                json : util.successTrue(statusCode.OK, resMessage.X_READ_SUCCESS(calender), getCalDayResult)
             });
             return;            
         });
@@ -70,13 +70,13 @@ module.exports = {
             if(deleteCalDayResult.affectedRows == 0){
                 resolve({
                     code : statusCode.OK,
-                    json: util.successFalse(resMessage.X_DELETE_FAIL(calender))
+                    json: util.successFalse(statusCode.CALENDER_REMOVE_FAIL, resMessage.X_DELETE_FAIL(calender))
                 });
                 return;                  
             }
             resolve({
                 code : statusCode.OK,
-                json : util.successTrue(resMessage.X_DELETE_SUCCESS(calender))
+                json : util.successTrue(statusCode.OK, resMessage.X_DELETE_SUCCESS(calender))
             });
             return;                
         });

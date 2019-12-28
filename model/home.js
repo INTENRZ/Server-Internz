@@ -17,7 +17,7 @@ module.exports = {
             if(getUserTaskResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json : util.successFalse(resMessage.X_READ_ALL_FAIL(home))
+                    json : util.successFalse(statusCode.HOME_SHOW_FAIL, resMessage.X_READ_ALL_FAIL(home))
                 });
                 return;
             }
@@ -49,7 +49,7 @@ module.exports = {
                 if(getJobLateResult.length == 0){
                     resolve({
                         code : statusCode.OK,
-                        json : util.successFalse(resMessage.X_READ_FAIL(home))
+                        json : util.successFalse(statusCode.HOME_SHOW_FAIL, resMessage.X_READ_FAIL(home))
                     });
                     return;
                 }
@@ -82,7 +82,7 @@ module.exports = {
                 if(getRandomResult.length == 0){
                     resolve({
                         code : statusCode.OK,
-                        json : util.successFalse(resMessage.X_READ_FAIL(home))
+                        json : util.successFalse(statusCode.HOME_SHOW_FAIL, resMessage.X_READ_FAIL(home))
                     });
                     return;
                 }
@@ -100,7 +100,7 @@ module.exports = {
             if(getStoryResult.length == 0){
                 resolve({
                     code : statusCode.OK,
-                    json : util.successFalse(resMessage.X_READ_FAIL(home))
+                    json : util.successFalse(statusCode.HOME_SHOW_FAIL, resMessage.X_READ_FAIL(home))
                 });
                 return;
             }
