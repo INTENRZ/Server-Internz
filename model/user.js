@@ -132,6 +132,8 @@ module.exports = {
             const query = `UPDATE ${table} SET task_one='${task_one}',task_two='${task_two}',task_three='${task_three}' WHERE userIdx = '${userIdx}' `;
             const result = await db.queryParam_None(query);
             
+            const check = `UPDATE ${table} SET \`check\` = '1' WHERE userIdx = '${userIdx}' `;
+            const checkresult = await db.queryParam_None(check);
 
             if (result.length == 0) {
                 resolve({
@@ -157,7 +159,7 @@ module.exports = {
             const checkQuery = `SELECT userIdx FROM user WHERE userIdx = ?`;
             const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
 
-            
+
             if (checkResult.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
@@ -217,10 +219,10 @@ module.exports = {
                 });
                 return;
             }
-            
-            
+
+
             const user = result[0];
-            
+
             const {
                 hashed
             } = await encrypt.encryptWithSalt(password, user.salt);
@@ -233,25 +235,28 @@ module.exports = {
             }
 
             let token = Auth.sign(user);
-            if(user.check == 0){
-                const field = `check`;
-                const check_f ='1';
-                const check = `UPDATE ${table} SET \`check\` = '1' WHERE email = '${email}' `;
-                const checkresult = await db.queryParam_None(check);
-                token = Object.assign(token, {"isFirst": '0'});
-                
+
+
+
+            if (user.check == 0) {
+
+                token = Object.assign(token, {
+                    "isFirst": '0'
+                });
+
                 resolve({
                     code: statusCode.OK,
                     json: util.successTrue(resMessage.LOGIN_SUCCESS, token)
                 });
-        }
-        else{
-            token = Object.assign(token, {"isnotFirst": '1'});
-            resolve({
-                code: statusCode.OK,
-                json: util.successTrue(resMessage.LOGIN_SUCCESS, token)
-            });
-        }
+            } else {
+                token = Object.assign(token, {
+                    "isnotFirst": '1'
+                });
+                resolve({
+                    code: statusCode.OK,
+                    json: util.successTrue(resMessage.LOGIN_SUCCESS, token)
+                });
+            }
 
         });
 
