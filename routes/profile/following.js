@@ -25,10 +25,11 @@ router.get('/', (req, res)=> {
 });
 
 //following -> [POST]/flollowing
-router.post('/:othersIdx', (req, res)=> {
+router.post('/', (req, res)=> {
     const userIdx = req.decoded.idx;
     // const {userIdx} = req.body;
-    const othersIdx = req.params.othersIdx;
+    // const othersIdx = req.params.othersIdx;
+    const {othersIdx} = req.body;
     Follow.create({userIdx, othersIdx})
     .then(({code, json})=>{
         res.status(code).send(json);
@@ -41,10 +42,11 @@ router.post('/:othersIdx', (req, res)=> {
 });
 
 //following -> [DELTE]/flollowing
-router.delete('/:othersIdx', (req, res)=> {
+router.delete('/', (req, res)=> {
     const userIdx = req.decoded.idx;
     // const {userIdx} = req.body;
-    const othersIdx = req.params.othersIdx;
+    // const othersIdx = req.params.othersIdx;
+    const {othersIdx} = req.body;
     Follow.delete({userIdx, othersIdx})
     .then(({code, json})=>{
         res.status(code).send(json);
