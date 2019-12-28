@@ -7,6 +7,7 @@ const User = require('../../model/user');
 const authUtils = require('../../module/authUtils');
 const multer = require('multer');
 const upload = require('../../config/multer');
+
 router.use('/', authUtils.isLoggedin);
 //router-> [PUT]/user/ability
 router.put('/', upload.single('front_image'), async (req, res) => {
@@ -14,17 +15,17 @@ router.put('/', upload.single('front_image'), async (req, res) => {
 
         const userIdx = req.decoded.idx; //토큰에서 idx가져오기
 
-        
+
 
         const {
             introduce
         } = req.body;
-       
+
 
         if (req.file == undefined) {
             if (!introduce) {
                 res.status(statusCode.OK)
-                    .send(util.successFalse(resMessage.NULL_VALUE));
+                    .send(util.successFalse(resMessage.X_CREATE_FAIL("한 줄 소개")));
 
                 return;
             }

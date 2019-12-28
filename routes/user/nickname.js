@@ -11,9 +11,6 @@ router.get('/', async(req, res)=>{
     try{
         const userIdx = req.decoded.idx;     //토큰에서 idx가져오기
         
-        console.log(userIdx);   
-        
-     
         User.nickname({userIdx})
         .then(({code, json})=> res.status(code).send(json))
         .catch(err=>{

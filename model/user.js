@@ -27,7 +27,6 @@ module.exports = {
             const checkEmailQuery = `SELECT email FROM user WHERE email = ?`;
             const checkEmailResult = await db.queryParam_Parse(checkEmailQuery, [email]);
 
-            console.log(checkEmailResult)
             if (checkEmailResult.length != 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
@@ -132,7 +131,7 @@ module.exports = {
             const values = [userIdx, task_one, task_two, task_three];
             const query = `UPDATE ${table} SET task_one='${task_one}',task_two='${task_two}',task_three='${task_three}' WHERE userIdx = '${userIdx}' `;
             const result = await db.queryParam_None(query);
-            console.log(result);
+            
 
             if (result.length == 0) {
                 resolve({

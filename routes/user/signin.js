@@ -4,7 +4,7 @@ const util = require('../../module/utils');
 const statusCode = require('../../module/statusCode');
 const resMessage = require('../../module/responseMessage');
 const User = require('../../model/user');
-const crypto  = require('crypto');
+
 //router-> [POST]/user/signin
 router.post('/', async(req, res)=>{
     try{
