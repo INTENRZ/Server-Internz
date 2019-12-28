@@ -33,7 +33,7 @@ module.exports = {
         })
     },
     filter: ({task}) => {
-        const pickTaskQuery = `SELECT * FROM job WHERE task1 = task OR task2 = task OR task3 = task`;
+        const pickTaskQuery = `SELECT * FROM job WHERE task1 = '${task}' OR task2 = '${task}' OR task3 = '${task}'`;
         const sendData = db.queryParam_None(pickTaskQuery)
         .then( async (result) => {
             if(result.legnth === 0){
