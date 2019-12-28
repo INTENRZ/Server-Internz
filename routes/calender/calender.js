@@ -41,16 +41,18 @@ router.post('/:jobIdx', authUtil.isLoggedin, async(req, res)=>{
     }
 });
 
-//router-> [DELETE]/calender/{calenderIdx}
+//router-> [DELETE]/calender/{calenderIdx}/{month}
 router.delete('/:calenderIdx/:month', authUtil.isLoggedin, async(req, res)=>{
     try{
         const user = req.decoded.idx;
         const cal = req.params.calenderIdx;
         const time = req.params.month;
-        calender.delete(cal, user)
+        calender.delete(cal, user, time)
         .then(({code, json}) => {
-            // res.status(code).send(json);
-            // res.redirect('/calender/home/'+time);
+            if(json['success'] == false){
+                res.status(code).send(json);
+                return;
+            }
             calender.readAll(user, time)
             .then(({code, json}) => {
                 res.status(code).send(json);
