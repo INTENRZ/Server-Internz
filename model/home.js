@@ -38,13 +38,13 @@ module.exports = {
             const a = getUserTaskResult[0]['task_one'];
             const b = getUserTaskResult[0]['task_two'];
             const c = getUserTaskResult[0]['task_three'];
-            const getJobOneQuery = 'SELECT company, team, d_day, url FROM job WHERE task1 IN (?,?,?) OR task2 IN (?,?,?) OR task3 IN (?,?,?) limit 3'
+            const getJobOneQuery = 'SELECT logo, company, team, d_day, url FROM job WHERE task1 IN (?,?,?) OR task2 IN (?,?,?) OR task3 IN (?,?,?) limit 3'
             const getJobOneResult = await db.queryParam_Parse(getJobOneQuery, [a,b,c,a,b,c,a,b,c]);
             for(i=0; i<getJobOneResult.length; i++){
                 task.push(getJobOneResult[i]);
             }
             if(getJobOneResult.length < 3){//없으면 그냥 가장 최신 공고 3개
-                const getJobLateQuery = 'SELECT company, team, d_day, url FROM job ORDER BY start_date DESC limit ?';
+                const getJobLateQuery = 'SELECT logo, company, team, d_day, url FROM job ORDER BY start_date DESC limit ?';
                 const getJobLateResult = await db.queryParam_Parse(getJobLateQuery, (3-getJobOneResult.length));
                 if(getJobLateResult.length == 0){
                     resolve({
