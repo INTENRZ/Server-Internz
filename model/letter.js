@@ -2,7 +2,6 @@ const util = require('../module/utils');
 const statusCode = require('../module/statusCode');
 const resMessage = require('../module/responseMessage');
 const db = require('../module/poolAsync');
-const dbsync = require('../module/pool');
 const moment = require('moment');
 
 //letter->readAll(쪽지를 나눈 사람들 조회), read(특정 사람과의 쪽지 목록 조회), delete(쪽지 삭제), create(쪽지 보내기)
@@ -31,12 +30,12 @@ module.exports = {
             other = other.filter(it=>it!==userIdx);
             // 쪽지를 나눈 사람들의 idx가 잠긴 배열 
             const pickLetterUserQuery = `SELECT userIdx ,nickname FROM user WHERE userIdx IN (${other})`;
-            const userArray = await dbsync.queryParam_None(pickLetterUserQuery);
+            const userArray = await db.queryParam_None(pickLetterUserQuery);
             // 각 상대방 마다 최신 쪽지 파악
             const recentMsgArray = [];
             for(var i in other){
                 const recMsgQ = `SELECT content FROM ${TABLE} WHERE receiver = ${other[i]} OR sender = ${other[i]} ORDER BY created_date DESC LIMIT 1`
-                const recMsgResult = await dbsync.queryParam_None(recMsgQ);
+                const recMsgResult = await db.queryParam_None(recMsgQ);
                 recentMsgArray.push(recMsgResult[0]);
             }
             // userArray와 recentMsgArray 오브젝트 끼리 합치기

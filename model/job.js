@@ -1,7 +1,6 @@
 const util = require('../module/utils');
 const statusCode = require('../module/statusCode');
 const resMessage = require('../module/responseMessage');
-const dbsync = require('../module/pool');
 const db = require('../module/poolAsync');
 
 //job->readAll(공고 전체 불러오기), read(지난 공고 불러오기), filter(직무 1개 선택하면 나의 관심직무와 일치하면 필터)
@@ -11,7 +10,7 @@ module.exports = {
     readAll: () => {
         return new Promise(async (resolve, reject) => {
             const jobAllquery = `SELECT * FROM job `;
-            const jobAllResult = await dbsync.queryParam_None(jobAllquery);
+            const jobAllResult = await db.queryParam_None(jobAllquery);
 
             resolve({
                 code: statusCode.OK,
@@ -23,7 +22,7 @@ module.exports = {
     read: () => {
         return new Promise(async(resolve, reject) =>{
             const jobqeury = `SELECT * FROM job WHERE ispast = '1'`;
-            const jobresult = await dbsync.queryParam_None(jobqeury);
+            const jobresult = await db.queryParam_None(jobqeury);
 
             resolve({
                 code: statusCode.OK,
@@ -35,7 +34,7 @@ module.exports = {
     filter: ({task}) => {
         const pickTaskQuery = `SELECT * FROM job WHERE task1 = '${task}' OR task2 = '${task}' OR task3 = '${task}'`;
         const sendData = db.queryParam_None(pickTaskQuery)
-        .then( async (result) => {
+        .then((result) => {
             if(result.legnth === 0){
                 return {
                     code: statusCode.OK,
