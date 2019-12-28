@@ -63,10 +63,10 @@ module.exports = {
             return;            
         });
     },
-    delete:(calenderIdx, userIdx) => {
+    delete:(calenderIdx, userIdx, time) => {
         return new Promise(async(resolve, reject) => {
-            const deleteCalDayQuery = 'DELETE FROM calender WHERE calenderIdx = ? AND userIdx = ?';
-            const deleteCalDayResult = await db.queryParam_Parse(deleteCalDayQuery, [calenderIdx, userIdx]);
+            const deleteCalDayQuery = 'DELETE FROM a USING calender a JOIN job b ON a.jobIdx = b.jobIdx WHERE a.calenderIdx = ? AND a.userIdx = ? AND b.end_date LIKE ?';
+            const deleteCalDayResult = await db.queryParam_Parse(deleteCalDayQuery, [calenderIdx, userIdx, time+'%']);
             if(deleteCalDayResult.affectedRows == 0){
                 resolve({
                     code : statusCode.OK,
