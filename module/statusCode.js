@@ -43,6 +43,5 @@ module.exports = {
     CALENDER_SHOW_MONTH_FAIL : 381,
     CALENDER_REMOVE_FAIL : 383,
     CALENDER_ADD_FAIL : 384,
-
-
+    USER_NOT_MATCH: 800,
 };
