@@ -5,7 +5,7 @@ const dbsync = require('../module/pool');
 const db = require('../module/poolAsync');
 
 //job->readAll(공고 전체 불러오기), read(지난 공고 불러오기), filter(직무 1개 선택하면 나의 관심직무와 일치하면 필터)
-
+//로고 추가. statusCode추가 model뿐만 아니니라 router 에도 넣어주기.
 module.exports = {
 
     readAll: () => {

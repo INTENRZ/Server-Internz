@@ -30,7 +30,7 @@ module.exports = {
             if (checkEmailResult.length != 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.NO_X(email_c))
+                    json: util.successFalse(statusCode.USER_ALREADY_EXIST_EMAIL, resMessage.NO_X(email_c))
                 });
                 return;
             }
@@ -49,14 +49,14 @@ module.exports = {
             if (!result || result.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.SIGNUP_FAIL)
+                    json: util.successFalse(statusCode.MORE_VALUE_NEED,resMessage.SIGNUP_FAIL)
                 });
                 return;
             }
 
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.SIGNUP_SUCCESS, find)
+                json: util.successTrue(statusCode.OK, resMessage.SIGNUP_SUCCESS, find)
             })
         });
 
@@ -77,7 +77,7 @@ module.exports = {
             if (checkNickResult.length != 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.NO_X(nick))
+                    json: util.successFalse(statusCode.USER_ALREADY_EXIST_NICK, resMessage.NO_X(nick))
                 });
                 return;
             }
@@ -93,14 +93,14 @@ module.exports = {
             if (!result || result.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.SIGNUP_FAIL)
+                    json: util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.SIGNUP_FAIL)
                 });
                 return;
             }
 
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.SIGNUP_SUCCESS)
+                json: util.successTrue(statusCode.OK, resMessage.SIGNUP_SUCCESS)
             })
         });
 
@@ -121,7 +121,7 @@ module.exports = {
             if (checkResult.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.NO_USER)
+                    json: util.successFalse(statusCode.USER_NOT_EXIST_USER, resMessage.NO_USER)
                 });
                 return;
             }
@@ -131,21 +131,21 @@ module.exports = {
             const values = [userIdx, task_one, task_two, task_three];
             const query = `UPDATE ${table} SET task_one='${task_one}',task_two='${task_two}',task_three='${task_three}' WHERE userIdx = '${userIdx}' `;
             const result = await db.queryParam_None(query);
-            
+
             const check = `UPDATE ${table} SET \`check\` = '1' WHERE userIdx = '${userIdx}' `;
             const checkresult = await db.queryParam_None(check);
 
             if (result.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.X_CREATE_FAIL(task))
+                    json: util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.X_CREATE_FAIL(task))
                 });
                 return;
             }
 
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_CREATE_SUCCESS(task))
+                json: util.successTrue(statusCode.OK, resMessage.X_CREATE_SUCCESS(task))
             })
         });
     },
@@ -163,7 +163,7 @@ module.exports = {
             if (checkResult.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.NO_USER)
+                    json: util.successFalse(statusCode.USER_NOT_EXIST_USER, resMessage.NO_USER)
                 });
                 return;
             }
@@ -176,7 +176,7 @@ module.exports = {
             console.log(result);
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_CREATE_SUCCESS("한 줄 소개"))
+                json: util.successTrue(statusCode.OK, resMessage.X_CREATE_SUCCESS("한 줄 소개"))
             })
         });
     },
@@ -191,14 +191,14 @@ module.exports = {
             if (checkResult.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.NO_USER)
+                    json: util.successFalse(statusCode.USER_NOT_EXIST_USER,resMessage.NO_USER)
                 });
                 return;
             }
             const result = checkResult[0].nickname;
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_READ_SUCCESS("닉네임"), result)
+                json: util.successTrue(statusCode.OK, resMessage.X_READ_SUCCESS("닉네임"), result)
             })
         });
     },
@@ -215,7 +215,7 @@ module.exports = {
             if (result.length == 0) {
                 resolve({
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.NO_USER)
+                    json: util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.NO_USER)
                 });
                 return;
             }
@@ -229,7 +229,7 @@ module.exports = {
             if (user.password != hashed) {
                 resolve({
                     code: statusCode.OK,
-                    json: util.successTrue(resMessage.MISS_MATCH_PW)
+                    json: util.successTrue(statusCode.USER_NOT_SAME_PW,resMessage.MISS_MATCH_PW)
                 });
                 return;
             }
@@ -246,7 +246,7 @@ module.exports = {
 
                 resolve({
                     code: statusCode.OK,
-                    json: util.successTrue(resMessage.LOGIN_SUCCESS, token)
+                    json: util.successTrue(statusCode.OK, resMessage.LOGIN_SUCCESS, token)
                 });
             } else {
                 token = Object.assign(token, {
@@ -254,7 +254,7 @@ module.exports = {
                 });
                 resolve({
                     code: statusCode.OK,
-                    json: util.successTrue(resMessage.LOGIN_SUCCESS, token)
+                    json: util.successTrue(statusCode.OK, resMessage.LOGIN_SUCCESS, token)
                 });
             }
 
