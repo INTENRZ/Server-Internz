@@ -75,7 +75,7 @@ module.exports = {
                 const result = checkResult.concat(timeResult, followerResult, followingResult, {"isme": '0'}, isFollow);
                 resolve({
                     code: statusCode.OK,
-                    json: util.successTrue(statusCode.OK, resMessage.X_READ_ALL_SUCCESS("프로필"),result)
+                    json: util.successTrue(statusCode.OK, resMessage.X_READ_ALL_SUCCESS("프로필"), result)
                 })
             }
             
