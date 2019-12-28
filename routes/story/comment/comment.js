@@ -12,6 +12,10 @@ router.post('/', authUtil.isLoggedin, async(req, res)=>{
         const storyIdx = req.params.storyIdx;
         const content = req.body.content;
         const user = req.decoded.idx;
+        if(!content){
+            res.status(statusCode.OK).send(util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.NULL_VALUE));
+            return;
+        }
         story.comment_create(user, storyIdx, content)
         .then(({code, json}) => {
             res.status(code).send(json);
