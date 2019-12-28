@@ -19,7 +19,7 @@ router.put('/', async(req, res)=>{
 
         if(!task_one || !task_two || !task_three){
             res.status(statusCode.OK)
-            .send(util.successFalse(resMessage.NULL_VALUE));
+            .send(util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.NULL_VALUE));
 
             return ;
         }
@@ -28,7 +28,7 @@ router.put('/', async(req, res)=>{
         .catch(err=>{
             console.log(err);
             res.status(statusCode.INTERNAL_SERVER_ERROR,
-                util.successFalse(resMessage.INTERNAL_SERVER_ERROR))
+                util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR))
         });
     }catch(err){
         console.log(err);
