@@ -110,7 +110,7 @@ module.exports = {
             final.story = story;
             resolve({
                 code : statusCode.OK,
-                json : util.successTrue(resMessage.X_READ_ALL_SUCCESS(home), final)
+                json : util.successTrue(statusCode.OK, resMessage.X_READ_ALL_SUCCESS(home), final)
             });
             return;
         });
