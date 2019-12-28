@@ -3,14 +3,15 @@ var router = express.Router({mergeParams: true});
 const util = require('../../../module/utils');
 const statusCode = require('../../../module/statusCode');
 const resMessage = require('../../../module/responseMessage');
+const authUtil = require("../../module/authUtils");
 const story = require('../../../model/story');
 
 //router-> [POST]/story/{storyIdx}/comment
-router.post('/', async(req, res)=>{
+router.post('/', authUtil.isLoggedin, async(req, res)=>{
     try{
         const storyIdx = req.params.storyIdx;
         const content = req.body.content;
-        const user = req.body.userIdx;
+        const user = req.decoded.idx;
         story.comment_create(user, storyIdx, content)
         .then(({code, json}) => {
             res.status(code).send(json);
@@ -24,7 +25,7 @@ router.post('/', async(req, res)=>{
 });
 
 //router-> [GET]/story/{storyIdx}/comment
-router.get('/', async(req, res)=>{
+router.get('/', authUtil.isLoggedin, async(req, res)=>{
     try{
         const storyIdx = req.params.storyIdx;
         story.comment_read(storyIdx)

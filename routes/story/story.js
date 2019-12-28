@@ -3,13 +3,14 @@ var router = express.Router();
 const util = require('../../module/utils');
 const statusCode = require('../../module/statusCode');
 const resMessage = require('../../module/responseMessage');
+const authUtil = require("../../module/authUtils");
 const story = require('../../model/story');
 
 //router-> [GET]/story/{storyIdx}
-router.get('/:storyIdx', async(req, res)=>{
+router.get('/:storyIdx', authUtil.isLoggedin, async(req, res)=>{
     try{
         const storyIdx = req.params.storyIdx;
-        const user = req.body.userIdx;
+        const user = req.decoded.idx;
         story.story_content_read(user, storyIdx)
         .then(({code, json}) => {
             res.status(code).send(json);
@@ -25,7 +26,6 @@ router.get('/:storyIdx', async(req, res)=>{
 //router-> [POST]/story/category
 router.post('/category', async(req, res)=>{
     try{
-        console.log("in");
         const Category = req.body.category;
         console.log(Category);
         story.story_category(Category)
