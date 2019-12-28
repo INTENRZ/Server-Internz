@@ -35,7 +35,7 @@ module.exports = {
             // 각 상대방 마다 최신 쪽지 파악
             const recentMsgArray = [];
             for(var i in other){
-                const recMsgQ = `SELECT content FROM ${TABLE} WHERE receiver = ${other[i]} OR sender = ${other[i]} ORDER BY created_date LIMIT 1`
+                const recMsgQ = `SELECT content FROM ${TABLE} WHERE receiver = ${other[i]} OR sender = ${other[i]} ORDER BY created_date DESC LIMIT 1`
                 const recMsgResult = await dbsync.queryParam_None(recMsgQ);
                 recentMsgArray.push(recMsgResult[0]);
             }

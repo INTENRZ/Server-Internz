@@ -9,7 +9,7 @@ const au = require('../../module/authUtils');
 router.use('/', au.isLoggedin);
 
 //router-> [GET]/letter/others
-router.get('/', async(req, res)=>{
+router.get('/list', async(req, res)=>{
     try{
         const userIdx = req.decoded.idx;
         // const {userIdx} = req.body;
@@ -53,7 +53,7 @@ router.post('/', async(req, res)=>{
 
 
 //router-> [GET]/letter/others
-router.get('/list', async(req, res)=>{
+router.get('/', async(req, res)=>{
     try{
         const sender = req.decoded.idx;
         // const receiver = req.params.othersIdx;

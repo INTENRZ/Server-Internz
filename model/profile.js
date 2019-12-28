@@ -38,7 +38,6 @@ module.exports = {
     // ----------------------------- 현이 코드 -----------------------------
     mypage:({userIdx, loginIdx}) => {
         return new Promise(async(resolve, reject)=>{
-
             // 유저에 해당하는 열 추출, 해당 유저의 타임라인 추출
             const checkQuery = `SELECT userIdx,nickname, task_one, task_two, task_three,front_image, back_image,introduce FROM user WHERE userIdx =?`;
             const timeQuery = `SELECT * FROM timeline WHERE userIdx=?`;
@@ -58,22 +57,28 @@ module.exports = {
             const followerResult = await db.queryParam_None(followerNumberQuery);
             const followingResult = await db.queryParam_None(followingNumberQuery);
             // 마이 페이지인지 타인의 페이지인지 구별
-            if(userIdx === loginIdx) {
+            if(userIdx == loginIdx) {
                 const result = checkResult.concat(timeResult, followerResult, followingResult, {"isme":'1'});
+                resolve({
+                    code: statusCode.OK,
+                    json: util.successTrue(resMessage.X_READ_ALL_SUCCESS("프로필"),result)
+                });
+                return;
             } else {
-                const isFollowQuery = `SELECT FROM follow WHERE following = ?, follower = ?`
-                const isFollowResult = await db.queryParam_Parse(isFollowq, [userIdx, loginIdx]);
+                const isFollowQuery = `SELECT * FROM follow WHERE following = ? AND follower = ?`
+                const isFollowResult = await db.queryParam_Parse(isFollowQuery, [userIdx, loginIdx]);
                 if (isFollowResult.length === 0){
-                    const isFollow = {"isfollow": '0'}
+                    var isFollow = {"isfollow": '0'}
                 } else {
-                    const isFollow = {"isfollow": '1'}
+                    var isFollow = {"isfollow": '1'}
                 }
                 const result = checkResult.concat(timeResult, followerResult, followingResult, {"isme": '0'}, isFollow);
+                resolve({
+                    code: statusCode.OK,
+                    json: util.successTrue(resMessage.X_READ_ALL_SUCCESS("프로필"),result)
+                })
             }
-            resolve({
-                code: statusCode.OK,
-                json: util.successTrue(resMessage.X_READ_ALL_SUCCESS("프로필"),result)
-            })
+            
         });
     },
     // ----------------------------------------------------------------------
