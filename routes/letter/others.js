@@ -28,12 +28,11 @@ router.get('/', async(req, res)=>{
 });
 
 //router-> [POST]/letter/others
-router.post('/:othersIdx', async(req, res)=>{
+router.post('/', async(req, res)=>{
     try{
         const sender = req.decoded.idx;
-        const receiver = req.params.othersIdx;
-        const {content} = req.body;
-        console.log(req.body)
+        // const receiver = req.params.othersIdx;
+        const {receiver , content} = req.body;
         if(!content){
             res.status(statusCode.OK)
             .send(util.successFalse(resMessage.NULL_VALUE));
@@ -54,10 +53,11 @@ router.post('/:othersIdx', async(req, res)=>{
 
 
 //router-> [GET]/letter/others
-router.get('/:othersIdx', async(req, res)=>{
+router.get('/list', async(req, res)=>{
     try{
         const sender = req.decoded.idx;
-        const receiver = req.params.othersIdx;
+        // const receiver = req.params.othersIdx;
+        const {receiver} = req.body;
         // const {sender} = req.body;
         Letter.read({receiver, sender})
         .then(({code, json})=>{
@@ -74,10 +74,11 @@ router.get('/:othersIdx', async(req, res)=>{
 });
 
 //router-> [DELETE]/letter/others
-router.delete('/:othersIdx', async(req, res)=>{
+router.delete('/', async(req, res)=>{
     try{
         const sender = req.decoded.idx;
-        const receiver = req.params.othersIdx;
+        // const receiver = req.params.othersIdx;
+        const {receiver} = req.body;
         // const {sender} = req.body;
         Letter.delete({receiver, sender})
         .then(({code, json})=>{
