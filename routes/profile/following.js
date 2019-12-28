@@ -20,7 +20,7 @@ router.get('/', (req, res)=> {
     .catch(err=>{
         console.log(err);
         res.status(statusCode.INTERNAL_SERVER_ERROR)
-        .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+        .send(util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR));
     })
 });
 
@@ -37,7 +37,7 @@ router.post('/', (req, res)=> {
     .catch(err=>{
         console.log(err);
         res.status(statusCode.INTERNAL_SERVER_ERROR)
-        .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+        .send(util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR));
     });
 });
 
@@ -54,7 +54,7 @@ router.delete('/', (req, res)=> {
     .catch(err=>{
         console.log(err);
         res.status(statusCode.INTERNAL_SERVER_ERROR)
-        .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR));
+        .send(util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR));
     });
 }); 
 

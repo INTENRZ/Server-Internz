@@ -56,7 +56,6 @@ module.exports = { // 두 개의 메소드 module화
         try {
             var connection = await pool.getConnection();
             await connection.beginTransaction();
-
             await args[0](connection, ...args);
             await connection.commit();
         } catch (err) {
