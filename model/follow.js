@@ -19,7 +19,7 @@ module.exports = {
         .then(result => {
             return {
                 code: statusCode.CREATED,
-                json: util.successTrue(resMessage.X_CREATE_SUCCESS(FOLLOWING), result)
+                json: util.successTrue(statusCode.CREATED,resMessage.X_CREATE_SUCCESS(FOLLOWING), result)
             }
         })
         .catch(err=>{
@@ -35,7 +35,7 @@ module.exports = {
             .then(result => {
                 return {
                     code: statusCode.CREATED,
-                    json: util.successTrue(resMessage.X_DELETE_SUCCESS(FOLLOWING), result)
+                    json: util.successTrue(statusCode.CREATED,resMessage.X_DELETE_SUCCESS(FOLLOWING), result)
                 }
             })
             .catch(err=>{
@@ -51,12 +51,12 @@ module.exports = {
             if(followingList.length === 0){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.X_EMPTY(FOLLOWING))
+                    json: util.successFalse(statusCode.PROFILE_FOLLOW_NOT_EXIST_FOLLOW,resMessage.X_EMPTY(FOLLOWING))
                 }
             }
             return {
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_READ_ALL_SUCCESS(FOLLOWING), followingList)
+                json: util.successTrue(statusCode.OK, resMessage.X_READ_ALL_SUCCESS(FOLLOWING), followingList)
             }
         })
         .catch(err => {
@@ -72,12 +72,12 @@ module.exports = {
             if(followerList.length === 0){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.X_EMPTY(FOLLOWER))
+                    json: util.successFalse(statusCode.PROFILE_FOLLOW_NOT_EXIST_FOLLOWER,resMessage.X_EMPTY(FOLLOWER))
                 }
             }
             return {
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_READ_ALL_SUCCESS(FOLLOWER), followerList)
+                json: util.successTrue(statusCode.OK,resMessage.X_READ_ALL_SUCCESS(FOLLOWER), followerList)
             }
         })
         .catch(err => {

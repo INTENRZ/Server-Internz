@@ -22,12 +22,12 @@ module.exports = {
             if(result.length === 0){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.X_EMPTY(NAME))
+                    json: util.successFalse(statusCode.TIMELINE_NOT_EXIST_TIMELINE,resMessage.X_EMPTY(NAME))
                 }
             }
             return {
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_READ_SUCCESS(NAME), result)
+                json: util.successTrue(statusCode.OK, resMessage.X_READ_SUCCESS(NAME), result)
             }
         })
         .catch(err => {
@@ -46,7 +46,7 @@ module.exports = {
         .then(result => {
             return {
                 code: statusCode.CREATED,
-                json: util.successTrue(resMessage.X_CREATE_SUCCESS(NAME), result)
+                json: util.successTrue(statusCode.CREATED, resMessage.X_CREATE_SUCCESS(NAME), result)
             }
         })
         .catch(err=>{
@@ -61,13 +61,13 @@ module.exports = {
             if(result.length === 0){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.X_EMPTY(NAME))
+                    json: util.successFalse(statusCode.TIMELINE_NOT_EXIST_TIMELINE, resMessage.X_EMPTY(NAME))
                 }
             }
             if(result[0].userIdx !== userIdx){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.NOT_MATCH)
+                    json: util.successFalse(statusCode.USER_NOT_MATCH,resMessage.NOT_MATCH)
                 }
             }
             const v = [title, start_date, end_date, category];
@@ -76,7 +76,7 @@ module.exports = {
             .then(result => {
                 return {
                     code: statusCode.OK,
-                    json: util.successTrue(resMessage.X_UPDATE_SUCCESS(NAME), result)
+                    json: util.successTrue(statusCode.OK, resMessage.X_UPDATE_SUCCESS(NAME), result)
                 }
             });
             return updateData;
@@ -93,13 +93,13 @@ module.exports = {
             if(result.length === 0){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.X_EMPTY(NAME))
+                    json: util.successFalse(statusCode.TIMELINE_NOT_EXIST_TIMELINE ,resMessage.X_EMPTY(NAME))
                 }
             }
             if(result[0].userIdx !== userIdx){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.NOT_MATCH)
+                    json: util.successFalse(statusCode.USER_NOT_MATCH, resMessage.NOT_MATCH)
                 }
             }
             const deleteq = `DELETE FROM ${TABLE} WHERE timelineIdx=${timelineIdx}`;
@@ -107,7 +107,7 @@ module.exports = {
             .then(result => {
                 return {
                     code: statusCode.OK,
-                    json: util.successTrue(resMessage.X_DELETE_SUCCESS(NAME), result)
+                    json: util.successTrue(statusCode.OK, resMessage.X_DELETE_SUCCESS(NAME), result)
                 }
             })
             return deleteData;
@@ -124,20 +124,20 @@ module.exports = {
             if(result.length === 0){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.X_EMPTY(SNAME))
+                    json: util.successFalse(statusCode.TIMELINE_NOT_EXIST_STORY,resMessage.X_EMPTY(SNAME))
                 }
             }
             if(result[0].userIdx !== userIdx){
                 result = result.concat([{"isme": "0"}]);
                 return {
                     code: statusCode.OK,
-                    json: util.successTrue(resMessage.X_READ_SUCCESS(SNAME), result)
+                    json: util.successTrue(statusCode.USER_NOT_MATCH ,resMessage.X_READ_SUCCESS(SNAME), result)
                 }
             }
             result = result.concat([{"isme": "1"}]);
             return {
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_READ_SUCCESS(SNAME), result)
+                json: util.successTrue(statusCode.OK,resMessage.X_READ_SUCCESS(SNAME), result)
             }
         })
         .catch(err => {
@@ -155,7 +155,7 @@ module.exports = {
             .then(result=> {
                 return {
                     code: statusCode.CREATED,
-                    json: util.successTrue(resMessage.X_CREATE_SUCCESS(SNAME), result)
+                    json: util.successTrue(statusCode.CREATED, resMessage.X_CREATE_SUCCESS(SNAME), result)
                 }
             })
             .catch(err=>{
@@ -170,13 +170,13 @@ module.exports = {
             if(result.length === 0){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.X_EMPTY(SNAME))
+                    json: util.successFalse(statusCode.TIMELINE_NOT_EXIST_STORY, resMessage.X_EMPTY(SNAME))
                 }
             }
             if(result[0].userIdx !== userIdx){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.NOT_MATCH)
+                    json: util.successFalse(statusCode.USER_NOT_MATCH, resMessage.NOT_MATCH)
                 }
             }
             const updated_date = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -186,7 +186,7 @@ module.exports = {
             .then(result=> {
                 return {
                     code: statusCode.OK,
-                    json: util.successTrue(resMessage.X_UPDATE_SUCCESS(SNAME), result)
+                    json: util.successTrue(statusCode.OK,resMessage.X_UPDATE_SUCCESS(SNAME), result)
                 }
             });
             return updateData;
@@ -203,13 +203,13 @@ module.exports = {
             if(result.length === 0){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.NO_X(SNAME))
+                    json: util.successFalse(statusCode.TIMELINE_NOT_EXIST_STORY, resMessage.NO_X(SNAME))
                 }
             }
             if(result[0].userIdx !== userIdx){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.NOT_MATCH)
+                    json: util.successFalse(statusCode.USER_NOT_MATCH,resMessage.NOT_MATCH)
                 }
             }
             const deleteq = `DELETE FROM ${STABLE} WHERE storyIdx=${storyIdx}`;
@@ -217,7 +217,7 @@ module.exports = {
             .then(result=> {
                 return {
                     code: statusCode.OK,
-                    json: util.successTrue(resMessage.X_DELETE_SUCCESS(SNAME), result)
+                    json: util.successTrue(statusCode.OK, resMessage.X_DELETE_SUCCESS(SNAME), result)
                 }
             });
             return deleteData;

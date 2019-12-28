@@ -15,7 +15,7 @@ module.exports = {
 
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_READ_ALL_SUCCESS("공고"), jobAllResult)
+                json: util.successTrue(statusCode.OK, resMessage.X_READ_ALL_SUCCESS("공고"), jobAllResult)
             })
         })
     },
@@ -27,7 +27,7 @@ module.exports = {
 
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_READ_ALL_SUCCESS("지난 공고"),jobresult)
+                json: util.successTrue(statusCode.OK, resMessage.X_READ_ALL_SUCCESS("지난 공고"),jobresult)
             })
 
         })
@@ -39,12 +39,12 @@ module.exports = {
             if(result.legnth === 0){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse("필터와 일치하는 공고가 없습니다.")
+                    json: util.successFalse(statusCode.JOB_FILTER_FAIL, "필터와 일치하는 공고가 없습니다.")
                 }
             }
             return {
                 code: statusCode.OK,
-                json: util.successTrue(`${task} 필터 조회 성공`, result)
+                json: util.successTrue(statusCode.OK,`${task} 필터 조회 성공`, result)
             }
         })
         .catch(err => {

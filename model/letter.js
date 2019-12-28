@@ -43,7 +43,7 @@ module.exports = {
             const letterUserList = userArray.map((it, idx) => Object.assign(it, recentMsgArray[idx]));
             return {
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_READ_ALL_SUCCESS(NAME), letterUserList)
+                json: util.successTrue(statusCode.OK,resMessage.X_READ_ALL_SUCCESS(NAME), letterUserList)
             }
         })
         .catch(err=>{
@@ -59,12 +59,12 @@ module.exports = {
             if(result.length === 0){
                 return {
                     code: statusCode.OK,
-                    json: util.successFalse(resMessage.X_EMPTY(NAME))
+                    json: util.successFalse(statusCode.LETTER_NOT_EXIST_LETTER, resMessage.X_EMPTY(NAME))
                 }
             }
             return {
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_READ_SUCCESS(NAME), result)
+                json: util.successTrue(statusCode.OK,resMessage.X_READ_SUCCESS(NAME), result)
             }
         })
         .catch(err=>{
@@ -79,7 +79,7 @@ module.exports = {
         .then(result =>{
             return {
                 code: statusCode.OK,
-                json: util.successTrue(resMessage.X_DELETE_SUCCESS(NAME), result)
+                json: util.successTrue(statusCode,OK, resMessage.X_DELETE_SUCCESS(NAME), result)
             }
         })
         .catch(err=> {
@@ -95,7 +95,7 @@ module.exports = {
         .then(result => {
             return {
                 code: statusCode.CREATED,
-                json: util.successTrue(resMessage.X_CREATE_SUCCESS(NAME), result)
+                json: util.successTrue(statusCode.CREATED, resMessage.X_CREATE_SUCCESS(NAME), result)
             }
         })
         .catch(err=>{
