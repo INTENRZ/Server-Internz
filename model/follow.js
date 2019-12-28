@@ -2,7 +2,6 @@ const util = require('../module/utils');
 const statusCode = require('../module/statusCode');
 const resMessage = require('../module/responseMessage');
 const db = require('../module/poolAsync');
-const dbsync = require('../module/pool');
 
 //scrap-> create(팔로우), delete(팔로우 취소)
 
