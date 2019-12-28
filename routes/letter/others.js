@@ -35,7 +35,8 @@ router.post('/', async(req, res)=>{
         const {receiver , content} = req.body;
         if(!content){
             res.status(statusCode.OK)
-            .send(util.successFalse(resMessage.NULL_VALUE));
+            .send(util.successFalse(statusCode.NULL_VALUE,resMessage.NULL_VALUE));
+            return;
         }
         Letter.create({receiver, sender, content})
         .then(({code, json})=>{

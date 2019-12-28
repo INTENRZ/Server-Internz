@@ -35,7 +35,8 @@ router.post('/', async(req, res)=>{
         console.log(req.body)
         if(!title || !start_date || !category){
             res.status(statusCode.OK)
-            .send(util.successFalse(resMessage.NULL_VALUE));
+            .send(util.successFalse(statusCode.NULL_VALUE,resMessage.NULL_VALUE));
+            return;
         }
         Timeline.create({userIdx, title, start_date, end_date, category})
         .then(({code, json})=>{
@@ -59,7 +60,7 @@ router.put('/:timelineIdx', async(req, res)=>{
         const {title, start_date, end_date, category} = req.body;
         if(!title || !start_date || !end_date || !category){
             res.statusCode(statusCode.OK)
-            .send(util.successFalse(resMessage.NULL_VALUE, statusCode.OK));
+            .send(util.successFalse(statusCode.NULL_VALUE,resMessage.NULL_VALUE));
         }
         Timeline.update({userIdx, timelineIdx, title, start_date, end_date, category})
         .then(({code, json})=>{
