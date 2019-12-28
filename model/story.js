@@ -106,6 +106,16 @@ module.exports = {
                 });
                 return;
             }
+            const getCommentNumQuery = 'SELECT COUNT(*) FROM comment WHERE storyIdx = ?'
+            const getCommentNumResult = await db.queryParam_Parse(getCommentNumQuery,[storyIdx]);
+            if(getCommentNumResult.length == 0){
+                resolve({
+                    code : statusCode.OK,
+                    json: util.successFalse(resMessage.STORY_COMMENT_COUNT_FAIL)
+                });
+                return;
+            }
+            getstoryResult[0]['comment_count'] = getCommentNumResult[0]['COUNT(*)'];
             if(getUserIdxResult[0]['userIdx'] == userIdx){//스토리 쓴 사람과 로그인한 사람이 같으면
                 getstoryResult[0]['isme'] = 1;
                 resolve({
@@ -128,6 +138,7 @@ module.exports = {
             const getCommentQuery = 'SELECT a.nickname, a.front_image, b.content, b.created_date FROM comment b JOIN user a ON a.userIdx = b.userIdx WHERE storyIdx = ? ORDER BY b.created_date';
             const getCommentResult = await db.queryParam_Parse(getCommentQuery,[storyIdx]);
             if(getCommentResult.length == 0){
+                console.log("in");
                 resolve({
                     code : statusCode.OK,
                     json: util.successFalse(resMessage.COMMENT_READ_FAIL)

@@ -25,7 +25,7 @@ router.post('/', authUtil.isLoggedin, async(req, res)=>{
 });
 
 //router-> [GET]/story/{storyIdx}/comment
-router.get('/', authUtil.isLoggedin, async(req, res)=>{
+router.get('/', async(req, res)=>{
     try{
         const storyIdx = req.params.storyIdx;
         story.comment_read(storyIdx)
