@@ -3,7 +3,7 @@ var router = express.Router({mergeParams: true});
 const util = require('../../../module/utils');
 const statusCode = require('../../../module/statusCode');
 const resMessage = require('../../../module/responseMessage');
-const authUtil = require("../../module/authUtils");
+const authUtil = require("../../../module/authUtils");
 const story = require('../../../model/story');
 
 //router-> [POST]/story/{storyIdx}/comment
