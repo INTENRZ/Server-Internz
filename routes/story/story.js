@@ -27,7 +27,10 @@ router.get('/:storyIdx', authUtil.isLoggedin, async(req, res)=>{
 router.post('/category', async(req, res)=>{
     try{
         const Category = req.body.category;
-        console.log(Category);
+        if(!Category){
+            res.status(statusCode.OK).send(util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.NULL_VALUE));
+            return;
+        }
         story.story_category(Category)
         .then(({code, json}) => {
             res.status(code).send(json);

@@ -44,4 +44,5 @@ module.exports = {
     CALENDER_REMOVE_FAIL : 383,
     CALENDER_ADD_FAIL : 384,
     USER_NOT_MATCH: 800,
+    MORE_VALUE_NEED : 900,
 };
