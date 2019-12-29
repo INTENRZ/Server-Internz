@@ -36,11 +36,11 @@ module.exports = {
         });
     },
     // ----------------------------- 현이 코드 -----------------------------
-    mypage:({userIdx, loginIdx}) => {
+    mypage:({ userIdx, loginIdx }) => {
         return new Promise(async(resolve, reject)=>{
             // 유저에 해당하는 열 추출, 해당 유저의 타임라인 추출
-            const checkQuery = `SELECT userIdx,nickname, task_one, task_two, task_three,front_image, back_image,introduce FROM user WHERE userIdx =?`;
-            const timeQuery = `SELECT * FROM timeline WHERE userIdx=?`;
+            const checkQuery = `SELECT userIdx, nickname, task_one, task_two, task_three,front_image, back_image, introduce FROM user WHERE userIdx = ?`;
+            const timeQuery = `SELECT * FROM timeline WHERE userIdx = ?`;
             const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
             if(checkResult.length == 0){
                 resolve({
@@ -52,8 +52,8 @@ module.exports = {
             const timeResult = await db.queryParam_Parse(timeQuery, [userIdx]);
 
             // 팔로워 팔로잉 수 추출
-            const followerNumberQuery = `SELECT COUNT(*) AS followernumber FROM follow WHERE follower=${userIdx}`;
-            const followingNumberQuery = `SELECT COUNT(*) AS followingnumber FROM follow WHERE following=${userIdx}`;
+            const followerNumberQuery = `SELECT COUNT(*) AS followernumber FROM follow WHERE follower = ${userIdx}`;
+            const followingNumberQuery = `SELECT COUNT(*) AS followingnumber FROM follow WHERE following = ${userIdx}`;
             const followerResult = await db.queryParam_None(followerNumberQuery);
             const followingResult = await db.queryParam_None(followingNumberQuery);
             // 마이 페이지인지 타인의 페이지인지 구별

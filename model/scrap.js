@@ -8,15 +8,17 @@ const NAME= "스크랩";
 
 //scrap-> create(스크랩), delete(스크랩취소)
 module.exports = {
-    create: ({userIdx, storyIdx}) => {
+
+    // 스크랩
+    create: ({ userIdx, storyIdx }) => {
         const field = '`userIdx`,`storyIdx`';
         const v = [userIdx, storyIdx];
-        const q = `INSERT INTO ${TABLE} (${field}) VALUES (?,?)`;
+        const q = `INSERT INTO ${TABLE}(${field}) VALUES (?,?)`;
         const sendData = db.queryParam_Parse(q, v)
-        .then(result => {
+        .then(createResult => {
             return {
                 code: statusCode.CREATED,
-                json: util.successTrue(statusCode.CREATED, resMessage.X_CREATE_SUCCESS(NAME), result)
+                json: util.successTrue(statusCode.CREATED, resMessage.X_CREATE_SUCCESS(NAME), createResult)
             }
         })
         .catch(err=>{
@@ -24,15 +26,18 @@ module.exports = {
         })
         return sendData;
     },
-    delete: ({userIdx, storyIdx}) => {
+
+
+    // 스크랩 취소
+    delete: ({ userIdx, storyIdx }) => {
             const field = '`userIdx`,`storyIdx`';
             const v = [userIdx, storyIdx];
-            const q = `DELETE FROM ${TABLE} WHERE userIdx=? AND storyIdx=?`;
+            const q = `DELETE FROM ${TABLE} WHERE userIdx = ? AND storyIdx = ?`;
             const sendData = db.queryParam_Parse(q, v)
-            .then(result => {
+            .then(deleteResult => {
                 return {
                     code: statusCode.OK,
-                    json: util.successTrue(statusCode.OK, resMessage.X_DELETE_SUCCESS(NAME), result)
+                    json: util.successTrue(statusCode.OK, resMessage.X_DELETE_SUCCESS(NAME), deleteResult)
                 }
             })
             .catch(err=>{
@@ -40,7 +45,10 @@ module.exports = {
             })
             return sendData;
     },
-    readAll: ({userIdx, storyIdx}) => {
+
+
+    // 스크랩 리스트 조회
+    readAll: (userIdx) => {
         const scrapStoryIdxQuery = `SELECT storyIdx FROM ${TABLE} WHERE userIdx = ${userIdx}`;
         const scrapStoryQuery = `SELECT * FROM story WHERE storyIdx IN (${scrapStoryIdxQuery})`
         const sendData = db.queryParam_None(scrapStoryQuery)
@@ -61,4 +69,5 @@ module.exports = {
         })
         return sendData;
     }
-};
+
+}

@@ -7,6 +7,7 @@ const db = require('../module/poolAsync');
 //로고 추가. statusCode추가 model뿐만 아니니라 router 에도 넣어주기.
 module.exports = {
 
+    // 공고 전체 조회
     readAll: () => {
         return new Promise(async (resolve, reject) => {
             const jobAllquery = `SELECT * FROM job `;
@@ -19,6 +20,8 @@ module.exports = {
         })
     },
 
+
+    // 지난 공고 조회
     read: () => {
         return new Promise(async(resolve, reject) =>{
             const jobqeury = `SELECT * FROM job WHERE ispast = '1'`;
@@ -31,11 +34,15 @@ module.exports = {
 
         })
     },
-    filter: ({task}) => {
-        const pickTaskQuery = `SELECT * FROM job WHERE task1 = '${task}' OR task2 = '${task}' OR task3 = '${task}'`;
-        const sendData = db.queryParam_None(pickTaskQuery)
-        .then((result) => {
-            if(result.legnth === 0){
+
+
+    // 공고 필터링 조회
+    filter: ({ task }) => {
+        const v = [task, task, task]
+        const pickTaskQuery = `SELECT * FROM job WHERE task1 = ? OR task2 = ? OR task3 = ?`;
+        const sendData = db.queryParam_Parse(pickTaskQuery, v)
+        .then(filterResult => {
+            if(filterResult.legnth === 0){
                 return {
                     code: statusCode.OK,
                     json: util.successFalse(statusCode.JOB_FILTER_FAIL, "필터와 일치하는 공고가 없습니다.")
@@ -43,13 +50,13 @@ module.exports = {
             }
             return {
                 code: statusCode.OK,
-                json: util.successTrue(statusCode.OK,`${task} 필터 조회 성공`, result)
+                json: util.successTrue(statusCode.OK,`${task} 필터 조회 성공`, filterResult)
             }
         })
         .catch(err => {
             throw err;
         });
-        return sendData
+        return sendData;
     }
 
-};
+}

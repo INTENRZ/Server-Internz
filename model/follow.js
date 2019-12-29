@@ -10,15 +10,17 @@ const FOLLOWER = "팔로워";
 const FOLLOWING = "팔로잉";
 
 module.exports = {
+
+    // 팔로우
     create: ({userIdx, othersIdx}) => {
-        const field = '`following`,`follower`';
         const v = [othersIdx, userIdx];
-        const q = `INSERT INTO ${TABLE} (${field}) VALUES (?,?)`;
+        const field = '`following`,`follower`';
+        const q = `INSERT INTO ${TABLE}(${field}) VALUES (?,?)`;
         const sendData = db.queryParam_Parse(q, v)
-        .then(result => {
+        .then(createResult => {
             return {
                 code: statusCode.CREATED,
-                json: util.successTrue(statusCode.CREATED,resMessage.X_CREATE_SUCCESS(FOLLOWING), result)
+                json: util.successTrue(statusCode.CREATED,resMessage.X_CREATE_SUCCESS(FOLLOWING), createResult)
             }
         })
         .catch(err=>{
@@ -26,15 +28,17 @@ module.exports = {
         })
         return sendData;
     },
-    delete: ({userIdx, othersIdx}) => {
-            const field = '`following`,`follower`';
+
+
+    // 팔로우 취소
+    delete: ({ userIdx, othersIdx }) => {
             const v = [othersIdx, userIdx];
-            const q = `DELETE FROM ${TABLE} WHERE following=? AND follower=?`;
+            const q = `DELETE FROM ${TABLE} WHERE following = ? AND follower = ?`;
             const sendData = db.queryParam_Parse(q, v)
-            .then(result => {
+            .then(deleteResult => {
                 return {
                     code: statusCode.CREATED,
-                    json: util.successTrue(statusCode.CREATED,resMessage.X_DELETE_SUCCESS(FOLLOWING), result)
+                    json: util.successTrue(statusCode.CREATED,resMessage.X_DELETE_SUCCESS(FOLLOWING), deleteResult)
                 }
             })
             .catch(err=>{
@@ -42,6 +46,9 @@ module.exports = {
             })
             return sendData;
     },
+
+
+    // 팔로우 리스트
     followingReadAll: (userIdx) => {
         const followingIdxQuery = `SELECT following FROM ${TABLE} WHERE follower = ${userIdx}`;
         const followingUserQuery = `SELECT front_image, nickname, introduce FROM user WHERE userIdx IN (${followingIdxQuery})`
@@ -63,6 +70,9 @@ module.exports = {
         })
         return sendData;
     },
+
+
+    // 팔로워 리스트
     followerReadAll: (userIdx) => {
         const followerIdxQuery = `SELECT follower FROM ${TABLE} WHERE following = ${userIdx}`;
         const followerUserQuery = `SELECT front_image, nickname, introduce FROM user WHERE userIdx IN (${followerIdxQuery})`
@@ -84,4 +94,5 @@ module.exports = {
         })
         return sendData;
     }
-};
+
+}
