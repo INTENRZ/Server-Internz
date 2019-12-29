@@ -25,14 +25,14 @@ router.put('/', upload.single('front_image'), async (req, res) => {
         if (req.file == undefined) {
             if (!introduce) {
                 res.status(statusCode.OK)
-                    .send(util.successFalse(resMessage.X_CREATE_FAIL("한 줄 소개")));
+                    .send(util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.X_CREATE_FAIL("한 줄 소개")));
 
                 return;
             }
             if (introduce.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.X_CREATE_FAIL("한 줄 소개"))
+                    json: util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.X_CREATE_FAIL("한 줄 소개"))
                 });
                 return;
             }
@@ -47,7 +47,7 @@ router.put('/', upload.single('front_image'), async (req, res) => {
                 .catch(err => {
                     console.log(err);
                     res.status(statusCode.INTERNAL_SERVER_ERROR,
-                        util.successFalse(resMessage.INTERNAL_SERVER_ERROR))
+                        util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR))
                 });
 
         } else {
@@ -55,14 +55,14 @@ router.put('/', upload.single('front_image'), async (req, res) => {
             const front_image = req.file.location;
             if (!introduce) {
                 res.status(statusCode.OK)
-                    .send(util.successFalse(resMessage.NULL_VALUE));
+                    .send(util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.NULL_VALUE));
 
                 return;
             }
             if (introduce.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(resMessage.X_CREATE_FAIL("한 줄 소개"))
+                    json: util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.X_CREATE_FAIL("한 줄 소개"))
                 });
                 return;
             }
@@ -78,7 +78,7 @@ router.put('/', upload.single('front_image'), async (req, res) => {
                 .catch(err => {
                     console.log(err);
                     res.status(statusCode.INTERNAL_SERVER_ERROR,
-                        util.successFalse(resMessage.INTERNAL_SERVER_ERROR))
+                        util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR))
                 });
         }
     } catch (err) {

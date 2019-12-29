@@ -10,7 +10,7 @@ router.post('/', async(req, res)=>{
     try{
 		const{email, password} = req.body;
         if(!email || !password){
-            res.status(statusCode.OK).send(util.successFalse(resMessage.NULL_VALUE));
+            res.status(statusCode.OK).send(util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.NULL_VALUE));
             return ;
         }
         

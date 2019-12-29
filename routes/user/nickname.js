@@ -16,7 +16,7 @@ router.get('/', async(req, res)=>{
         .catch(err=>{
             console.log(err);
             res.status(statusCode.INTERNAL_SERVER_ERROR,
-                util.successFalse(resMessage.INTERNAL_SERVER_ERROR))
+                util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR))
         });
     }catch(err){
         console.log(err);
