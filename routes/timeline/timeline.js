@@ -12,7 +12,7 @@ router.use('/', au.isLoggedin);
 router.get('/', async(req, res)=>{
     try{
         // const {userIdx} = req.body;
-        const userIdx = req.decoded.idx;
+        const {userIdx} = req.body;
         Timeline.read(userIdx)
         .then(({code, json}) => {
             res.status(code).send(json);
