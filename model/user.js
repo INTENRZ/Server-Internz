@@ -41,15 +41,15 @@ module.exports = {
             const query = `INSERT INTO ${table} (${field}) VALUES(${question}) `;
 
             const result = await db.queryParam_Parse(query, values);
-            console.log(email);
+
             const findidx = `SELECT userIdx FROM ${table} WHERE email=?`;
             const find = await db.queryParam_Parse(findidx, [email]);
 
-            console.log(find);
+
             if (!result || result.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(statusCode.MORE_VALUE_NEED,resMessage.SIGNUP_FAIL)
+                    json: util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.SIGNUP_FAIL)
                 });
                 return;
             }
@@ -191,7 +191,7 @@ module.exports = {
             if (checkResult.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(statusCode.USER_NOT_EXIST_USER,resMessage.NO_USER)
+                    json: util.successFalse(statusCode.USER_NOT_EXIST_USER, resMessage.NO_USER)
                 });
                 return;
             }
@@ -229,7 +229,7 @@ module.exports = {
             if (user.password != hashed) {
                 resolve({
                     code: statusCode.OK,
-                    json: util.successTrue(statusCode.USER_NOT_SAME_PW,resMessage.MISS_MATCH_PW)
+                    json: util.successTrue(statusCode.USER_NOT_SAME_PW, resMessage.MISS_MATCH_PW)
                 });
                 return;
             }

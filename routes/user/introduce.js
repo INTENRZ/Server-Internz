@@ -32,7 +32,7 @@ router.put('/', upload.single('front_image'), async (req, res) => {
             if (introduce.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.X_CREATE_FAIL("한 줄 소개"))
+                    json: util.successFalse(statusCode.USER_MORE_VALUE_NEED, resMessage.X_CREATE_FAIL("한 줄 소개"))
                 });
                 return;
             }
@@ -62,7 +62,7 @@ router.put('/', upload.single('front_image'), async (req, res) => {
             if (introduce.length == 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,
-                    json: util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.X_CREATE_FAIL("한 줄 소개"))
+                    json: util.successFalse(statusCode.USER_MORE_VALUE_NEED, resMessage.X_CREATE_FAIL("한 줄 소개"))
                 });
                 return;
             }
