@@ -22,7 +22,7 @@ module.exports = {
         const readQuery = `SELECT * FROM ${TABLE} WHERE userIdx = ? ORDER BY start_date DESC`;
         const sendData = db.queryParam_Parse(readQuery, v)
         .then(timelineList => {
-            if(result.length === 0){
+            if(timelineList.length === 0){
                 return {
                     code: statusCode.OK,
                     json: util.successFalse(statusCode.TIMELINE_NOT_EXIST_TIMELINE,resMessage.X_EMPTY(NAME))
@@ -136,7 +136,7 @@ module.exports = {
                 }
             }
             if(storyResult[0].userIdx !== userIdx){
-                result = result.concat([{"isme": "0"}]);
+                storyResult = storyResult.concat([{"isme": "0"}]);
                 return {
                     code: statusCode.OK,
                     json: util.successTrue(statusCode.USER_NOT_MATCH ,resMessage.X_READ_SUCCESS(SNAME), storyResult)
