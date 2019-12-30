@@ -9,7 +9,7 @@ const au = require('../../module/authUtils');
 router.use('/', au.isLoggedin);
 
 //router-> [GET]/timeline
-router.get('/', async(req, res)=>{
+router.post('/list', async(req, res)=>{
     try{
         // const {userIdx} = req.body;
         const {userIdx} = req.body;
