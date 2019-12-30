@@ -18,10 +18,7 @@ const ability = "보유역량";
 const table = 'user';
 module.exports = {
     create1: ({
-        email,
-        password,
-        salt,
-        phone
+        email
     }) => {
         return new Promise(async (resolve, reject) => {
             const checkEmailQuery = `SELECT email FROM user WHERE email = ?`;
@@ -34,36 +31,20 @@ module.exports = {
                 });
                 return;
             }
-
-            const field = `email, password, salt, phone`;
-            const question = `?,?,?,?`;
-            const values = [email, password, salt, phone];
-            const query = `INSERT INTO ${table} (${field}) VALUES(${question}) `;
-
-            const result = await db.queryParam_Parse(query, values);
-
-            const findidx = `SELECT userIdx FROM ${table} WHERE email=?`;
-            const find = await db.queryParam_Parse(findidx, [email]);
-
-
-            if (!result || result.length == 0) {
-                resolve({
-                    code: statusCode.NOT_FOUND,
-                    json: util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.SIGNUP_FAIL)
-                });
-                return;
-            }
-
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(statusCode.OK, resMessage.SIGNUP_SUCCESS, find)
+                json: util.successTrue(statusCode.OK, "email 중복 없습니다! 회원가입 가능")
             })
+           
         });
 
 
     },
     create2: ({
-        userIdx,
+        email,
+        password,
+        salt,
+        phone,
         name,
         nickname,
         age,
@@ -82,11 +63,10 @@ module.exports = {
                 return;
             }
 
-            const field = `name, nickname, age, sex`;
-            const question = `?,?,?,?`;
-
-            const values = [name, nickname, age, sex];
-            const query = `UPDATE ${table} SET name = '${name}', nickname ='${nickname}', age='${age}', sex = '${sex}' WHERE userIdx= '${userIdx}'`;
+            const field = `email, password, salt, phone, name, nickname, age, sex`;
+            const question = `?,?,?,?,?,?,?,?`;
+            const values = [email, password, salt, phone, name, nickname, age, sex];
+            const query = `INSERT INTO ${table} (${field}) VALUES(${question}) `;
 
             const result = await db.queryParam_Parse(query, values);
 
@@ -104,8 +84,8 @@ module.exports = {
             })
         });
 
-
     },
+
     task_update: ({
         userIdx,
         task_one,
@@ -190,14 +170,14 @@ module.exports = {
 
     }) => {
         return new Promise(async (resolve, reject) => {
-        
+
 
             const query = `UPDATE user SET task_one='${task_one}',task_two='${task_two}',task_three='${task_three}',introduce='${introduce}', front_image='${front_image}' WHERE userIdx = ? `;
             const result = await db.queryParam_Parse(query, [userIdx]);
             console.log(result);
             const check = `UPDATE ${table} SET \`check\` = '1' WHERE userIdx = ? `;
-            const checkresult = await db.queryParam_Parse(check, [userIdx]);            
-     
+            const checkresult = await db.queryParam_Parse(check, [userIdx]);
+
             resolve({
                 code: statusCode.OK,
                 json: util.successTrue(statusCode.OK, resMessage.X_CREATE_SUCCESS("관심 직군과 프로필"))
