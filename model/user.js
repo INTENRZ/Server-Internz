@@ -31,9 +31,11 @@ module.exports = {
                 });
                 return;
             }
+            const dummy = new Object();
+            dummy['dummy'] = 0;
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(statusCode.OK, "email 중복 없습니다! 회원가입 가능", 0)
+                json: util.successTrue(statusCode.OK, "email 중복 없습니다! 회원가입 가능", dummy)
             })
            
         });
