@@ -7,5 +7,6 @@ router.use('/signup2', require('./signup2'));
 router.use('/introduce', require('./introduce'));
 router.use('/task', require('./task'));
 router.use('/nickname', require('./nickname'));
+router.use('/taskandintro', require('./taskandintro'));
 
 module.exports = router;

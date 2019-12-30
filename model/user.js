@@ -114,17 +114,6 @@ module.exports = {
     }) => {
         return new Promise(async (resolve, reject) => {
 
-            const checkQuery = `SELECT userIdx FROM user WHERE userIdx = ?`;
-            const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
-
-
-            if (checkResult.length == 0) {
-                resolve({
-                    code: statusCode.NOT_FOUND,
-                    json: util.successFalse(statusCode.USER_NOT_EXIST_USER, resMessage.NO_USER)
-                });
-                return;
-            }
 
             const field = `userIdx, task_one, task_two, task_three`;
             const question = `?,?,?,?`;
@@ -156,17 +145,6 @@ module.exports = {
     }) => {
         return new Promise(async (resolve, reject) => {
 
-            const checkQuery = `SELECT userIdx FROM user WHERE userIdx = ?`;
-            const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
-
-
-            if (checkResult.length == 0) {
-                resolve({
-                    code: statusCode.NOT_FOUND,
-                    json: util.successFalse(statusCode.USER_NOT_EXIST_USER, resMessage.NO_USER)
-                });
-                return;
-            }
 
             const field = `userIdx, introduce, front_image`;
             const question = `?,?,?`;
@@ -202,7 +180,30 @@ module.exports = {
             })
         });
     },
+    taskandintro: ({
+        userIdx,
+        task_one,
+        task_two,
+        task_three,
+        introduce,
+        front_image
 
+    }) => {
+        return new Promise(async (resolve, reject) => {
+        
+
+            const query = `UPDATE user SET task_one='${task_one}',task_two='${task_two}',task_three='${task_three}',introduce='${introduce}', front_image='${front_image}' WHERE userIdx = ? `;
+            const result = await db.queryParam_Parse(query, [userIdx]);
+            console.log(result);
+            const check = `UPDATE ${table} SET \`check\` = '1' WHERE userIdx = ? `;
+            const checkresult = await db.queryParam_Parse(check, [userIdx]);            
+     
+            resolve({
+                code: statusCode.OK,
+                json: util.successTrue(statusCode.OK, resMessage.X_CREATE_SUCCESS("관심 직군과 프로필"))
+            })
+        });
+    },
     login: ({
         email,
         password
