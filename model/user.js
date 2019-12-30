@@ -250,7 +250,7 @@ module.exports = {
                 });
             } else {
                 token = Object.assign(token, {
-                    "isnotFirst": '1'
+                    "isFirst": '1'
                 });
                 resolve({
                     code: statusCode.OK,
