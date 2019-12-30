@@ -61,6 +61,7 @@ router.put('/:timelineIdx', async(req, res)=>{
         if(!title || !start_date || !end_date || !category){
             res.statusCode(statusCode.OK)
             .send(util.successFalse(statusCode.NULL_VALUE,resMessage.NULL_VALUE));
+            return;
         }
         Timeline.update({userIdx, timelineIdx, title, start_date, end_date, category})
         .then(({code, json})=>{

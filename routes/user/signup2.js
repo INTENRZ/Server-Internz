@@ -13,7 +13,7 @@ router.put('/:userIdx', async(req, res)=>{
         const {name, nickname,age, sex} = req.body;      
         if(!name|| !nickname ||  !age || !sex ){
             res.status(statusCode.OK)
-            .send(util.successFalse(resMessage.NULL_VALUE));
+            .send(util.successFalse(statusCode.MORE_VALUE_NEED,resMessage.NULL_VALUE));
 
             return ;
         }
@@ -23,7 +23,7 @@ router.put('/:userIdx', async(req, res)=>{
         .catch(err=>{
             console.log(err);
             res.status(statusCode.INTERNAL_SERVER_ERROR,
-                util.successFalse(resMessage.INTERNAL_SERVER_ERROR))
+                util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR))
         })
     }catch(err){
         console.log(err);
