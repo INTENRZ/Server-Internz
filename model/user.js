@@ -33,7 +33,7 @@ module.exports = {
             }
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(statusCode.OK, "email 중복 없습니다! 회원가입 가능")
+                json: util.successTrue(statusCode.OK, "email 중복 없습니다! 회원가입 가능", 0);
             })
            
         });
