@@ -116,6 +116,7 @@ module.exports = {
                 return;
             }
             getstoryResult[0]['comment_count'] = getCommentNumResult[0]['COUNT(*)'];
+            getstoryResult[0]['userIdx'] = getUserIdxResult[0]['userIdx'];
             if(getUserIdxResult[0]['userIdx'] == userIdx){//스토리 쓴 사람과 로그인한 사람이 같으면
                 getstoryResult[0]['isme'] = 1;
                 resolve({
