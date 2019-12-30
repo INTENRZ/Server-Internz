@@ -4,30 +4,54 @@ const util = require('../../module/utils');
 const statusCode = require('../../module/statusCode');
 const resMessage = require('../../module/responseMessage');
 const User = require('../../model/user');
-const crypto  = require('crypto');
+const crypto = require('crypto');
 const encrypt = require('../../module/encryption');
 //router-> [PUT]/user/signup2/:userIdx
-router.put('/:userIdx', async(req, res)=>{
-    try{
+router.post('/', async (req, res) => {
+    try {
         const userIdx = req.params.userIdx;
-        const {name, nickname,age, sex} = req.body;      
-        if(!name|| !nickname ||  !age || !sex ){
+        const {
+            email,
+            password,
+            phone,
+            name,
+            nickname,
+            age,
+            sex
+        } = req.body;
+        if (!email || !password || !phone || !name || !nickname || !age || !sex) {
             res.status(statusCode.OK)
-            .send(util.successFalse(statusCode.MORE_VALUE_NEED,resMessage.NULL_VALUE));
+                .send(util.successFalse(statusCode.MORE_VALUE_NEED, resMessage.NULL_VALUE));
 
-            return ;
+            return;
         }
 
-        User.create2({userIdx, name, nickname, age, sex})
-        .then(({code, json})=> res.status(code).send(json))
-        .catch(err=>{
-            console.log(err);
-            res.status(statusCode.INTERNAL_SERVER_ERROR,
-                util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR))
-        })
-    }catch(err){
+        encrypt.encrypt(password)
+            .then(({
+                hashed,
+                salt
+            }) => User.create2({
+                email,
+                password: hashed,
+                salt,
+                phone,
+                name,
+                nickname,
+                age,
+                sex
+            }))
+            .then(({
+                code,
+                json
+            }) => res.status(code).send(json))
+            .catch(err => {
+                console.log(err);
+                res.status(statusCode.INTERNAL_SERVER_ERROR,
+                    util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR))
+            });
+    } catch (err) {
         console.log(err);
     }
 });
- 
+
 module.exports = router;
