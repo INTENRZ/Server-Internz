@@ -21,19 +21,6 @@ module.exports = {
                 });
                 return;
             }
-            // const getJobThreeQuery = 'SELECT company, team, d_day, url FROM job WHERE (task1 AND task2 AND task3) IN (?,?,?) limit 3'
-            // const getJobThreeResult = await db.queryParam_Parse(getJobThreeQuery , [getUserTaskResult[0]['task_one'],getUserTaskResult[0]['task_two'],getUserTaskResult[0]['task_three']]);
-            // if(getJobThreeResult.length == 0){
-            //     const getJobTwoQuery = 'SELECT company, team, d_day, url FROM job WHERE ((task1 AND task2) OR (task1 AND task3) OR (task2 AND task3)) IN (?,?,?) limit 3'
-            //     const getJobTwoResult = await db.queryParam_Parse(getJobTwoQuery, [getUserTaskResult[0]['task_one'],getUserTaskResult[0]['task_two'],getUserTaskResult[0]['task_three']]);        
-            // }
-            // console.log(getJobThreeResult.length);
-            // const getJobTwoQuery = 'SELECT company, team, d_day, url FROM job WHERE ((task1 AND task2) OR (task1 AND task3) OR (task2 AND task3)) IN (?,?,?) limit ?'
-            // const getJobTwoResult = await db.queryParam_Parse(getJobTwoQuery, [getUserTaskResult[0]['task_one'],getUserTaskResult[0]['task_two'],getUserTaskResult[0]['task_three']], (3-getJobThreeResult.length));            
-            // if(getJobTwoResult.length == 0){
-            //     const getJobOneQuery = 'SELECT company, team, d_day, url FROM job WHERE (task1 OR task2 OR task3) IN (?,?,?) limit ?'
-            //     const getJobOneResult = await db.queryParam_Parse(getJobOneQuery, [getUserTaskResult[0]['task_one'],getUserTaskResult[0]['task_two'],getUserTaskResult[0]['task_three']], (3-getJobThreeResult.length));
-            // }
             const task = [];
             const a = getUserTaskResult[0]['task_one'];
             const b = getUserTaskResult[0]['task_two'];
