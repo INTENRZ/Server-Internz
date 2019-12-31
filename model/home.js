@@ -6,6 +6,9 @@ const db = require('../module/pool');
 // home -> home(첫 홈 화면 띄우기)
 
 const home = "메인 홈";
+const one_match = [];
+const two_match = [];
+const three_match = [];
 
 module.exports = {
     home : (userIdx) => {
@@ -25,14 +28,17 @@ module.exports = {
             const a = getUserTaskResult[0]['task_one'];
             const b = getUserTaskResult[0]['task_two'];
             const c = getUserTaskResult[0]['task_three'];
-            const getJobOneQuery = 'SELECT logo, company, team, d_day, url FROM job WHERE task1 IN (?,?,?) OR task2 IN (?,?,?) OR task3 IN (?,?,?) limit 3'
-            const getJobOneResult = await db.queryParam_Parse(getJobOneQuery, [a,b,c,a,b,c,a,b,c]);
-            for(i=0; i<getJobOneResult.length; i++){
-                task.push(getJobOneResult[i]);
+            const getJobQuery = 'SELECT jobIdx, logo, company, team, d_day, url, count(jobIdx) as cnt from ' + 
+            '(SELECT jobIdx, logo, company, team, d_day, url from job WHERE task1 IN (?, ?, ?) UNION ALL ' +
+            'SELECT jobIdx, logo, company, team, d_day, url from job WHERE task2 IN (?, ?, ?) UNION ALL ' +
+            'SELECT jobIdx, logo, company, team, d_day, url from job WHERE task3 IN (?, ?, ?)) a group by jobIdx order by cnt desc limit 3';
+            const getJobResult = await db.queryParam_Parse(getJobQuery, [a,b,c,a,b,c,a,b,c]);
+            for(i=0; i<getJobResult.length; i++){
+                task.push(getJobResult[i]);
             }
-            if(getJobOneResult.length < 3){//없으면 그냥 가장 최신 공고 3개
+            if(getJobResult.length < 3){//없으면 그냥 가장 최신 공고 3개
                 const getJobLateQuery = 'SELECT logo, company, team, d_day, url FROM job ORDER BY start_date DESC limit ?';
-                const getJobLateResult = await db.queryParam_Parse(getJobLateQuery, (3-getJobOneResult.length));
+                const getJobLateResult = await db.queryParam_Parse(getJobLateQuery, (3-getJobResult.length));
                 if(getJobLateResult.length == 0){
                     resolve({
                         code : statusCode.OK,
@@ -48,8 +54,11 @@ module.exports = {
 
             //추천 프로필 -> 유저와 관심직무가 비슷한 프로필을 추천해준다.
             const profile = [];
-            const getProfileQuery = 'SELECT front_image, nickname, introduce, userIdx FROM user WHERE task_one IN (?,?,?) OR task_two IN (?,?,?) OR task_three IN (?,?,?) AND userIdx NOT IN (?) limit 4';
-            const getProfileResult = await db.queryParam_Parse(getProfileQuery, [a,b,c,a,b,c,a,b,c, userIdx]);
+            const getProfileQuery = 'SELECT front_image, nickname, introduce, userIdx, count(userIdx) as cnt from ' + 
+            '(SELECT front_image, nickname, introduce, userIdx from user WHERE task_one IN (?, ?, ?) UNION ALL ' +
+            'SELECT front_image, nickname, introduce, userIdx from user WHERE task_two IN (?, ?, ?) UNION ALL ' +
+            'SELECT front_image, nickname, introduce, userIdx from user WHERE task_three IN (?, ?, ?)) a group by userIdx HAVING userIdx NOT IN (?) order by cnt desc limit 3';
+            const getProfileResult = await db.queryParam_Parse(getProfileQuery , [a,b,c,a,b,c,a,b,c, userIdx]);
             for(i=0; i<getProfileResult.length; i++){
                 profile.push(getProfileResult[i]);
             }
