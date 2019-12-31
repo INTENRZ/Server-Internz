@@ -10,7 +10,7 @@ const calender = require("../../model/calender");
 //여기서는 서버상에서 시간을 받아서 calender테이블에서 userIdx 일치하는 것들 중에
 //년, 월이 일치하는 공고들만 뽑는다.(job테이블과 조인)
 
-router.get('/:month', authUtil.isLoggedin, async(req, res)=>{
+router.get('/:month', authUtil.isLoggedin, (req, res)=>{
     try{
         const user = req.decoded.idx;
         const time = req.params.month;//년, 월을 받아야한다.
