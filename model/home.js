@@ -6,9 +6,6 @@ const db = require('../module/pool');
 // home -> home(첫 홈 화면 띄우기)
 
 const home = "메인 홈";
-const one_match = [];
-const two_match = [];
-const three_match = [];
 
 module.exports = {
     home : (userIdx) => {
