@@ -48,7 +48,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             // 유저에 해당하는 열 추출, 해당 유저의 타임라인 추출
             const checkQuery = `SELECT userIdx, nickname, task_one, task_two, task_three,front_image, back_image, introduce FROM user WHERE userIdx = ?`;
-            const timeQuery = `SELECT * FROM timeline WHERE userIdx = ?`;
+            // const timeQuery = `SELECT * FROM timeline WHERE userIdx = ?`;
             const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
             if (checkResult.length == 0) {
                 resolve({
@@ -57,7 +57,7 @@ module.exports = {
                 });
                 return;
             }
-            const timeResult = await db.queryParam_Parse(timeQuery, [userIdx]);
+            // const timeResult = await db.queryParam_Parse(timeQuery, [userIdx]);
 
             // 팔로워 팔로잉 수 추출
             const followerNumberQuery = `SELECT COUNT(*) AS followernumber FROM follow WHERE follower = ${userIdx}`;
@@ -65,11 +65,17 @@ module.exports = {
             const followerResult = await db.queryParam_None(followerNumberQuery);
             const followingResult = await db.queryParam_None(followingNumberQuery);
             // 마이 페이지인지 타인의 페이지인지 구별
+<<<<<<< HEAD
             if (userIdx == loginIdx) {
                 console.log(checkResult);
                 const result = Object.assign(checkResult, timeResult, followerResult, followingResult, {
                     "isme": '1'
                 });
+=======
+            if(userIdx == loginIdx) {
+                // const result = {user: }
+                const result = Object.assign(checkResult[0], followerResult[0], followingResult[0],{"isme":'1'});
+>>>>>>> c56ebcbd63d157711768f931dd8c494b91e755f1
                 resolve({
                     code: statusCode.OK,
                     json: util.successTrue(statusCode.OK, resMessage.X_READ_ALL_SUCCESS("프로필"), result)
@@ -87,9 +93,13 @@ module.exports = {
                         "isfollow": '1'
                     }
                 }
+<<<<<<< HEAD
                 const result = Object.assign(checkResult, timeResult, followerResult, followingResult, {
                     "isme": '0'
                 }, isFollow);
+=======
+                const result = Object.assign(checkResult[0] ,followerResult[0], followingResult[0], {"isme": '0'}, isFollow);
+>>>>>>> c56ebcbd63d157711768f931dd8c494b91e755f1
                 resolve({
                     code: statusCode.OK,
                     json: util.successTrue(statusCode.OK, resMessage.X_READ_ALL_SUCCESS("프로필"), result)

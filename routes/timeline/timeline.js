@@ -8,11 +8,14 @@ const au = require('../../module/authUtils');
 
 router.use('/', au.isLoggedin);
 
-//router-> [GET]/timeline
+//router-> [POST]/timeline/list
 router.post('/list', (req, res)=>{
     try{
         // const {userIdx} = req.body;
-        const {userIdx} = req.body;
+        var {userIdx} = req.body;
+        if(!userIdx){
+            userIdx = req.decoded.idx;
+        }
         Timeline.read(userIdx)
         .then(({code, json}) => {
             res.status(code).send(json);
