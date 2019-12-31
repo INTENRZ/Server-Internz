@@ -42,7 +42,7 @@ module.exports = {
    },
     latest:() => {
         return new Promise(async(resolve, reject) => {
-            const getStoryQuery = 'SELECT b.storyIdx, b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx ORDER BY created_date DESC'
+            const getStoryQuery = 'SELECT b.storyIdx, b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx ORDER BY created_date DESC';
             const getStoryResult = await db.queryParam_Parse(getStoryQuery);
             if(getStoryResult.length == 0){
                 resolve({
@@ -156,7 +156,7 @@ module.exports = {
     story_category:(category)=>{
         return new Promise(async(resolve, reject) => {
             //스토리의 카테고리는 속한 타임라인의 카테고리와 같다.
-            const getStoryAllQuery = 'SELECT b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx JOIN timeline c ON c.timelineIdx = b.timelineIdx WHERE c.category = ? ORDER BY b.created_date DESC';
+            const getStoryAllQuery = 'SELECT b.storyIdx, b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx JOIN timeline c ON c.timelineIdx = b.timelineIdx WHERE c.category = ? ORDER BY b.created_date DESC';
             const getStoryAllResult = await db.queryParam_Parse(getStoryAllQuery,[category]);
             if(getStoryAllResult.length == 0){
                 resolve({
@@ -170,6 +170,41 @@ module.exports = {
                 json: util.successTrue(statusCode.OK, resMessage.STORY_CATEGORY_READ_SUCCESS, getStoryAllResult)
             });
             return;
+        });
+    },
+    story_category_sort:(sort, category)=>{//sort==0 ->최신순, sort==1 ->조회순
+        return new Promise(async(resolve, reject) => {
+            if(sort == 0){//최신순
+                const getJobQuery = 'SELECT b.storyIdx, b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx JOIN timeline c ON c.timelineIdx = b.timelineIdx WHERE c.category = ? ORDER BY created_date DESC';
+                const getJobResult = await db.queryParam_Parse(getJobQuery,[category]);
+                if(getJobResult.length == 0){
+                    resolve({
+                        code : statusCode.OK,
+                        json: util.successFalse(statusCode.STORY_CATEGORY_SHOW_FAIL, resMessage.STORY_CATEGORY_SORT_READ_FAIL)
+                    });
+                    return;  
+                }
+                resolve({
+                    code : statusCode.OK,
+                    json: util.successTrue(statusCode.OK, resMessage.STORY_CATEGORY_READ_SUCCESS, getJobResult)
+                });
+                return;
+            }else if(sort == 1){
+                const getJobQuery = 'SELECT b.storyIdx, b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx JOIN timeline c ON c.timelineIdx = b.timelineIdx WHERE c.category = ? ORDER BY b.count DESC';
+                const getJobResult = await db.queryParam_Parse(getJobQuery,[category]);
+                if(getJobResult.length == 0){
+                    resolve({
+                        code : statusCode.OK,
+                        json: util.successFalse(statusCode.STORY_CATEGORY_SHOW_FAIL, resMessage.STORY_CATEGORY_SORT_READ_FAIL)
+                    });
+                    return; 
+                }
+                resolve({
+                    code : statusCode.OK,
+                    json: util.successTrue(statusCode.OK, resMessage.STORY_CATEGORY_READ_SUCCESS, getJobResult)
+                });
+                return;
+            }
         });
     },
     comment_update:()=>{

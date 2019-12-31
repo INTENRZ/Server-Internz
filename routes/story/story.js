@@ -43,4 +43,21 @@ router.post('/category', async(req, res)=>{
     }
 });
 
+//router-> [POST]/story/category/sort
+router.post('/category/sort', async(req, res)=>{
+    try{
+        const category = req.body.category;
+        const sort = req.body.sort;
+        story.story_category_sort(sort, category)
+        .then(({code, json}) => {
+            res.status(code).send(json);
+        })
+        .catch(err => {
+            res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR));
+        })
+    }catch(err){
+        console.log(err);
+    }
+});
+
 module.exports = router;
