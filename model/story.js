@@ -42,7 +42,7 @@ module.exports = {
    },
     latest:() => {
         return new Promise(async(resolve, reject) => {
-            const getStoryQuery = 'SELECT b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx ORDER BY created_date DESC'
+            const getStoryQuery = 'SELECT b.storyIdx, b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx ORDER BY created_date DESC'
             const getStoryResult = await db.queryParam_Parse(getStoryQuery);
             if(getStoryResult.length == 0){
                 resolve({
@@ -60,7 +60,7 @@ module.exports = {
     },
     count:() => {
         return new Promise(async(resolve, reject) => {
-            const getCountSortQuery = 'SELECT b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx ORDER BY count DESC';
+            const getCountSortQuery = 'SELECT b.storyIdx, b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx ORDER BY count DESC';
             const getCountSortResult = await db.queryParam_Parse(getCountSortQuery);
             if(getCountSortResult.length == 0){
                 resolve({
