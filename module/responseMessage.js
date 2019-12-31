@@ -55,6 +55,8 @@ module.exports = {//서버들끼리의 원활한 소통을 위해서 응답메�
     STORY_COUNT_READ_SUCCESS : "스토리 조회순별 조회 성공",
     STORY_COMMENT_COUNT_FAIL : "스토리 댓글 개수 반환 실패",
     STORY_COMMENT_COUNT_SUCCESS : "스토리 댓글 개수 반환 성공",
+    STORY_CATEGORY_SORT_READ_FAIL : "스토리 category, sort 필터 실패",
+    STORY_CATEGORY_SORT_READ_SUCCESS : "스토리 category, sort 필터 성공",
 
 
 };
