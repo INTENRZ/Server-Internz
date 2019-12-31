@@ -7,7 +7,7 @@ const authUtil = require("../../module/authUtils");
 const home = require('../../model/home');
 
 //router-> [GET]/home(추천공고-3개, 프로필-4개, 스토리-4개)
-router.get('/', authUtil.isLoggedin, async(req, res)=>{
+router.get('/', authUtil.isLoggedin, (req, res)=>{
     try{
         const user = req.decoded.idx;
         home.home(user)

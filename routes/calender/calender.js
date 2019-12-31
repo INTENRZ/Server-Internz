@@ -8,7 +8,7 @@ const calender = require("../../model/calender");
 
 //router-> [GET]/calender/{day}
 //여기서는 월,일 받는
-router.get('/:day', authUtil.isLoggedin, async(req, res)=>{
+router.get('/:day', authUtil.isLoggedin, (req, res)=>{
     try{
         const user = req.decoded.idx;
         const time = req.params.day;
@@ -25,7 +25,7 @@ router.get('/:day', authUtil.isLoggedin, async(req, res)=>{
 });
 
 //router-> [POST]/calender/{jobIdx}
-router.post('/:jobIdx', authUtil.isLoggedin, async(req, res)=>{
+router.post('/:jobIdx', authUtil.isLoggedin, (req, res)=>{
     try{
         const user = req.decoded.idx;
         const job = req.params.jobIdx;
@@ -42,7 +42,7 @@ router.post('/:jobIdx', authUtil.isLoggedin, async(req, res)=>{
 });
 
 //router-> [DELETE]/calender/{calenderIdx}/{month}
-router.delete('/:calenderIdx/:month', authUtil.isLoggedin, async(req, res)=>{
+router.delete('/:calenderIdx/:month', authUtil.isLoggedin, (req, res)=>{
     try{
         const user = req.decoded.idx;
         const cal = req.params.calenderIdx;
