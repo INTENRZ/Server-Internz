@@ -58,7 +58,7 @@ module.exports = {
             const followingResult = await db.queryParam_None(followingNumberQuery);
             // 마이 페이지인지 타인의 페이지인지 구별
             if(userIdx == loginIdx) {
-                const result = checkResult.concat(timeResult, followerResult, followingResult, {"isme":'1'});
+                const result = Object.assign(checkResult, timeResult, followerResult, followingResult, {"isme":'1'});
                 resolve({
                     code: statusCode.OK,
                     json: util.successTrue(statusCode.OK, resMessage.X_READ_ALL_SUCCESS("프로필"),result)
@@ -72,7 +72,7 @@ module.exports = {
                 } else {
                     var isFollow = {"isfollow": '1'}
                 }
-                const result = checkResult.concat(timeResult, followerResult, followingResult, {"isme": '0'}, isFollow);
+                const result = Object.assign(checkResult, timeResult, followerResult, followingResult, {"isme": '0'}, isFollow);
                 resolve({
                     code: statusCode.OK,
                     json: util.successTrue(statusCode.OK, resMessage.X_READ_ALL_SUCCESS("프로필"), result)
