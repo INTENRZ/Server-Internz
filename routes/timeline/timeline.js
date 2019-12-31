@@ -9,7 +9,7 @@ const au = require('../../module/authUtils');
 router.use('/', au.isLoggedin);
 
 //router-> [GET]/timeline
-router.post('/list', async(req, res)=>{
+router.post('/list', (req, res)=>{
     try{
         // const {userIdx} = req.body;
         const {userIdx} = req.body;
@@ -28,7 +28,7 @@ router.post('/list', async(req, res)=>{
 });
 
 //router-> [POST]/timeline
-router.post('/', async(req, res)=>{
+router.post('/', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;
         const {title, start_date, end_date, category} = req.body;
@@ -53,7 +53,7 @@ router.post('/', async(req, res)=>{
 });
 
 //router-> [PUT]/timeline/{timelineIdx}
-router.put('/:timelineIdx', async(req, res)=>{
+router.put('/:timelineIdx', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;
         const timelineIdx = req.params.timelineIdx;
@@ -78,7 +78,7 @@ router.put('/:timelineIdx', async(req, res)=>{
 });
 
 //router-> [DELETE]/timeline/{timelineIdx}
-router.delete('/:timelineIdx', async(req, res)=>{
+router.delete('/:timelineIdx', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;
         const timelineIdx = req.params.timelineIdx;

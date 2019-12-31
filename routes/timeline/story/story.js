@@ -9,7 +9,7 @@ const au = require('../../../module/authUtils');
 router.use('/', au.isLoggedin);
 
 //router-> [GET]/timeline/{timelineIdx}/story
-router.get('/', async(req, res)=>{
+router.get('/', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;
         // const userIdx = req.body.userIdx;
@@ -29,7 +29,7 @@ router.get('/', async(req, res)=>{
 });
 
 //router-> [POST]/timeline/{timelineIdx}/story
-router.post('/', async(req, res)=>{
+router.post('/', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;
         const {timelineIdx} = req.params;
@@ -54,7 +54,7 @@ router.post('/', async(req, res)=>{
 });
 
 //router-> [PUT]/timeline/{timelineIdx}/story/{storyIdx}
-router.put('/:storyIdx', async(req, res)=>{
+router.put('/:storyIdx', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;
         const {storyIdx} = req.params;
@@ -79,7 +79,7 @@ router.put('/:storyIdx', async(req, res)=>{
 });
 
 //router-> [DELETE]/timeline/{timelineIdx}/story/{storyIdx}
-router.delete('/:storyIdx', async(req, res)=>{
+router.delete('/:storyIdx', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;
         const {storyIdx} = req.params;

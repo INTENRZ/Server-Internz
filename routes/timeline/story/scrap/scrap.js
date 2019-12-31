@@ -9,7 +9,7 @@ const au = require('../../../../module/authUtils');
 router.use('/', au.isLoggedin);
 
 //router-> [GET]/timeline/{timelineIdx}/story/{storyIdx}/scrap
-router.get('/', async(req, res)=>{
+router.get('/', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;
         const {storyIdx} = req.params;
@@ -46,7 +46,7 @@ router.post('/', (req, res)=> {
 });
 
 //router-> [DELETE]/timeline/{timelineIdx}/story/{storyIdx}/scrap/{scrapIdx}
-router.delete('/:scrapIdx', async(req, res)=>{
+router.delete('/:scrapIdx', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;
         const {storyIdx} = req.params;

@@ -12,7 +12,6 @@ router.post('/', async(req, res)=>{
         if(!email){
             res.status(statusCode.OK)
             .send(util.successFalse(statusCode.MORE_VALUE_NEED,resMessage.NULL_VALUE));
-
             return ;
         } 
 
