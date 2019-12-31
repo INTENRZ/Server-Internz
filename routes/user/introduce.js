@@ -10,7 +10,7 @@ const upload = require('../../config/multer');
 
 router.use('/', authUtils.isLoggedin);
 //router-> [PUT]/user/ability
-router.put('/', upload.single('front_image'), async (req, res) => {
+router.put('/', upload.single('front_image'), (req, res) => {
     try {
 
         const userIdx = req.decoded.idx; //토큰에서 idx가져오기

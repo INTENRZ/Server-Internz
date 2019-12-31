@@ -8,7 +8,7 @@ const authUtils = require('../../module/authUtils');
 
 
 //router-> [GET]/job
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
     try {
         Job.readAll()
             .then(({
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
 });
 
 //router-> [GET]/job/past
-router.get('/past', async (req, res) => {
+router.get('/past',  (req, res) => {
     try {
         Job.read()
             .then(({
@@ -46,7 +46,7 @@ router.get('/past', async (req, res) => {
 });
 
 //router-> [GET]/job/{task}
-router.get('/:task', async (req, res) => {
+router.get('/:task',  (req, res) => {
     try {
         const {task} = req.params;
         Job.filter({task})

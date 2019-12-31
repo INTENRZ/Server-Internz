@@ -7,7 +7,7 @@ const User = require('../../model/user');
 const crypto = require('crypto');
 const encrypt = require('../../module/encryption');
 //router-> [PUT]/user/signup2/:userIdx
-router.post('/', async (req, res) => {
+router.post('/', (req, res) => {
     try {
         const userIdx = req.params.userIdx;
         const {

@@ -10,7 +10,7 @@ const encrypt = require('../../module/encryption');
 const authUtils = require('../../module/authUtils');
 router.use('/',authUtils.isLoggedin);
 //router-> [PUT]/profile/task
-router.put('/', async(req, res)=>{
+router.put('/', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;
 
