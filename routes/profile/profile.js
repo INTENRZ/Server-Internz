@@ -11,8 +11,11 @@ router.use('/',authUtils.isLoggedin);
 // router-> [GET]/profile
 router.post('/', (req, res)=>{
     try{
-     const loginIdx = req.decoded.idx;
-     const {userIdx} = req.body;
+        const loginIdx = req.decoded.idx;
+        let {userIdx} = req.body;
+        if(!userIdx){
+            userIdx = loginIdx;
+        }
         Profile.mypage({userIdx, loginIdx})
         .then(({code,json})=> res.status(code).send(json))
         .catch(err => {
