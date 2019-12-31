@@ -12,7 +12,7 @@ router.use('/',authUtils.isLoggedin);
 router.post('/', (req, res)=>{
     try{
         const loginIdx = req.decoded.idx;
-        var {userIdx} = req.body;
+        let {userIdx} = req.body;
         if(!userIdx){
             userIdx = loginIdx;
         }
