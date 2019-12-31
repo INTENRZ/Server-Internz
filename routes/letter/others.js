@@ -9,7 +9,7 @@ const au = require('../../module/authUtils');
 router.use('/', au.isLoggedin);
 
 //router-> [GET]/letter/others
-router.get('/list', async(req, res)=>{
+router.get('/list', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;
         // const {userIdx} = req.body;
@@ -28,7 +28,7 @@ router.get('/list', async(req, res)=>{
 });
 
 //router-> [POST]/letter/others
-router.post('/', async(req, res)=>{
+router.post('/', (req, res)=>{
     try{
         const sender = req.decoded.idx;
         // const receiver = req.params.othersIdx;
@@ -54,7 +54,7 @@ router.post('/', async(req, res)=>{
 
 
 //router-> [GET]/letter/others
-router.get('/', async(req, res)=>{
+router.get('/', (req, res)=>{
     try{
         const sender = req.decoded.idx;
         // const receiver = req.params.othersIdx;
@@ -75,7 +75,7 @@ router.get('/', async(req, res)=>{
 });
 
 //router-> [DELETE]/letter/others
-router.delete('/', async(req, res)=>{
+router.delete('/', (req, res)=>{
     try{
         const sender = req.decoded.idx;
         // const receiver = req.params.othersIdx;

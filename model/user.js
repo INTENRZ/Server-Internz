@@ -23,7 +23,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             const checkEmailQuery = `SELECT email FROM user WHERE email = ?`;
             const checkEmailResult = await db.queryParam_Parse(checkEmailQuery, [email]);
-
+        
             if (checkEmailResult.length != 0) {
                 resolve({
                     code: statusCode.NOT_FOUND,

@@ -9,7 +9,7 @@ router.use('/',authUtils.isLoggedin);
 
 // 현이 코드
 // router-> [GET]/profile
-router.post('/', async(req, res)=>{
+router.post('/', (req, res)=>{
     try{
      const loginIdx = req.decoded.idx;
      const {userIdx} = req.body;

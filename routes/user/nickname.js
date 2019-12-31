@@ -7,7 +7,7 @@ const User = require('../../model/user');
 const authUtils = require('../../module/authUtils');
 router.use('/',authUtils.isLoggedin);
 //router-> [PUT]/user/ability
-router.get('/', async(req, res)=>{
+router.get('/', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;     //토큰에서 idx가져오기
         
