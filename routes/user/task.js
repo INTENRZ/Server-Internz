@@ -11,7 +11,7 @@ const authUtils = require('../../module/authUtils');
 
 router.use('/',authUtils.isLoggedin);
 //router-> [PUT]/user/task
-router.put('/', async(req, res)=>{
+router.put('/', (req, res)=>{
     try{
          const userIdx = req.decoded.idx;     //토큰에서 idx가져오기
 

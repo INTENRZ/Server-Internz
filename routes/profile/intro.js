@@ -8,7 +8,7 @@ const Profile = require('../../model/profile');
 const authUtils = require('../../module/authUtils');
 router.use('/',authUtils.isLoggedin);
 //router-> [PUT]/profile/intro
-router.put('/', async(req, res)=>{
+router.put('/', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;  
 

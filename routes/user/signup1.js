@@ -6,7 +6,7 @@ const resMessage = require('../../module/responseMessage');
 const User = require('../../model/user');
 const encrypt = require('../../module/encryption');
 //router-> [POST]/user/signup1
-router.post('/', async(req, res)=>{
+router.post('/', (req, res)=>{
     try{
         const {email} = req.body;      
         if(!email){
@@ -14,7 +14,7 @@ router.post('/', async(req, res)=>{
             .send(util.successFalse(statusCode.MORE_VALUE_NEED,resMessage.NULL_VALUE));
             return ;
         } 
-
+        
         User.create1({email})
         .then(({code, json})=> res.status(code).send(json))
         .catch(err=>{

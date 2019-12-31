@@ -8,7 +8,7 @@ const authUtils = require('../../module/authUtils');
 
 
 //router-> [GET]/job
-router.get('/',  (req, res) => {
+router.get('/', (req, res) => {
     try {
         Job.readAll()
             .then(({
