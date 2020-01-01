@@ -5,7 +5,6 @@ const statusCode = require('../../module/statusCode');
 const resMessage = require('../../module/responseMessage');
 const User = require('../../model/user');
 const authUtils = require('../../module/authUtils');
-const multer = require('multer');
 const upload = require('../../config/multer');
 
 router.use('/', authUtils.isLoggedin);

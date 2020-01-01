@@ -19,6 +19,7 @@ router.post('/', (req, res)=>{
         Profile.mypage({userIdx, loginIdx})
         .then(({code,json})=> res.status(code).send(json))
         .catch(err => {
+            console.log(err);
             res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR));
         })
     }catch(err){

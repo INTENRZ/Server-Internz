@@ -4,7 +4,6 @@ const util = require('../../module/utils');
 const statusCode = require('../../module/statusCode');
 const resMessage = require('../../module/responseMessage');
 const User = require('../../model/user');
-const crypto = require('crypto');
 const encrypt = require('../../module/encryption');
 //router-> [PUT]/user/signup2/:userIdx
 router.post('/', (req, res) => {
