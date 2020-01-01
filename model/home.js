@@ -74,7 +74,6 @@ module.exports = {
                 }
             }
             final.profile = profile;
-            console.log(final);
 
             //오늘의 스토리 -> 무조건 최신순 4개(created_date 순)
             const story = [];
