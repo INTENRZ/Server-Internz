@@ -24,6 +24,14 @@ module.exports = {
         const pickLetterQuery = `SELECT DISTINCT receiver, sender FROM ${TABLE} WHERE receiver = ? OR sender = ?`;
         const sendData = db.queryParam_Parse(pickLetterQuery, v)
         .then(async(letterUserResult) =>{
+
+            if(letterUserResult.length === 0){
+                return {
+                    code: statusCode.OK,
+                    json: util.successFalse(statusCode.USER_NOT_EXIST_USER, resMessage.X_EMPTY("유저"))
+                }
+            }
+
             // 상대 유저 배열에 담기 (상대방 인덱스의 중복 제거)
             let letterUsers = letterUserResult.map(it => Object.values(it));
             letterUsers = Array.from(new Set(letterUsers.flat(1)));
