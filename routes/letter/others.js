@@ -44,6 +44,11 @@ router.post('/', (req, res)=>{
         })
         .catch(err => {
             console.log(err);
+            if(err.errno === 1452){
+                res.status(statusCode.OK)
+                .send(util.successFalse(statusCode.USER_NOT_EXIST_USER, resMessage.X_EMPTY("유저")));
+                return;
+            }
             res.status(statusCode.INTERNAL_SERVER_ERROR)
             .send(util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR));
         });
@@ -65,11 +70,7 @@ router.get('/', (req, res)=>{
             res.status(code).send(json);
         })
         .catch(err => {
-            console.log(err);
-            if(err.errno === 1452){
-                res.status(statusCode.OK)
-                .send(util.successFalse(statusCode.USER_NOT_EXIST_USER, resMessage.X_EMPTY("유저")));
-            }
+            console.log(err);            
             res.status(statusCode.INTERNAL_SERVER_ERROR)
             .send(util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR));
         });
