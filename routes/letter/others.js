@@ -66,6 +66,10 @@ router.get('/', (req, res)=>{
         })
         .catch(err => {
             console.log(err);
+            if(err.errno === 1452){
+                res.status(statusCode.OK)
+                .send(util.successFalse(statusCode.USER_NOT_EXIST_USER, resMessage.X_EMPTY("유저")));
+            }
             res.status(statusCode.INTERNAL_SERVER_ERROR)
             .send(util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.INTERNAL_SERVER_ERROR));
         });
