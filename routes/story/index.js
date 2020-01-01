@@ -4,6 +4,6 @@ var router = express.Router({mergeParams: true});
 router.use('/:storyIdx/comment', require('./comment'));
 router.use('/new', require('./new'));
 router.use('/count', require('./count'));
-router.use('/', require('./story'));
+router.use('/', require('../timeline/story/story'));
 
 module.exports = router;
