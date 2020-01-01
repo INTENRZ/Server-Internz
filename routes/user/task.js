@@ -4,9 +4,6 @@ const util = require('../../module/utils');
 const statusCode = require('../../module/statusCode');
 const resMessage = require('../../module/responseMessage');
 const User = require('../../model/user');
-const jwt = require('../../module/jwt');
-const crypto  = require('crypto');
-const encrypt = require('../../module/encryption');
 const authUtils = require('../../module/authUtils');
 
 router.use('/',authUtils.isLoggedin);

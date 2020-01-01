@@ -4,7 +4,7 @@ const util = require('../../module/utils');
 const statusCode = require('../../module/statusCode');
 const resMessage = require('../../module/responseMessage');
 const Job = require('../../model/job');
-const authUtils = require('../../module/authUtils');
+
 
 
 //router-> [GET]/job
@@ -18,6 +18,7 @@ router.get('/', (req, res) => {
                 res.status(code).send(json)
             })
             .catch(err => {
+                console.log(err);
                 res.status(statusCode.INTERNAL_SERVER_ERROR
                     .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR)))
             })
@@ -37,6 +38,7 @@ router.get('/past',  (req, res) => {
                 res.status(code).send(json)
             })
             .catch(err =>{
+                console.log(err);
                 res.status(statusCode.INTERNAL_SERVER_ERROR
                     .send(util.successFalse(resMessage.INTERNAL_SERVER_ERROR)))
             })
