@@ -10,6 +10,15 @@ const calender = "캘린더";
 module.exports = {
     create:(userIdx, jobIdx) => {
         return new Promise(async(resolve, reject) => {
+            const getJobQuery = 'SELECT calenderIdx FROM calender WHERE userIdx = ? AND jobIdx = ?'
+            const getJobResult = await db.queryParam_Parse(getJobQuery , [userIdx, jobIdx]);
+            if(getJobResult.length != 0){
+                resolve({
+                    code : statusCode.OK,
+                    json : util.successFalse(statusCode.CALENDER_ADD_FAIL, resMessage.CALENDER_JOB_ALREADY_EXIST)
+                });
+                return;
+            }
             const insertCalQuery = 'INSERT INTO calender (userIdx, jobIdx) VALUES (?, ?)';
             const insertCalResult = await db.queryParam_Parse(insertCalQuery , [userIdx, jobIdx]);
             if(insertCalResult.length == 0){
