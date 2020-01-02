@@ -44,32 +44,28 @@ module.exports = {
             const getTaskQuery = 'SELECT * FROM job WHERE task1 = ? OR task2 = ? OR task3 = ? ORDER BY end_date DESC';
             const getTaskResult = db.queryParam_Parse(getTaskQuery, v);
             if(getTaskResult.legnth == 0){
-                resolve({
+                return{
                     code: statusCode.OK,
                     json: util.successFalse(statusCode.JOB_FILTER_FAIL, "필터와 일치하는 공고가 없습니다.")
-                });
-                return;
+                };
             }
-            resolve({
+            return{
                 code: statusCode.OK,
                 json: util.successTrue(statusCode.OK,`${task} 필터 조회 성공`, getTaskResult)
-            });
-            return;
+            };
         }else if(sort == 1){
             const getTaskQuery = 'SELECT * FROM job WHERE task1 = ? OR task2 = ? OR task3 = ? WHERE ispast = ?';
             const getTaskResult = db.queryParam_Parse(getTaskQuery, v_);
             if(getTaskResult.legnth == 0){
-                resolve({
+                return{
                     code: statusCode.OK,
                     json: util.successFalse(statusCode.JOB_FILTER_FAIL, "필터와 일치하는 공고가 없습니다.")
-                });
-                return;
+                };
             }
-            resolve({
+            return {
                 code: statusCode.OK,
                 json: util.successTrue(statusCode.OK,`${task} 필터 조회 성공`, getTaskResult)
-            });
-            return;
+            };
         }
     }
 }
