@@ -202,8 +202,6 @@ module.exports = {
                     const getJobQuery = 'SELECT b.storyIdx, b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx JOIN timeline c ON c.timelineIdx = b.timelineIdx WHERE c.category = ? ORDER BY created_date DESC';
                     var getJobResult = await db.queryParam_Parse(getJobQuery,[category]);
                 }
-                const getJobQuery = 'SELECT b.storyIdx, b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx JOIN timeline c ON c.timelineIdx = b.timelineIdx WHERE c.category = ? ORDER BY b.count DESC';
-                const getJobResult = await db.queryParam_Parse(getJobQuery,[category]);
                 if(getJobResult.length == 0){
                     resolve({
                         code : statusCode.OK,
