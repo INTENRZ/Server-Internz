@@ -5,8 +5,6 @@ const statusCode = require('../../module/statusCode');
 const resMessage = require('../../module/responseMessage');
 const Job = require('../../model/job');
 
-
-
 //router-> [GET]/job
 router.get('/', (req, res) => {
     try {
@@ -50,8 +48,8 @@ router.get('/past',  (req, res) => {
 //router-> [GET]/job/{task}/{sort}
 router.get('/:task/:sort',  (req, res) => {
     try {
-        const {task} = req.params;
-        const {sort} = req.params;
+        const {task} = req.params.task;
+        const {sort} = req.params.sort;
         Job.filter({task, sort})
         .then(({code, json})=>{
             res.status(code).send(json)
