@@ -177,10 +177,11 @@ module.exports = {
             if(sort == 0){//최신순
                 if(category == "전체"){
                 const getJobQuery = 'SELECT b.storyIdx, b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx JOIN timeline c ON c.timelineIdx = b.timelineIdx ORDER BY created_date DESC';
-                const getJobResult = await db.queryParam_None(getJobQuery);
-                }
+                var getJobResult = await db.queryParam_None(getJobQuery);
+                } else {
                 const getJobQuery = 'SELECT b.storyIdx, b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx JOIN timeline c ON c.timelineIdx = b.timelineIdx WHERE c.category = ? ORDER BY created_date DESC';
-                const getJobResult = await db.queryParam_Parse(getJobQuery,[category]);
+                var getJobResult = await db.queryParam_Parse(getJobQuery,[category]);
+                }
                 if(getJobResult.length == 0){
                     resolve({
                         code : statusCode.OK,
