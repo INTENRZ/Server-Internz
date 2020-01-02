@@ -2,7 +2,9 @@
 
 <h4 align="center"> WITH SOPT 25기 동계 프로젝트</h4>
 
-<img src="https://avatars2.githubusercontent.com/u/59135222?s=200&v=4" align="center"/>
+<div align="center">
+  <img src="https://avatars2.githubusercontent.com/u/59135222?s=200&v=4"/>
+</div>
 
 <h5 align="center">인턴 경험의 모든 것, 인턴즈<h5>
 
