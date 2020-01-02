@@ -142,7 +142,7 @@ module.exports = {
         userIdx
     }) => {
         return new Promise(async (resolve, reject) => {
-            const checkQuery = `SELECT userIdx FROM user WHERE userIdx = ?`;
+            const checkQuery = `SELECT nickname FROM user WHERE userIdx = ?`;
             const checkResult = await db.queryParam_Parse(checkQuery, [userIdx]);
 
 
