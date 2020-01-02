@@ -10,7 +10,7 @@ module.exports = {
     // 공고 전체 조회
     readAll: () => {
         return new Promise(async (resolve, reject) => {
-            const jobAllquery = `SELECT * FROM job `;
+            const jobAllquery = `SELECT * FROM job ORDER BY end_date DESC`;
             const jobAllResult = await db.queryParam_None(jobAllquery);
 
             resolve({
