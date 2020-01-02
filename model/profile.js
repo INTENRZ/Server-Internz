@@ -60,8 +60,8 @@ module.exports = {
             // const timeResult = await db.queryParam_Parse(timeQuery, [userIdx]);
 
             // 팔로워 팔로잉 수 추출
-            const followerNumberQuery = `SELECT COUNT(*) AS followernumber FROM follow WHERE follower = ${userIdx}`;
-            const followingNumberQuery = `SELECT COUNT(*) AS followingnumber FROM follow WHERE following = ${userIdx}`;
+            const followerNumberQuery = `SELECT COUNT(*) AS followernumber FROM follow WHERE following = ${userIdx}`;
+            const followingNumberQuery = `SELECT COUNT(*) AS followingnumber FROM follow WHERE follower = ${userIdx}`;
             const followerResult = await db.queryParam_None(followerNumberQuery);
             const followingResult = await db.queryParam_None(followingNumberQuery);
             // 마이 페이지인지 타인의 페이지인지 구별
