@@ -1,6 +1,16 @@
-# Server-Internz
+# INTERNZ
 
-인턴즈 서버파트
+## Service Description
+
+**인턴을 준비하는 과정 속에서 인턴과 관련된 정보 부족으로 인해 많은 대학생들이 어려움을 겪고 있습니다. 저희는 이러한 대학생들의 고민을 해결하기 위해 맞춤 인턴 정보 추천, 캘린더를 통한 인턴 공고 관리, 프로필 타임라인과 스토리를 이용한 인턴 경험 공유 및 소통을 위한 서비스를 제공하고 있습니다. 인턴 경험의 시작부터 마무리까지, 인턴즈와 함께하세요!**
+
+
+
+## Workflow
+
+![workflow](https://sopt25.s3.ap-northeast-2.amazonaws.com/INTERNZ+workflow.png)
+
+
 
 
 

@@ -112,7 +112,7 @@ module.exports = {
         .then(createResult => {
             return {
                 code: statusCode.CREATED,
-                json: util.successTrue(statusCode.CREATED, resMessage.X_CREATE_SUCCESS(NAME), createResult)
+                json: util.successTrue(statusCode.CREATED, resMessage.X_CREATE_SUCCESS(NAME))
             }
         })
         .catch(err=>{
