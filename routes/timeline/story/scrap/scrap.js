@@ -13,7 +13,7 @@ router.get('/', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;
         const {storyIdx} = req.params;
-        Scrap.readAll({userIdx, storyIdx})
+        Scrap.readAll(userIdx)
         .then(({code, json})=>{
             res.status(code).send(json);
         })
