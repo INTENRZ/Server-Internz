@@ -33,8 +33,9 @@ read = () => {
 //job->readAll(공고 전체 불러오기), read(지난 공고 불러오기), filter(직무 1개 선택하면 나의 관심직무와 일치하면 필터)
 //로고 추가. statusCode추가 model뿐만 아니니라 router 에도 넣어주기.
 module.exports = {
-    readAll: readAll,
-    read: read,
+    // 공고 전체 조회와 지난 공고 전체 조회 FOR iOS
+    readAll,
+    read,
     // 공고 필터링후 정렬 조회
     filter: async ({ task , sort }) => {//sort==0 ->최신순, sort==1 ->지난 공고
         const v = [task, task, task, 0];
