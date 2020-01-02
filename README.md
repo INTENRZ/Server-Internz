@@ -17,9 +17,7 @@
 
 ## Workflow
 
-![workflow](https://sopt25.s3.ap-northeast-2.amazonaws.com/INTERNZ+workflow.png)
-
-
+![workflow](https://jungah.s3.ap-northeast-2.amazonaws.com/INTERNZ+workflow.png)
 
 
 
