@@ -62,7 +62,7 @@ router.put('/:timelineIdx', (req, res)=>{
         const timelineIdx = req.params.timelineIdx;
         const {title, start_date, end_date, category} = req.body;
         if(!title || !start_date || !end_date || !category){
-            res.statusCode(statusCode.OK)
+            res.status(statusCode.OK)
             .send(util.successFalse(statusCode.NULL_VALUE,resMessage.NULL_VALUE));
             return;
         }
