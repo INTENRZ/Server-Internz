@@ -37,11 +37,11 @@ module.exports = {
             letterUsers = Array.from(new Set(letterUsers.flat(1)));
             letterUsers = letterUsers.filter(it => it !== userIdx);
             // 쪽지를 나눈 사람들의 idx가 잠긴 배열 
-            const pickLetterUserQuery = `SELECT userIdx, nickname FROM user WHERE userIdx IN (${letterUsers})`;
+            const pickLetterUserQuery = `SELECT userIdx, nickname, front_image FROM user WHERE userIdx IN (${letterUsers})`;
             const userArray = await db.queryParam_None(pickLetterUserQuery);
             // 각 상대방 마다 최신 쪽지 파악
             const recentMsgArray = [];
-            for(var idx in other){
+            for(var idx in userArray){
                 const recMsgQ = `SELECT content FROM ${TABLE} WHERE receiver = ${letterUsers[idx]} OR sender = ${letterUsers[idx]} ORDER BY created_date DESC LIMIT 1`
                 const recMsgResult = await db.queryParam_None(recMsgQ);
                 recentMsgArray.push(recMsgResult[0]);
