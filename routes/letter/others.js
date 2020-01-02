@@ -59,7 +59,7 @@ router.post('/', (req, res)=>{
 
 
 //router-> [GET]/letter/others
-router.get('/', (req, res)=>{
+router.post('/message', (req, res)=>{
     try{
         const sender = req.decoded.idx;
         // const receiver = req.params.othersIdx;
