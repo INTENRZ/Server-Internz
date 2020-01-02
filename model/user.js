@@ -154,9 +154,11 @@ module.exports = {
                 return;
             }
             const result = checkResult[0].nickname;
+            const result1 = Object.assign({"닉네임":result});
+                
             resolve({
                 code: statusCode.OK,
-                json: util.successTrue(statusCode.OK, resMessage.X_READ_SUCCESS("닉네임"), result)
+                json: util.successTrue(statusCode.OK, resMessage.X_READ_SUCCESS("닉네임"), result1)
             })
         });
     },
