@@ -37,12 +37,12 @@ module.exports = {
 
 
     // 공고 필터링후 정렬 조회
-    filter: ({ task , sort}) => {//sort==0 ->최신순, sort==1 ->지난 공고
+    filter: async ({ task , sort }) => {//sort==0 ->최신순, sort==1 ->지난 공고
         const v = [task, task, task];
-        const v_ = [task, task, task, '1'];
+        const v_ = [task, task, task, 1];
         if(sort == 0){
             const getTaskQuery = 'SELECT * FROM job WHERE task1 = ? OR task2 = ? OR task3 = ? ORDER BY end_date DESC';
-            const getTaskResult = db.queryParam_Parse(getTaskQuery, v);
+            const getTaskResult = await db.queryParam_Parse(getTaskQuery, v);
             if(getTaskResult.legnth == 0){
                 return{
                     code: statusCode.OK,
@@ -54,8 +54,8 @@ module.exports = {
                 json: util.successTrue(statusCode.OK,`${task} 필터 조회 성공`, getTaskResult)
             };
         }else if(sort == 1){
-            const getTaskQuery = 'SELECT * FROM job WHERE task1 = ? OR task2 = ? OR task3 = ? WHERE ispast = ?';
-            const getTaskResult = db.queryParam_Parse(getTaskQuery, v_);
+            const getTaskQuery = 'SELECT * FROM job WHERE ( task1 = ? OR task2 = ? OR task3 = ? ) AND ispast = ?';
+            const getTaskResult = await db.queryParam_Parse(getTaskQuery, v_);
             if(getTaskResult.legnth == 0){
                 return{
                     code: statusCode.OK,
