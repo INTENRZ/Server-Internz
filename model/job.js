@@ -36,27 +36,40 @@ module.exports = {
     },
 
 
-    // 공고 필터링 조회
-    filter: ({ task }) => {
-        const v = [task, task, task]
-        const pickTaskQuery = `SELECT * FROM job WHERE task1 = ? OR task2 = ? OR task3 = ?`;
-        const sendData = db.queryParam_Parse(pickTaskQuery, v)
-        .then(filterResult => {
-            if(filterResult.legnth === 0){
-                return {
+    // 공고 필터링후 정렬 조회
+    filter: ({ task , sort}) => {//sort==0 ->최신순, sort==1 ->지난 공고
+        const v = [task, task, task];
+        const v_ = [task, task, task, '1'];
+        if(sort == 0){
+            const getTaskQuery = 'SELECT * FROM job WHERE task1 = ? OR task2 = ? OR task3 = ? ORDER BY end_date DESC';
+            const getTaskResult = db.queryParam_Parse(getTaskQuery, v);
+            if(getTaskResult.legnth == 0){
+                resolve({
                     code: statusCode.OK,
                     json: util.successFalse(statusCode.JOB_FILTER_FAIL, "필터와 일치하는 공고가 없습니다.")
-                }
+                });
+                return;
             }
-            return {
+            resolve({
                 code: statusCode.OK,
-                json: util.successTrue(statusCode.OK,`${task} 필터 조회 성공`, filterResult)
+                json: util.successTrue(statusCode.OK,`${task} 필터 조회 성공`, getTaskResult)
+            });
+            return;
+        }else if(sort == 1){
+            const getTaskQuery = 'SELECT * FROM job WHERE task1 = ? OR task2 = ? OR task3 = ? WHERE ispast = ?';
+            const getTaskResult = db.queryParam_Parse(getTaskQuery, v_);
+            if(getTaskResult.legnth == 0){
+                resolve({
+                    code: statusCode.OK,
+                    json: util.successFalse(statusCode.JOB_FILTER_FAIL, "필터와 일치하는 공고가 없습니다.")
+                });
+                return;
             }
-        })
-        .catch(err => {
-            throw err;
-        });
-        return sendData;
+            resolve({
+                code: statusCode.OK,
+                json: util.successTrue(statusCode.OK,`${task} 필터 조회 성공`, getTaskResult)
+            });
+            return;
+        }
     }
-
 }

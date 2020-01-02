@@ -47,11 +47,12 @@ router.get('/past',  (req, res) => {
     }
 });
 
-//router-> [GET]/job/{task}
-router.get('/:task',  (req, res) => {
+//router-> [GET]/job/{task}/{sort}
+router.get('/:task/:sort',  (req, res) => {
     try {
         const {task} = req.params;
-        Job.filter({task})
+        const {sort} = req.params;
+        Job.filter({task, sort})
         .then(({code, json})=>{
             res.status(code).send(json)
         })
