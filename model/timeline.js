@@ -135,7 +135,7 @@ module.exports = {
                     json: util.successFalse(statusCode.TIMELINE_NOT_EXIST_STORY,resMessage.X_EMPTY(SNAME))
                 }
             }
-            if(storyResult[0].userIdx !== userIdx){
+            if(storyResult[0].userIdx != userIdx){
                 storyResult = storyResult.concat([{"isme": "0"}]);
                 return {
                     code: statusCode.OK,
