@@ -192,7 +192,7 @@ module.exports = {
             if (result.length == 0) {
                 resolve({
                     code: statusCode.OK,
-                    json: util.successFalse(statusCode.USER_NOT_EXIST_USER resMessage.NO_USER)
+                    json: util.successFalse(statusCode.USER_NOT_EXIST_USER ,resMessage.NO_USER)
                 });
                 return;
             }
