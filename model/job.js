@@ -6,7 +6,7 @@ const db = require('../module/poolAsync');
 // 공고 전체 조회
 readAll= () => {
     return new Promise(async (resolve, reject) => {
-        const jobAllquery = `SELECT * FROM job WHERE ispast = ? ORDER BY end_date ASC`;
+        const jobAllquery = `SELECT * FROM job WHERE ispast = ? ORDER BY end_date DESC`;
         const jobAllResult = await db.queryParam_Parse(jobAllquery, [0]);
 
         resolve({
