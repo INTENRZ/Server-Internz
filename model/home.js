@@ -54,7 +54,7 @@ module.exports = {
             const getProfileQuery = 'SELECT front_image, nickname, introduce, userIdx, count(userIdx) as cnt from ' + 
             '(SELECT front_image, nickname, introduce, userIdx from user WHERE task_one IN (?, ?, ?) UNION ALL ' +
             'SELECT front_image, nickname, introduce, userIdx from user WHERE task_two IN (?, ?, ?) UNION ALL ' +
-            'SELECT front_image, nickname, introduce, userIdx from user WHERE task_three IN (?, ?, ?)) a group by userIdx HAVING userIdx NOT IN (?) order by cnt desc limit 3';
+            'SELECT front_image, nickname, introduce, userIdx from user WHERE task_three IN (?, ?, ?)) a group by userIdx HAVING userIdx NOT IN (?) order by cnt desc limit 4';
             const getProfileResult = await db.queryParam_Parse(getProfileQuery , [a,b,c,a,b,c,a,b,c, userIdx]);
             for(i=0; i<getProfileResult.length; i++){
                 profile.push(getProfileResult[i]);
