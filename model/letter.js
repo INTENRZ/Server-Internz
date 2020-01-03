@@ -92,7 +92,7 @@ module.exports = {
         .then(deleteResult =>{
             return {
                 code: statusCode.OK,
-                json: util.successTrue(statusCode,OK, resMessage.X_DELETE_SUCCESS(NAME), deleteResult)
+                json: util.successTrue(statusCode.OK, resMessage.X_DELETE_SUCCESS(NAME), deleteResult)
             }
         })
         .catch(err=> {
