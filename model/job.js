@@ -60,7 +60,7 @@ module.exports = {
                 json: util.successTrue(statusCode.OK,`${task} 필터 조회 성공`, getTaskResult)
             };
         }else if(sort == 1){
-            const getTaskQuery = 'SELECT * FROM job WHERE ( task1 = ? OR task2 = ? OR task3 = ?) AND ispast = ?';
+            const getTaskQuery = 'SELECT * FROM job WHERE ( task1 = ? OR task2 = ? OR task3 = ?) AND ispast = ? ORDER BY end_date DESC';
             const getTaskResult = await db.queryParam_Parse(getTaskQuery, v_);
             if(getTaskResult.legnth == 0){
                 return{
