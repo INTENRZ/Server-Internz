@@ -175,7 +175,6 @@ module.exports = {
     story_category_sort:(sort, category)=>{//sort==0 ->최신순, sort==1 ->조회순
         return new Promise(async(resolve, reject) => {
             if(sort == 0){//최신순
-                console.log("in_1");
                 if(category == "전체"){
                     const getJobQuery = 'SELECT b.storyIdx, b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx JOIN timeline c ON c.timelineIdx = b.timelineIdx ORDER BY created_date DESC';
                     var getJobResult = await db.queryParam_Parse(getJobQuery);
@@ -196,7 +195,6 @@ module.exports = {
                 });
                 return;
             }else if(sort == 1){
-                console.log("in_2");
                 if(category == "전체"){
                     const getJobQuery = 'SELECT b.storyIdx, b.title, a.nickname, b.created_date FROM story b JOIN user a ON a.userIdx = b.userIdx JOIN timeline c ON c.timelineIdx = b.timelineIdx ORDER BY b.count DESC';
                     var getJobResult = await db.queryParam_Parse(getJobQuery);
