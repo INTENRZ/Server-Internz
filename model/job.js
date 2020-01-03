@@ -19,7 +19,7 @@ readAll= () => {
 // 지난 공고 조회
 read = () => {
     return new Promise(async(resolve, reject) =>{
-        const jobqeury = `SELECT * FROM job WHERE ispast = '1'`;
+        const jobqeury = `SELECT * FROM job WHERE ispast = '1' ORDER BY end_date DESC`;
         const jobresult = await db.queryParam_None(jobqeury);
 
         resolve({
