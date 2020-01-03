@@ -136,13 +136,19 @@ module.exports = {
                 }
             }
             if(storyResult[0].userIdx != userIdx){
-                storyResult = storyResult.concat([{"isme": "0"}]);
+                for(i in storyResult){
+                    storyResult[i] = Object.assign(storyResult[i], {"isme": "0"})
+                }
+                // storyResult = storyResult.concat([{"isme": "0"}]);
                 return {
                     code: statusCode.OK,
                     json: util.successTrue(statusCode.USER_NOT_MATCH ,resMessage.X_READ_SUCCESS(SNAME), storyResult)
                 }
             }
-            storyResult = storyResult.concat([{"isme": "1"}]);
+            for(i in storyResult){
+                storyResult[i] = Object.assign(storyResult[i], {"isme": "1"})
+            }
+            // storyResult = storyResult.concat([{"isme": "1"}]);
             return {
                 code: statusCode.OK,
                 json: util.successTrue(statusCode.OK,resMessage.X_READ_SUCCESS(SNAME), storyResult)
