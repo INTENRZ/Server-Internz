@@ -191,6 +191,45 @@ npm start
 
 ## Contributor
 
-- [지현이](https://github.com/jiss02) 
-- [신정아](https://github.com/jungahshin)
-- [이소연](https://github.com/ujusy)
+### 공통 구현 기능
+
+- ERD 설계 및 DB 구축
+- 소스 코드 수정 및 최적화
+- API 문서 작성
+
+### :blue_heart: 신정아
+
+- 캘린더 기능 구현
+- 홈 기능 구현
+- 스토리 정렬 기능 및 전체조회 기능 구현
+- 스토리 필터링 기능 구현
+- 댓글 기능 구현
+- S3 관리
+
+### :two_hearts: 지현이
+
+- 프로필 조회 기능 구현
+- 팔로우 기능 구현
+- 쪽지 기능 구현
+- 스크랩 기능 구현
+- 스토리 CRUD 구현
+- 타임라인 CRUD 기능 구현
+- 공고 필터 기능 구현
+- EC2 배포 및 관리
+
+### :star2: 이소연
+
+- 회원 가입 기능 구현
+- 로그인 기능 구현
+- 프로필 기능 구현
+- 공고 조회 기능 구현
+- RDS 관리
+
+## Contact
+
+[지현이](https://github.com/jiss02) 
+
+[신정아](https://github.com/jungahshin)
+
+[이소연](https://github.com/ujusy)
+
