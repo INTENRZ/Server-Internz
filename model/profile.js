@@ -2,9 +2,6 @@ const util = require('../module/utils');
 const statusCode = require('../module/statusCode');
 const resMessage = require('../module/responseMessage');
 const db = require('../module/pool');
-const crypto = require('crypto');
-const encrypt = require('../module/encryption');
-const Auth = require('../module/jwt');
 const multer = require('multer');
 const upload = multer({
     dest: 'uploads/'

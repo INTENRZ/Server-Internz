@@ -95,9 +95,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
 
 
-            const field = `userIdx, task_one, task_two, task_three`;
-            const question = `?,?,?,?`;
-            const values = [userIdx, task_one, task_two, task_three];
             const query = `UPDATE ${table} SET task_one='${task_one}',task_two='${task_two}',task_three='${task_three}' WHERE userIdx = '${userIdx}' `;
             const result = await db.queryParam_None(query);
 
@@ -126,12 +123,9 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
 
 
-            const field = `userIdx, introduce, front_image`;
-            const question = `?,?,?`;
-            const values = [userIdx, introduce, front_image];
             const query = `UPDATE ${table} SET introduce='${introduce}', front_image='${front_image}' WHERE userIdx = '${userIdx}' `;
             const result = await db.queryParam_None(query);
-            console.log(result);
+
             resolve({
                 code: statusCode.OK,
                 json: util.successTrue(statusCode.OK, resMessage.X_CREATE_SUCCESS("한 줄 소개"))
@@ -176,7 +170,7 @@ module.exports = {
 
             const query = `UPDATE user SET task_one='${task_one}',task_two='${task_two}',task_three='${task_three}',introduce='${introduce}', front_image='${front_image}' WHERE userIdx = ? `;
             const result = await db.queryParam_Parse(query, [userIdx]);
-            console.log(result);
+            
             const check = `UPDATE ${table} SET \`check\` = '1' WHERE userIdx = ? `;
             const checkresult = await db.queryParam_Parse(check, [userIdx]);
 
