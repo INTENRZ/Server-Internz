@@ -18,36 +18,38 @@ Object.defineProperty(Array.prototype, 'flat', {
 
 module.exports = {
     // 쪽지 주고 받은 사람 목록 
-    readAll: (userIdx) => {
+    readAll: ({userIdx}) => {
         // 유저와 주고 받은 상대방 찾기
         const v = [userIdx, userIdx]
         const pickLetterQuery = `SELECT DISTINCT receiver, sender FROM ${TABLE} WHERE receiver = ? OR sender = ?`;
         const sendData = db.queryParam_Parse(pickLetterQuery, v)
         .then(async(letterUserResult) =>{
-
             if(letterUserResult.length === 0){
                 return {
                     code: statusCode.OK,
                     json: util.successFalse(statusCode.USER_NOT_EXIST_USER, resMessage.X_EMPTY("유저"))
                 }
             }
-
             // 상대 유저 배열에 담기 (상대방 인덱스의 중복 제거)
-            let letterUsers = letterUserResult.map(it => Object.values(it));
-            letterUsers = Array.from(new Set(letterUsers.flat(1)));
-            letterUsers = letterUsers.filter(it => it !== userIdx);
+            let letterUsersIdx = letterUserResult.map(it => Object.values(it));
+            letterUsersIdx = Array.from(new Set(letterUsersIdx.flat(1)));
+            letterUsersIdx = letterUsersIdx.filter(it => it !== userIdx);
             // 쪽지를 나눈 사람들의 idx가 잠긴 배열 
-            const pickLetterUserQuery = `SELECT userIdx, nickname, front_image FROM user WHERE userIdx IN (${letterUsers})`;
-            const userArray = await db.queryParam_None(pickLetterUserQuery);
+            const pickLetterUserQuery = `SELECT userIdx, nickname, front_image FROM user WHERE userIdx IN (${letterUsersIdx})`;
+            const userInfoArray = await db.queryParam_None(pickLetterUserQuery);
             // 각 상대방 마다 최신 쪽지 파악
+            letterUsersIdx.sort();
             const recentMsgArray = [];
-            for(var idx in userArray){
-                const recMsgQ = `SELECT content FROM ${TABLE} WHERE receiver = ${letterUsers[idx]} OR sender = ${letterUsers[idx]} ORDER BY created_date DESC LIMIT 1`
+            for(var idx in letterUsersIdx){
+                const recMsgQ = `SELECT content, receiver FROM ${TABLE} 
+                WHERE receiver = ${letterUsersIdx[idx]} OR sender = ${letterUsersIdx[idx]} 
+                ORDER BY created_date DESC LIMIT 1`
                 const recMsgResult = await db.queryParam_None(recMsgQ);
+                // console.log(recMsgResult[0])
                 recentMsgArray.push(recMsgResult[0]);
             }
-            // userArray와 recentMsgArray 오브젝트 끼리 합치기
-            const letterUserList = userArray.map((it, idx) => Object.assign(it, recentMsgArray[idx]));
+            // userArray와 recentMsgArrtay 오브젝트 끼리 합치기
+            const letterUserList = userInfoArray.map((it, idx) => Object.assign(it, recentMsgArray[idx]));
             return {
                 code: statusCode.OK,
                 json: util.successTrue(statusCode.OK,resMessage.X_READ_ALL_SUCCESS(NAME), letterUserList)

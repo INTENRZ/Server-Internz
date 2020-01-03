@@ -12,8 +12,7 @@ router.use('/', au.isLoggedin);
 router.get('/list', (req, res)=>{
     try{
         const userIdx = req.decoded.idx;
-        // const {userIdx} = req.body;
-        Letter.readAll(userIdx)
+        Letter.readAll({userIdx})
         .then(({code, json})=>{
             res.status(code).send(json);
         })
