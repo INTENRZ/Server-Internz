@@ -6,7 +6,7 @@ const db = require('../module/poolAsync');
 // 공고 전체 조회
 readAll= () => {
     return new Promise(async (resolve, reject) => {
-        const jobAllquery = `SELECT * FROM job WHERE ispast = ? ORDER BY end_date DESC`;
+        const jobAllquery = `SELECT * FROM job WHERE ispast = ? ORDER BY end_date ASC`;
         const jobAllResult = await db.queryParam_Parse(jobAllquery, [0]);
 
         resolve({
@@ -47,7 +47,7 @@ module.exports = {
             return read();
         }
         if(sort == 0){
-            const getTaskQuery = 'SELECT * FROM job WHERE (task1 = ? OR task2 = ? OR task3 = ?) AND ispast = ? ORDER BY end_date DESC';
+            const getTaskQuery = 'SELECT * FROM job WHERE (task1 = ? OR task2 = ? OR task3 = ?) AND ispast = ? ORDER BY end_date ASC';
             const getTaskResult = await db.queryParam_Parse(getTaskQuery, v);
             if(getTaskResult.legnth == 0){
                 return{
