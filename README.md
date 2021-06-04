@@ -23,7 +23,9 @@ INTERNZ
 
 ## Workflow
 
-![workflow](https://jungah.s3.ap-northeast-2.amazonaws.com/INTERNZ+workflow.png)
+![image](https://user-images.githubusercontent.com/49120090/120756066-c1d24700-c549-11eb-93ae-b69e54ed39e5.png)
+
+
 
 ## 주요기능	
 
